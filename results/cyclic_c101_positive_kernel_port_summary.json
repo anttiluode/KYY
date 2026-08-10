@@ -1,0 +1,16 @@
+{
+  "config": {"n":101,"modes":8,"seeds":[0,1,2,3,4,5,6,7,8,9],"train_length":16,"train_steps":2200,"batch_size":128,"max_increment":4,"lr":0.003,"random_start":true},
+  "parameter_counts": {"raw_decoder":1717,"equivariant_decoder":17,"positive_kernel_decoder":9,"raw_to_positive_compression":190.7777777778},
+  "results": [
+    {"seed":0,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":4.249339,"equivariant_min_margin":4.231664,"prototype_min_margin":0.437409,"active_modes":8,"min_positive_alpha":8.668768,"character_gcd":1,"algebraically_certified":true},
+    {"seed":1,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":3.278471,"equivariant_min_margin":3.178265,"prototype_min_margin":0.330999,"active_modes":8,"min_positive_alpha":7.713257,"character_gcd":1,"algebraically_certified":true},
+    {"seed":2,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":4.575916,"equivariant_min_margin":4.476255,"prototype_min_margin":0.427040,"active_modes":8,"min_positive_alpha":7.260053,"character_gcd":1,"algebraically_certified":true},
+    {"seed":3,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":4.422739,"equivariant_min_margin":4.350927,"prototype_min_margin":0.411303,"active_modes":8,"min_positive_alpha":8.073260,"character_gcd":1,"algebraically_certified":true},
+    {"seed":4,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":5.278113,"equivariant_min_margin":5.052372,"prototype_min_margin":0.486024,"active_modes":8,"min_positive_alpha":8.119606,"character_gcd":1,"algebraically_certified":true},
+    {"seed":5,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":4.669872,"equivariant_min_margin":4.196563,"prototype_min_margin":0.498487,"active_modes":8,"min_positive_alpha":7.202705,"character_gcd":1,"algebraically_certified":true},
+    {"seed":6,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":5.918389,"equivariant_min_margin":5.360541,"prototype_min_margin":0.622989,"active_modes":8,"min_positive_alpha":8.734333,"character_gcd":1,"algebraically_certified":true},
+    {"seed":7,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":2.917257,"equivariant_min_margin":2.244931,"prototype_min_margin":0.319864,"active_modes":8,"min_positive_alpha":6.473444,"character_gcd":1,"algebraically_certified":true},
+    {"seed":8,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":3.981541,"equivariant_min_margin":3.889543,"prototype_min_margin":0.365023,"active_modes":8,"min_positive_alpha":8.444900,"character_gcd":1,"algebraically_certified":true},
+    {"seed":9,"positive_kernel_accuracy":1.0,"positive_kernel_min_margin":4.307485,"equivariant_min_margin":3.756468,"prototype_min_margin":0.444008,"active_modes":8,"min_positive_alpha":8.046976,"character_gcd":1,"algebraically_certified":true}
+  ]
+}
