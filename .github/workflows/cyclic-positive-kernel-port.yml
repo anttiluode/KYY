@@ -29,7 +29,7 @@ jobs:
           python map/cyclic_positive_kernel_port_probe.py \
             --n 101 \
             --modes 8 \
-            --seeds 0 1 2 3 4 \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
             --train-length 16 \
             --train-steps 2200 \
             --batch-size 128 \
