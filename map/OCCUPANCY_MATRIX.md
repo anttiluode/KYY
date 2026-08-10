@@ -36,18 +36,21 @@ A blank is **not evidence of novelty**. It only means the current map does not u
 | EUNN / Givens mesh |  |  |  | X | X | X |  | ~ | X | ~ |
 | oRNN / Householder |  |  |  |  | ~ | X |  |  | X |  |
 | ISAN |  |  | X |  |  | X | ~ |  |  |  |
+| Dynamic Filter Networks |  | X | X | ~ |  | ~ |  |  | X/~ |  |
 | HyperNetworks |  | X | X/~ |  |  | X/~ |  |  | ~ |  |
 | HyperNEAT | X | X |  | ~ |  | ~ |  |  | X |  |
 | coRNN |  |  | X/~ | ~ | X | X |  |  | ~ |  |
 | GraphCON | X |  | X/~ | X | X | ~ |  |  | ~ |  |
 | delay reservoir computing | ~ | X/~ |  | X/~ | X | X | ~ | X/~ | X |  |
 | Mamba / Mamba-2 |  | X/~ | X | ~ | ~ | X | X/~ |  | X |  |
+| AUSSM adaptive unitary SSM |  | X/~ | X | ~ | X | X | X |  | X |  |
 | negative-eigenvalue LRNNs |  |  | X/~ |  | X | X | X |  | X |  |
 | DeltaProduct |  |  | X |  | ~ | X | X |  | X |  |
 | PD-SSM / Flash PD-SSM |  |  | X/~ | X/~ | X | X | X |  | X |  |
 | H-LRU / BD-LRU |  |  | X/~ | X/~ | X/~ | X | X |  | X |  |
 | SLiCEs structured linear CDEs |  |  | X | X/~ | ~ | X | X |  | X |  |
 | bilinear state-transition RNNs |  |  | X |  |  | X | X |  | ~ |  |
+| Fixed-Point RNNs |  | X/~ | X/~ | ~ | ~ | X | X |  | X |  |
 | TCP-SSM token-conditioned poles |  | X | X | ~ | X | X | ~ |  | X |  |
 | **Wave Physics as an Analog RNN** | X/~ |  |  | X | X | X |  | X | X | X |
 | photonic unitary meshes / Clements | X/~ |  |  | X | X | ~ |  | X | X | X |
@@ -55,6 +58,7 @@ A blank is **not evidence of novelty**. It only means the current map does not u
 | Wanjura–Marquardt wave scattering | X/~ | ~ | X | X/~ | X | ~ |  | X | X | X/~ |
 | programmable-metasurface structural encoding | X | ~ | X | X/~ | X | ~ |  | X | X | X/~ |
 | Horne–Hush FSM fan-in bounds |  |  |  | X |  | X | X |  | X |  |
+| surrogate scattering-matrix inverse design | X/~ | ~ |  | X/~ | X |  |  | X | X | X |
 | TWC / TW-1A project semantics | X | ~ | ~ | X | X | X | ~ | X/~ | X | X |
 
 ## What the matrix immediately kills
@@ -62,15 +66,18 @@ A blank is **not evidence of novelty**. It only means the current map does not u
 These are not KYY openings by themselves:
 
 ```text
-"use waves as an RNN"                 -> Hughes et al. 2019
-"use local 2-port rotations"          -> EUNN / optical meshes
-"make a graph define oscillator flow" -> GraphCON
-"make Q depend on input"              -> ISAN / selective SSMs
-"use richer mixing for state tracking"-> DeltaProduct / PD / BD-LRU / SLiCE
-"generate weights compactly"          -> HyperNetworks / HyperNEAT
-"shared base dynamics + token control"-> TCP-SSM and selective SSM family
-"local fan-in changes FSM cost"        -> Horne & Hush 1993
-"physical scattering computes"         -> large wave-computing literature
+"use waves as an RNN"                  -> Hughes et al. 2019
+"use local 2-port rotations"           -> EUNN / optical meshes
+"make a graph define oscillator flow"  -> GraphCON
+"make Q depend on input"               -> ISAN / selective SSMs
+"use adaptive unitary recurrence"       -> AUSSM
+"generate current weights from input"   -> Dynamic Filters / HyperNetworks
+"use richer mixing for state tracking"  -> DeltaProduct / PD / BD-LRU / SLiCE / bilinear
+"generate weights compactly"            -> HyperNetworks / HyperNEAT
+"shared base dynamics + token control"  -> TCP-SSM and selective SSM family
+"local fan-in changes FSM cost"         -> Horne & Hush 1993
+"physical scattering computes"          -> large wave-computing literature
+"learn abstract operator then realize"  -> photonic surrogate/inverse-design work exists
 ```
 
 That is a lot of red ink. Good.
@@ -129,15 +136,16 @@ or another physically/structurally motivated generator.
 The current map has strong neighbours on every side:
 
 - HyperNEAT: geometry -> many weights.
-- HyperNetworks: small generator -> many weights.
+- HyperNetworks / Dynamic Filters: small conditioned generator -> many weights/operator coefficients.
 - TCP-SSM: shared base dynamics -> token-conditioned stable poles.
 - ISAN/Mamba: input -> changing transition.
+- AUSSM: input -> adaptive unitary recurrence with state-tracking theory.
 - GraphCON: geometry -> local oscillator coupling.
 - EUNN: local mesh -> global recurrent unitary.
 - Hughes et al.: wave geometry -> analog RNN.
 - modern LRNNs: transition structure -> state-tracking ability.
 
-So the **only defensible residual** is the exact structural tying and its measured consequence.
+So the **only defensible residual** is the exact geometry-imposed tying and its measured consequence.
 
 ## Best no-new-architecture experiment suggested by the map
 
@@ -159,23 +167,20 @@ measure:
 
 Sweep retained control dimension `r = 1, 2, 3, 4, ...`.
 
-The decisive plot is:
+Crucially compare at the same `r`:
 
 ```text
-state-tracking accuracy
-        ^
-        |
-        |               free-edge model
-        |--------------------*
-        |                 .
-        |              .
-        |           .
-        |        .
-        |_____.________________________> control dimension r
+generic best rank-r basis
+        vs
+geometry-derived rank-r basis
+        vs
+random/learned dense rank-r basis
 ```
+
+A merely low-rank learned operator would be compression, not evidence for geometry.
 
 If behavior collapses until `r ≈ E`, the strongest remaining Geometric-Neuron story has no evidence on this task.
 
-If a tiny `r` retains the behavior, **then** we have earned a reason to search the exact low-control geometry family harder and perhaps train it directly.
+If a tiny geometry-derived `r` retains the behavior **and is competitive with the best generic rank-r basis**, then we have earned a reason to search the exact low-control geometry family harder and perhaps train it directly.
 
 That is where the map currently points.
