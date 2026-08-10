@@ -1,0 +1,46 @@
+name: cyclic-reset-compiler
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/cyclic_reset_compiler_probe.py'
+      - 'tests/test_cyclic_reset_compiler_probe.py'
+      - '.github/workflows/cyclic-reset-compiler.yml'
+  workflow_dispatch:
+
+jobs:
+  c101-reset-compiler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Run focused tests
+        run: pytest -q tests/test_cyclic_reset_compiler_probe.py
+      - run: mkdir -p results
+      - name: Train soft reset machines and compile to exact C101 plus reset
+        run: |
+          python map/cyclic_reset_compiler_probe.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 \
+            --steps 2500 \
+            --train-length 16 \
+            --test-lengths 16 64 256 1024 \
+            --batch-size 128 \
+            --eval-batch-size 128 \
+            --max-increment 4 \
+            --reset-probability 0.12 \
+            --lr 0.003 \
+            --random-start \
+            --json > results/cyclic_reset_c101_compiler.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cyclic-reset-c101-compiler
+          path: results/cyclic_reset_c101_compiler.json
