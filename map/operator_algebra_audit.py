@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import itertools
 import json
 import math
 import random
@@ -21,7 +20,7 @@ def seed_everything(seed: int) -> None:
 
 
 def linear_affine_transition(model, token: int) -> tuple[np.ndarray, np.ndarray]:
-    """Return h' = A h + b for KYY's linear transition families.
+    """Return h' = A h + b for KYY's fixed-affine token transitions.
 
     GRU is intentionally excluded: its transition depends nonlinearly on h.
     """
@@ -41,6 +40,12 @@ def linear_affine_transition(model, token: int) -> tuple[np.ndarray, np.ndarray]
                 block = r[k] * torch.stack((torch.stack((c, -s)), torch.stack((s, c))))
                 A[2 * k : 2 * k + 2, 2 * k : 2 * k + 2] = block
             b = model.drive[token].reshape(-1)
+        elif name == "geom_wave":
+            # dense_transition uses state order [q, p].  The token drive enters
+            # p directly and q through q' = q + dt*p'.
+            A = model.dense_transition(token)
+            d = model.drive[token]
+            b = torch.cat((model.dt * d, d), dim=0)
         elif hasattr(model, "dense_transition"):
             A = model.dense_transition(token)
             b = torch.zeros(model.state_dim, device=A.device, dtype=A.dtype)
@@ -86,14 +91,14 @@ def normalized_defect(M: np.ndarray) -> float:
 
 
 def perm3_relation_defects(mats: list[np.ndarray]) -> dict[str, float] | None:
-    """Global hidden-space defects for the generators used by KYY perm3.
+    """Global augmented-hidden-space defects for KYY's perm3 generators.
 
     token 0 = identity, token 1 = transposition s, token 2 = 3-cycle r.
 
     IMPORTANT: these relations do *not* have to hold on every hidden direction
     for the classifier to solve the task.  The model may implement a larger
-    dynamical extension whose readout quotient tracks S3.  These are therefore
-    diagnostics, not correctness conditions.
+    dynamical extension whose readout quotient tracks S3.  These are diagnostics,
+    not correctness conditions.
     """
     if len(mats) != 3:
         return None
@@ -115,8 +120,8 @@ def finite_word_span_dimension(mats: list[np.ndarray], max_depth: int = 4, rtol:
     """Dimension of the linear span of transition words up to max_depth.
 
     This is an associative-algebra diagnostic, not a dynamical-Lie-algebra
-    calculation.  It is safe for the discrete/affine transition matrices and
-    tells us how rapidly products explore independent operator directions.
+    calculation. It is safe for discrete/affine transition matrices and tells us
+    how rapidly products explore independent operator directions.
     """
     n = mats[0].shape[0]
     cols = [np.eye(n).reshape(-1)]
