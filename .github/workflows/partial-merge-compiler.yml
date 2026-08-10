@@ -1,0 +1,45 @@
+name: partial-merge-compiler
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/partial_merge_compiler_probe.py'
+      - 'tests/test_partial_merge_compiler_probe.py'
+      - '.github/workflows/partial-merge-compiler.yml'
+  workflow_dispatch:
+
+jobs:
+  c4-partial-merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Run focused tests
+        run: pytest -q tests/test_partial_merge_compiler_probe.py
+      - run: mkdir -p results
+      - name: Train soft full-rank partial merges and compile exact pinch
+        run: |
+          python map/partial_merge_compiler_probe.py \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
+            --steps 2500 \
+            --train-length 16 \
+            --test-lengths 16 64 256 1024 \
+            --batch-size 128 \
+            --eval-batch-size 256 \
+            --merge-probability 0.15 \
+            --lr 0.003 \
+            --random-start \
+            --leakage-batch-size 256 \
+            --leakage-continuation 64 \
+            --json > results/partial_merge_c4_compiler.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: partial-merge-c4-compiler
+          path: results/partial_merge_c4_compiler.json
