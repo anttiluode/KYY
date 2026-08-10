@@ -58,6 +58,19 @@ def test_low_coherence_search_beats_single_phase_margin_for_mod31():
     assert radius > 5.0 * math.sin(math.pi / 31)
 
 
+def test_random_start_exposes_full_group_without_large_later_steps():
+    torch.manual_seed(0)
+    n = 101
+    x, y = probe.generate_batch(n, batch_size=4096, length=16, max_increment=4, random_start=True)
+    assert int(x[:, 0].min()) == 0
+    assert int(x[:, 0].max()) == n - 1
+    assert int(x[:, 1:].min()) >= 0
+    assert int(x[:, 1:].max()) <= 4
+    assert torch.equal(y, torch.cumsum(x, dim=1).remainder(n))
+    # With this deterministic large batch every symbolic start class should appear.
+    assert torch.unique(y[:, 0]).numel() == n
+
+
 def test_rotary_tracker_shapes():
     n = 7
     f = np.asarray([1, 2, 3], dtype=np.int64)
