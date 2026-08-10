@@ -12,7 +12,7 @@ fit two per-coset Procrustes maps
 
 This pass removes orbit enumeration from **port compilation**.
 
-The full finite orbit is still enumerated afterward for the behavioral certificate.  Compilation and certification are now separate costs.
+The full finite orbit is still enumerated afterward for the behavioral certificate. Compilation and certification are now separate costs.
 
 ## Rotation-coset transport from generators
 
@@ -56,7 +56,7 @@ vec(C) = (I + K + K^2 + ... + K^(n-1)) vec(v v^T).
 
 The finite matrix geometric sum is computed by exponentiation-by-squaring in `O(log n)` 4x4 matrix products.
 
-The port block is simply the orthogonal polar/Procrustes factor of `C`.
+The port block is the orthogonal polar/Procrustes factor of `C`.
 
 This is classical linear algebra; no novelty claim is made for the finite geometric sum or Procrustes step.
 
@@ -119,7 +119,7 @@ explicit enumeration of the n or 2n states
 
 The learned decoder is used only after the port is compiled, to certify observable behavior.
 
-## Exact equivalence check
+## Exact equivalence checks
 
 `tests/test_dihedral_generator_port_transport.py` verifies that:
 
@@ -127,7 +127,22 @@ The learned decoder is used only after the port is compiled, to certify observab
 2. the generator-derived rotation cross covariance equals the explicitly enumerated orbit covariance;
 3. the resulting quotient-conditioned block Procrustes maps agree numerically with those obtained from complete orbit enumeration on synthetic dihedral examples.
 
-Thus the orbit-based Pass 37 compiler and the generator-derived Pass 38 compiler are two implementations of the same finite Procrustes objective in this model.
+The full repository test suite passes with these checks.
+
+A trained `D101` comparison then reran seeds `0..4`, including the two raw-port failures in that subset (seeds 1 and 2). The generator-derived and orbit-derived quotient maps agree to numerical precision:
+
+```text
+seed   raw exact port   generator port   max ||Qgen-Qorbit||
+0          202/202          202/202          5.97e-15
+1          200/202          202/202          6.27e-15
+2          194/202          202/202          1.11e-14
+3          202/202          202/202          8.36e-15
+4          202/202          202/202          7.28e-15
+```
+
+The normalized representation-alignment errors are equal to displayed precision for the generator-derived and orbit-derived implementations, and the output margins are identical to the Pass 37 quotient-block compiler.
+
+Thus the orbit-based Pass 37 port compiler and the generator-derived Pass 38 compiler are not merely similar heuristics in this model: they compute the same finite Procrustes objective, but Pass 38 evaluates its sufficient statistics directly from the generators.
 
 ## Why this matters
 
@@ -149,11 +164,11 @@ runtime side state     1 quotient bit
 behavioral certificate 2n legal states (still exhaustive)
 ```
 
-The remaining scaling bottleneck is therefore no longer the port transform.  It is the complete behavioral certificate.
+The remaining scaling bottleneck is therefore no longer the port transform. It is the complete behavioral certificate.
 
 ## Scope
 
-This derivation uses the specific semidirect-product/modal structure of the controlled `D_n` representation.  It is not a generic algorithm for arbitrary finite groups or arbitrary learned recurrent matrices.
+This derivation uses the specific semidirect-product/modal structure of the controlled `D_n` representation. It is not a generic algorithm for arbitrary finite groups or arbitrary learned recurrent matrices.
 
 The more general pattern to test later is whether port transport can be obtained from generator/relation equations—e.g. Sylvester/intertwiner constraints or finite superoperator sums—rather than from state enumeration.
 
@@ -162,13 +177,14 @@ The more general pattern to test later is whether port transport can be obtained
 - `map/dihedral_generator_port_transport.py`
 - `tests/test_dihedral_generator_port_transport.py`
 - `.github/workflows/dihedral-generator-port-transport.yml`
+- `results/dihedral_d101_generator_port_transport.csv`
 
 ## Current stopping pin
 
-If the trained `D101` check confirms numerical identity with the orbit-derived compiler, do **not** immediately add another group.
+Do **not** immediately add another group.
 
 The next real unsolved cost is:
 
 > can observable correctness be certified without enumerating the entire finite state space?
 
-For the current small groups exhaustive checking is a strength, not a weakness.  But for a compiler meant to scale, the certificate eventually needs a relation-local or margin/geometry argument that is useful rather than merely valid like the failed generic Cauchy certificate from Pass 31.
+For the current small groups exhaustive checking is a strength, not a weakness. But for a compiler meant to scale, the certificate eventually needs a relation-local or margin/geometry argument that is useful rather than merely valid like the failed generic Cauchy certificate from Pass 31.
