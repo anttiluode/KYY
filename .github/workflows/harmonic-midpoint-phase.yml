@@ -1,0 +1,41 @@
+name: harmonic-midpoint-phase
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/midpoint_phase_compensation_probe.py'
+      - 'tests/test_midpoint_phase_compensation_probe.py'
+      - '.github/workflows/harmonic-midpoint-phase.yml'
+  workflow_dispatch:
+
+jobs:
+  c101-midpoint-phase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Zero-label midpoint compensation
+        run: |
+          python map/midpoint_phase_compensation_probe.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
+            --train-length 16 \
+            --train-steps 1500 \
+            --batch-size 128 \
+            --max-increment 4 \
+            --lr 0.003 \
+            --random-start \
+            --json > results/harmonic_n101_midpoint_phase.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harmonic-n101-midpoint-phase
+          path: results/harmonic_n101_midpoint_phase.json
