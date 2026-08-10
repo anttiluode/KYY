@@ -27,11 +27,28 @@ def test_exact_character_schedules_have_zero_group_relation_defect():
     ):
         angles = 2.0 * math.pi * f / n
         assert probe.character_defect(n, angles) < 1e-12
+        op, state = probe.relation_defects(n, angles)
+        assert op < 2e-13
+        assert state < 2e-13
 
 
 def test_standard_rope_is_not_an_exact_mod31_character_bank():
     defect = probe.character_defect(31, probe.standard_rope_angles(8))
+    op, state = probe.relation_defects(31, probe.standard_rope_angles(8))
     assert defect > 1e-2
+    assert op > 0.5
+    assert state > 0.25
+
+
+def test_projection_snaps_arbitrary_angles_to_exact_characters():
+    n = 31
+    angles = np.asarray([0.1, 0.7, -1.2, 2.4, -2.8], dtype=np.float64)
+    projected, f = probe.project_angles_to_characters(n, angles)
+    assert np.all((0 <= f) & (f < n))
+    assert probe.character_defect(n, projected) < 1e-12
+    op, state = probe.relation_defects(n, projected)
+    assert op < 2e-13
+    assert state < 2e-13
 
 
 def test_low_coherence_search_beats_single_phase_margin_for_mod31():
