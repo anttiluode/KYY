@@ -50,6 +50,25 @@ _PERM_TABLE = torch.tensor(
 )
 
 
+def permreset3_targets(tokens: torch.Tensor) -> torch.Tensor:
+    """Exact running state for the 3-state permutation-reset benchmark.
+
+    token 0: identity/no-op
+    token 1: cycle C, state -> state + 1 mod 3
+    token 2: reset R, every prior state -> 0
+    """
+    if tokens.ndim != 2:
+        raise ValueError("permreset3 tokens must have shape [batch, length]")
+    state = torch.zeros(tokens.shape[0], dtype=torch.long, device=tokens.device)
+    y = torch.empty_like(tokens, dtype=torch.long)
+    for t in range(tokens.shape[1]):
+        tok = tokens[:, t]
+        state = torch.where(tok == 1, (state + 1).remainder(3), state)
+        state = torch.where(tok == 2, torch.zeros_like(state), state)
+        y[:, t] = state
+    return y
+
+
 def generate_batch(
     task: str,
     batch_size: int,
@@ -92,16 +111,6 @@ def generate_batch(
         return x, y
 
     if task == "permreset3":
-        # Minimal mixed permutation-reset machine.
-        # token 0 = identity/no-op
-        # token 1 = cycle C: 0 -> 1 -> 2 -> 0
-        # token 2 = reset R: every prior state -> 0
-        state = torch.zeros(batch_size, dtype=torch.long, device=device)
-        for t in range(length):
-            tok = x[:, t]
-            state = torch.where(tok == 1, (state + 1).remainder(3), state)
-            state = torch.where(tok == 2, torch.zeros_like(state), state)
-            y[:, t] = state
-        return x, y
+        return x, permreset3_targets(x)
 
     raise AssertionError("unreachable")
