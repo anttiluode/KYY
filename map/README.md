@@ -2,11 +2,11 @@
 
 This folder is the **research cartography layer** for KYY.
 
-It exists because the project repeatedly derived something exciting, built it, and only afterwards discovered the nearest established name. The fix is simple:
+It exists because the project repeatedly derived something exciting, built it, and only afterwards discovered the nearest established name. The fix is:
 
 > **Search first. Locate the nearest known object. Compute the residual. Build only the residual.**
 
-`map/` is not a novelty claim. It is an attempt to draw enough of the known mathematical landscape around the Geometric Neuron / KYY idea that we stop mistaking a known landmark for an unmapped valley.
+`map/` is not a novelty claim. It is a live attempt to draw enough of the known mathematical landscape around the Geometric Neuron / KYY idea that we stop mistaking a known landmark for an unmapped valley.
 
 Snapshot: **2026-08-10**.
 
@@ -16,7 +16,7 @@ The cloudy original proposition was:
 
 > Can useful recurrent computation arise from **local geometry + propagation** rather than unrestricted global state mixing?
 
-That sentence crosses mature fields. We therefore map it on several axes at once:
+That crosses several mature fields. We map it on multiple axes:
 
 ```text
 TRANSITION ALGEBRA
@@ -35,7 +35,7 @@ REALIZATION
  checkpoint coordinates -> symmetry orbit -> invariant subspace -> I/O equivalence
 ```
 
-The Geometric Neuron intuition lives in a **conjunction**, not at one point:
+The Geometric Neuron intuition lives in a conjunction:
 
 ```text
 local geometry
@@ -62,41 +62,44 @@ testable input/output behaviour
 
 ## Start here
 
-1. **[OCCUPANCY_MATRIX.md](OCCUPANCY_MATRIX.md)** — the compact map. Rows are known families; columns are mechanisms. This is the fastest way to see which conjunctions are actually unoccupied in the current search.
-2. **[DEEP_PASS_2026-08-10.md](DEEP_PASS_2026-08-10.md)** — second search pass. This added several hard walls that materially changed the frontier.
-3. **[LANDSCAPE.md](LANDSCAPE.md)** — detailed regions and borders.
-4. **[VALLEYS.md](VALLEYS.md)** — candidate residuals and their kill conditions.
-5. **[SEARCH_LOG.md](SEARCH_LOG.md)** — what was searched, what hit, and what remains unresolved.
-6. **[SOURCES.md](SOURCES.md)** — annotated primary-source bibliography.
+1. **[OCCUPANCY_MATRIX.md](OCCUPANCY_MATRIX.md)** — compact map: papers/families × mechanisms.
+2. **[DEEP_PASS_2026-08-10.md](DEEP_PASS_2026-08-10.md)** — second pass: wave-as-RNN, fan-in/FSM theory, richer modern state mixing, TCP-SSM.
+3. **[PASS3_EXACT_RESIDUAL.md](PASS3_EXACT_RESIDUAL.md)** — third pass: AUSSM, Dynamic Filters, HyperNetworks, and the exact geometry-tying residual.
+4. **[PASS4_COMPILER_BOUNDARY.md](PASS4_COMPILER_BOUNDARY.md)** — fourth pass: subtracts photonic surrogate/inverse-design prior art from the KYY↔TWC compiler idea.
+5. **[LANDSCAPE.md](LANDSCAPE.md)** — detailed regions and borders.
+6. **[VALLEYS.md](VALLEYS.md)** — residual hypotheses and kill conditions.
+7. **[SEARCH_LOG.md](SEARCH_LOG.md)** — what was searched and what remains unresolved.
+8. **[SOURCES.md](SOURCES.md)** — annotated primary-source bibliography.
 
 ## The hard landmarks now on the map
 
-The broad territory is far more occupied than the first KYY sketch suggested:
-
 ```text
-local 2-port recurrent mesh       -> EUNN / Givens / optical meshes
-Householder recurrence            -> oRNN / DeltaProduct
-second-order oscillator RNN       -> coRNN
-geometry-defined oscillator flow  -> GraphCON
-wave physics mapped to an RNN     -> Hughes et al. 2019
-input-dependent recurrent Q       -> ISAN / selective SSMs
-shared dynamics + token control   -> modern selective SSMs / TCP-SSM
-rich state mixing for tracking    -> DeltaProduct / PD / BD-LRU / SLiCE / bilinear RNNs
-geometry generates connectivity   -> HyperNEAT / indirect encodings
-local fan-in vs FSM complexity    -> Horne & Hush 1993
-input changes scattering operator -> Wanjura-Marq. / programmable wave systems
-hidden-state gauge freedom        -> realization & NN symmetry literature
+local 2-port recurrent mesh        -> EUNN / Givens / optical meshes
+Householder recurrence             -> oRNN / DeltaProduct
+adaptive input-dependent unitary   -> AUSSM
+second-order oscillator RNN        -> coRNN
+geometry-defined oscillator flow   -> GraphCON
+wave physics mapped to an RNN      -> Hughes et al. 2019
+input-dependent recurrent Q        -> ISAN / selective SSMs
+input generates current operator   -> Dynamic Filters / HyperNetworks
+shared dynamics + token control    -> TCP-SSM / selective SSM family
+rich state mixing for tracking     -> DeltaProduct / PD / BD-LRU / SLiCE / bilinear / fixed-point
+geometry generates connectivity    -> HyperNEAT / indirect encodings
+local fan-in vs FSM complexity     -> Horne & Hush 1993
+input changes scattering operator  -> Wanjura-Marq. / programmable wave systems
+abstract matrix -> physical device -> photonic surrogate & inverse-design work
+hidden-state gauge freedom         -> realization & NN symmetry literature
 ```
 
 This is not discouraging. It means the map has coordinates.
 
-## Where the map points *now*
+## Where the map points now
 
 The strongest remaining KYY question is no longer "invent another recurrent architecture." It is a cheaper structural test:
 
 > **Do the freely learned local KYY operators already collapse onto a small geometry-derived basis?**
 
-The current `geom_scatter` has essentially free token × sweep × edge angles. Before replacing it with another architecture, analyze that learned tensor.
+The current `geom_scatter` has essentially free token × sweep × edge angles. Analyze that tensor before replacing it with a new model.
 
 ```text
 learned free-edge operator
@@ -116,13 +119,31 @@ learned free-edge operator
  rerun state tracking
 ```
 
-The key comparison is **geometry basis versus generic low-rank basis at the same control dimension `r`**.
+The central adversarial comparison is:
 
-If geometry needs almost one degree of freedom per edge, the strongest remaining Geometric-Neuron representation claim has no evidence here.
+```text
+GEOMETRY BASIS  vs  BEST GENERIC RANK-r BASIS
+```
 
-If a tiny geometry-derived `r` preserves the behavior and competes with the best generic rank-`r` compression, then we have earned a reason to search that exact conjunction harder and only then build a trainable geometry-generated operator.
+at the same control dimension `r`.
+
+If geometry needs nearly one degree of freedom per edge, or loses badly to a generic rank-`r` basis, the strongest remaining Geometric-Neuron representation story has no evidence here.
+
+If a tiny geometry-derived `r` preserves behavior **and** competes with the best generic compression, then we have earned a reason to search the exact conjunction harder and only then build a trainable geometry-generated operator.
 
 That is the first valley currently visible on the map.
+
+## The compiler is not an escape hatch
+
+The broad idea
+
+```text
+learn abstract operator -> realize it in physical wave hardware
+```
+
+also has direct photonic prior art. The possible TWC/KYY residual is narrower: compile an **input-conditioned recurrent operator family** into a specific constrained reciprocal transient-wave substrate, preserve only behaviorally load-bearing state, price runtime controls, and report unrealizable directions rather than pretending every target can be mapped.
+
+See [PASS4_COMPILER_BOUNDARY.md](PASS4_COMPILER_BOUNDARY.md).
 
 ## Mandatory build gate
 
