@@ -29,7 +29,7 @@ jobs:
           python map/cyclic_reset_compiler_probe.py \
             --n 101 \
             --modes 8 \
-            --seeds 0 1 2 3 4 \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
             --steps 2500 \
             --train-length 16 \
             --test-lengths 16 64 256 1024 \
