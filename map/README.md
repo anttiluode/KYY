@@ -10,244 +10,309 @@ It exists because the project repeatedly derived something exciting, built it, a
 
 Snapshot: **2026-08-10**.
 
-## What we are mapping
+## Where the map has moved
 
-The starting question was:
+KYY started with:
 
 > Can useful recurrent computation arise from **local geometry + propagation** rather than unrestricted global state mixing?
 
-The physical version has now become sharper:
+After repeated prior-art subtraction, the question is no longer one architecture.
+
+It is a compiler/resource question across several layers:
 
 ```text
 BEHAVIOR
  finite automaton / transition monoid / associative memory
         |
         v
-REALIZATION
- hidden state / observable quotient / fast-weight medium
-        |
-        v
-PRIMITIVE TYPE
- reversible transport      irreversible write/reset
- swaps / waves / phases    merge / erase / contraction
-        \                    /
-         \                  /
-          v                v
-LOCAL GEOMETRY
- graph support / neighbour communication / write sites
+ALGEBRAIC DECOMPOSITION
+ group/permutation factors     reset/aperiodic factors
+        \                       /
+         \                     /
+          v                   v
+STATE REPRESENTATION
+ one-hot / MinMax / harmonic orbit / other continuous code
                 |
                 v
-SYNTHESIS + COST
- local word / parallel depth / garbage / drift / port error
+PHYSICAL PRIMITIVE TYPE
+ conservative transport  contraction  singular write/reset
+                |
+                v
+LOCAL ORGANIZATION
+ Sigma-chain predecessor links / graph routing / write-site placement
+                |
+                v
+COST
+ dimension + margin + precision + communication + reset + drift + garbage
 ```
 
-The Geometric Neuron intuition survives only if declared geometry earns something on that whole chain.
+The Geometric Neuron intuition survives only if geometry earns something **after all of these costs are visible**.
 
-## Start here — newest first
+---
 
-1. **[PASS13_TRANSPORT_AND_PINCH.md](PASS13_TRANSPORT_AND_PINCH.md)** — classical transformation-semigroup theorem translated into the exact local resource question: reversible routing versus number/location of irreversible merge sites.
-2. **[local_transformation_monoid_oracle.py](local_transformation_monoid_oracle.py)** — exact small-`n` BFS compiler for all `n^n` deterministic transitions using adjacent swaps and local rank-lowering pinches.
-3. **[PASS12_LAKE_FAST_WEIGHT_BOUNDARY.md](PASS12_LAKE_FAST_WEIGHT_BOUNDARY.md)** — the lake/read-before-write picture lands directly on fast-weight programmers, DeltaNet, sparse delta memory, and old photorefractive delta-rule hardware.
-4. **[PASS11_WAVE_RESET_SIGMA_CHAIN.md](PASS11_WAVE_RESET_SIGMA_CHAIN.md)** — Krohn-Rhodes permutation/reset decomposition plus the July-2026 Sigma-chain result: immediate-neighbour chains of permutation-reset automata still cover all regular languages.
-5. **[reversible_reset_probe.py](reversible_reset_probe.py)** — exact rank probe showing true reset versus reversible visible-reset-with-hidden-garbage.
-6. **[PASS10_SIMULTANEOUS_REALIZATION.md](PASS10_SIMULTANEOUS_REALIZATION.md)** — common realization / whole-family local synthesis boundary.
-7. **[PASS9_LIVE_2026_BOUNDARY.md](PASS9_LIVE_2026_BOUNDARY.md)** — hard group projection, holonomic/gauge ideas, sparse realization, structure-aware automaton compilation.
-8. **[PASS8_COXETER_IR.md](PASS8_COXETER_IR.md)** / **[s5_coxeter_oracle.py](s5_coxeter_oracle.py)** — exact full-`S5` local compiler floor in a 4D `A4` representation.
-9. **[PASS7_DISCRETE_SYNTHESIS.md](PASS7_DISCRETE_SYNTHESIS.md)** / **[exact_perm3_local_oracle.py](exact_perm3_local_oracle.py)** — catches the finite-group/Lie-algebra mismatch and burns `perm3` as evidence.
-10. **[PASS6_BEHAVIORAL_QUOTIENT.md](PASS6_BEHAVIORAL_QUOTIENT.md)** — hidden dynamics are larger than what ports/readout necessarily identify.
-11. **[PASS5_CONTROL_ALGEBRA.md](PASS5_CONTROL_ALGEBRA.md)** / **[RING_ALGEBRA_LEMMA.md](RING_ALGEBRA_LEMMA.md)** — geometry/control placement -> reachable Lie algebra.
-12. **[OCCUPANCY_MATRIX.md](OCCUPANCY_MATRIX.md)** / **[LANDSCAPE.md](LANDSCAPE.md)** / **[SEARCH_LOG.md](SEARCH_LOG.md)** / **[SOURCES.md](SOURCES.md)** — wider map and search history.
+# Start here — current frontier
 
-## Hard landmarks already occupied
+1. **[PASS23_HARMONIC_COUNTER.md](PASS23_HARMONIC_COUNTER.md)** — current mathematical seam: exact cyclic state tracking by a harmonic/group frame with `O(log n)` real dimensions and constant geometric state margin. Known frame mathematics; recurrent resource interpretation not located yet.
+2. **[cyclic_harmonic_state_oracle.py](cyclic_harmonic_state_oracle.py)** — exact block-rotation recurrent construction, margin/coherence diagnostics, concentration bound, random frequency search.
+3. **[PASS22_STATE_PACKING_FLOOR.md](PASS22_STATE_PACKING_FLOOR.md)** / **[state_packing_floor.py](state_packing_floor.py)** — bounded state dimension, dynamic range, and precision cannot all be free.
+4. **[PASS20_SIGMA_AFFINE_WITNESS.md](PASS20_SIGMA_AFFINE_WITNESS.md)** / **[sigma_affine_compiler.py](sigma_affine_compiler.py)** — exact switched-affine lowering of the July-2026 Sigma-chain; includes the literal neighbour-propagating irreversible front witness.
+5. **[PASS19_SIGMA_LOCAL_RECURRENT_COROLLARY.md](PASS19_SIGMA_LOCAL_RECURRENT_COROLLARY.md)** — immediate-predecessor-only permutation/reset recurrent realization for all regular languages, as a corollary/translation of the Sigma-chain theorem.
+6. **[PASS18_ORBIT_PRECISION.md](PASS18_ORBIT_PRECISION.md)** — continuous group-orbit realization trades recurrent coordinate count against state separation/precision.
+7. **[PASS16_RESET_LEAKAGE_RESULT.md](PASS16_RESET_LEAKAGE_RESULT.md)** / **[PASS15_OBSERVABLE_RESET_LEMMA.md](PASS15_OBSERVABLE_RESET_LEMMA.md)** — empirical and algebraic reset result: the lossless local scatterer learned to hide reset history, not forget it.
+8. **[PASS17_WRITE_SITE_PARETO.md](PASS17_WRITE_SITE_PARETO.md)** — exact small-`n` trade-off between number/location of irreversible write sites and reversible routing depth.
+9. **[PASS21_FSM_STATE_ASSIGNMENT_BOUNDARY.md](PASS21_FSM_STATE_ASSIGNMENT_BOUNDARY.md)** — subtracts forty years of hardware state-assignment / graph-embedding prior art.
+10. **[PASS12_LAKE_FAST_WEIGHT_BOUNDARY.md](PASS12_LAKE_FAST_WEIGHT_BOUNDARY.md)** — read-before-write lake picture lands directly on fast-weight / DeltaNet and photorefractive delta-rule prior art.
+11. **[PASS11_WAVE_RESET_SIGMA_CHAIN.md](PASS11_WAVE_RESET_SIGMA_CHAIN.md)** — Krohn-Rhodes permutation/reset split and the new Sigma-chain locality theorem.
+12. **[PASS13_TRANSPORT_AND_PINCH.md](PASS13_TRANSPORT_AND_PINCH.md)** / **[PASS14_THERMODYNAMIC_BOUNDARY.md](PASS14_THERMODYNAMIC_BOUNDARY.md)** — reversible routing + singular merge compiler floor; forgetting/energy theory is already established.
+13. **[PASS8_COXETER_IR.md](PASS8_COXETER_IR.md)** / **[s5_coxeter_oracle.py](s5_coxeter_oracle.py)** — exact full-`S5` state-tracking compiler in a 4D local Coxeter representation.
+14. **[PASS7_DISCRETE_SYNTHESIS.md](PASS7_DISCRETE_SYNTHESIS.md)** / **[exact_perm3_local_oracle.py](exact_perm3_local_oracle.py)** — burns `perm3` as evidence by giving it a trivial exact local oracle.
+15. **[PASS5_CONTROL_ALGEBRA.md](PASS5_CONTROL_ALGEBRA.md)** / **[RING_ALGEBRA_LEMMA.md](RING_ALGEBRA_LEMMA.md)** — graph/control placement determines reachable Lie algebra, but large Lie dimension is not itself the task.
+16. **[OCCUPANCY_MATRIX.md](OCCUPANCY_MATRIX.md)** / **[LANDSCAPE.md](LANDSCAPE.md)** / **[SEARCH_LOG.md](SEARCH_LOG.md)** / **[SOURCES.md](SOURCES.md)** — wider map and search history.
 
-```text
-local 2-port recurrent mesh          -> EUNN / Givens / optical meshes
-Householder recurrence               -> oRNN / DeltaProduct
-adaptive input-dependent unitary     -> AUSSM
-bilinear state-tracking RNN          -> modern bilinear-RNN work
-second-order oscillator RNN          -> coRNN
-geometry-defined oscillator flow     -> GraphCON
-wave physics mapped to an RNN        -> Hughes et al. 2019
-input-dependent recurrent Q          -> ISAN / selective SSMs
-read-before-write delta memory       -> fast-weight programmers / DeltaNet
-sparse delta-rule memory             -> Sparse Delta Memory (2026)
-physical delta-rule holographic learn-> photorefractive optical NNs (1989+)
-physical self-plastic networks       -> active physical-learning field
-Lie algebra explains sequence order  -> 2026 Lie-algebraic sequence theory
-few local controls steer networks    -> bilinear / quantum graph controllability
-RNN behavior -> automaton            -> WFA / extraction / realization theory
-permutation + reset -> arbitrary FSA -> Krohn-Rhodes
-neighbour permutation-reset chain    -> Sigma-chain (2026)
-S_n + one defect-1 map -> all T_n    -> classical transformation semigroups
-graph-local rank-lowering word length-> transformation semigroups on digraphs
-operator -> short local word         -> routing / circuit / gate synthesis
-choose sparse equivalent realization -> classical control + sparse-realization work
-hard projection protects group state -> live non-Abelian state-tracking work
-DFA -> compact IR -> local hardware  -> structure-aware compiler work
-```
+---
 
-The map is crowded. That is useful.
+# The strongest empirical result so far
 
-## Four exact lessons KYY has earned
-
-### 1. Geometry can impose an algebraic ceiling
-
-In the Pass-5 toy, a path plus one local control generated full `so(N)` for tested sizes. An even ring `N=2m` with one controlled edge preserves a hidden complex structure and gives a `u(m)`-type reachable algebra; one extra control breaks the symmetry and restores the larger algebra.
-
-Design lesson:
-
-```text
-geometry -> symmetry -> reachable operator family.
-```
-
-### 2. Maximum Lie dimension is not the task
-
-Finite state-tracking tasks care about exact discrete relations and the **behavioral quotient**, not about filling a huge continuous Lie algebra.
-
-The original `S3` benchmark has a trivial exact local implementation, so `perm3` is now a regression/optimization test, not evidence for a new architecture.
-
-### 3. Locality has a real, representation-dependent depth price
-
-For full `S5`, KYY's exact 4D `A4` representation keeps adjacent generators radius-1 local. Compiling all 120 permutations into simultaneous nearest-neighbour matchings gives exact parallel depth mean `403/120 ~= 3.3583`, maximum `5`, with zero algebraic drift in exact arithmetic.
-
-The 5D natural representation and 4D quotient solve the same behavior with different substrate primitives. Therefore:
-
-> **minimum behavioral state dimension and minimum physical implementation cost are different optimization problems.**
-
-### 4. Reversible transport plus one pinch is algebraically enough
-
-For finite `n`, classical theory says generators of `S_n` plus one defect-1 singular transformation generate the full transformation monoid `T_n` of all `n^n` deterministic state updates.
-
-On a path this becomes:
-
-```text
-adjacent swaps
-    +
-one fixed local merge 0 -> 1
-    ->
-all deterministic n-state transformations.
-```
-
-The exact KYY BFS oracle confirms the full closure for small `n` and exposes the routing/write-site trade-off.
-
-Measured worst exact depths:
-
-| n | |T_n| | global-3 | path + 1 pinch | path + all pinches | parallel + 1 pinch | parallel + all pinches |
-|---:|---:|---:|---:|---:|---:|---:|
-| 2 | 4 | 2 | 2 | 1 | 2 | 1 |
-| 3 | 27 | 5 | 6 | 3 | 6 | 3 |
-| 4 | 256 | 9 | 11 | 6 | 9 | 4 |
-| 5 | 3125 | 16 | 19 | 10 | 13 | 5 |
-| 6 | 46656 | 23 | 28 | 15 | 17 | 6 |
-
-These are **computed toy resource points, not claimed formulas**. Word lengths in graph-generated transformation semigroups are established mathematics.
-
-## The lake/bicycle correction
-
-The useful physical translation is now:
-
-```text
-chain tooth / wave coupling
-    = local transition / transport primitive
-    NOT attention by itself
-
-input-dependent modulation
-    = routing/control-like operation
-
-medium bending from current retrieval error
-    = fast-weight / delta-rule memory
-    already known
-
-true overwrite / merge
-    = behaviorally irreversible operation
-    cannot be manufactured from permutations on the same bounded state set
-```
-
-A reversible larger hidden system can make the **visible** state look reset by storing the discarded information in an ancilla/garbage degree of freedom. `reversible_reset_probe.py` demonstrates this exactly.
-
-So KYY must price not only reset operations but also hidden garbage retained when an allegedly reversible implementation emulates forgetting.
-
-## The Sigma-chain landmark
-
-The July-2026 Sigma-chain result is particularly close to the locality intuition.
-
-Instead of a classical cascade component depending on all previous component states, component `i` sees only:
-
-```text
-external token x_t
-        +
-immediately preceding component state
-```
-
-and a Sigma-chain of permutation-reset automata is still sufficient for every regular language.
-
-That kills the broad claim that neighbour-only composition is itself a new route to finite-state universality.
-
-It leaves an engineering question:
-
-> can such a symbolic local decomposition be turned into a better physical recurrent cost point than dense/global state mixing?
-
-## The fast-weight landmark
-
-The lake's read-before-write rule is essentially the fast-weight delta rule:
-
-```text
-v_bar = W k
-W <- W + beta (v - v_bar) outer k
-```
-
-and current DeltaNet-family work adds gating, independent erase paths, preconditioning, and sparse memory addressing.
-
-Therefore KYY cannot claim a new memory rule.
-
-The only remaining geometric distinction is that a physical local medium does not receive a free address lookup: reaching a memory interaction requires propagation through the substrate.
-
-## Current pin on the map
-
-The residual is now a **behavior-to-physical-primitive compiler** question:
-
-> **Given a task's behavioral transition monoid and/or online associative-memory requirements, choose a behaviorally sufficient state realization, factor its work into reversible transport and genuinely irreversible write/reset operations, place the irreversible sites on a declared local geometry, and compile the whole input-conditioned family to minimize communication depth, write-site count, hidden garbage, observable error, and long-horizon drift.**
-
-A candidate cost vector is:
-
-```text
-behavioral state dimension
-local component / Sigma-chain height
-runtime control bits / ports
-reversible wire span / propagation depth
-number and placement of irreversible write sites
-hidden garbage / ancilla retained
-sequential and parallel local depth
-relation defect / behavioral quotient error
-long-horizon drift
-physical precision / dissipation proxy
-```
-
-Status:
-
-**BRIDGE / HIGH PRIOR-ART RISK / EXACTLY TESTABLE / NOT A NOVELTY CLAIM.**
-
-## No new learned architecture yet
-
-The branch now has a mixed benchmark `permreset3`:
+The mixed benchmark `permreset3` has tokens:
 
 ```text
 I: identity
 C: 0 -> 1 -> 2 -> 0
-R: every state -> 0
+R: every prior state -> 0
 ```
 
-It is deliberately tiny. Its purpose is to test whether a supposedly reversible recurrent model really forgets a prefix after `R`, or merely hides the old information and lets it leak back under continuation.
+Three-seed, 1000-step result, state dimension 8:
 
-Next gates:
+| model | L=16 | L=64 | L=256 |
+|---|---:|---:|---:|
+| complex diagonal | 1.0000 | 1.0000 | 1.0000 |
+| Householder-2 | 0.9204 | 0.6766 | 0.4714 |
+| local orthogonal scatter | **0.9946** | 0.6096 | 0.4213 |
+| GRU | 1.0000 | 1.0000 | 1.0000 |
 
-1. run existing KYY models on `permreset3`; no new model yet;
-2. pair histories that differ before reset and measure **post-reset continuation divergence at the readout**;
-3. keep the exact local transport/pinch oracle as the resource floor;
-4. search the joint optimization `behavioral realization + irreversible-site placement + local routing` before coding a trainable version;
-5. only then decide whether a geometric/plastic layer earns existence.
+For the local orthogonal scatterer, two different histories become almost indistinguishable **at the reset token**:
 
-## Mandatory build gate
+```text
+lag 0 mean probability TV ~= 0.000169
+argmax mismatch = 0
+```
+
+but the same continuation rotates the preserved hidden difference back into the readout:
+
+```text
+lag 4   mismatch ~= 2.5%
+lag 8   mismatch ~= 11.9%
+lag 16  mismatch ~= 15.3%
+lag 64  mismatch ~= 16.3%
+```
+
+So the clean sentence is:
+
+> **The lossless local KYY body learned to hide reset history, not to forget it.**
+
+This is a result about this model/task pair, not a universal claim about waves.
+
+`complex_diag` is technically invertible at each finite step but contractive; it achieved sampled 100% through L=256 with zero post-reset prediction mismatches. Therefore the useful physical split is not simply invertible/noninvertible:
+
+```text
+CONSERVATIVE
+    distinctions persist
+
+CONTRACTIVE
+    distinctions fade
+
+SINGULAR RESET
+    distinctions are explicitly removed in the effective realization
+```
+
+---
+
+# The newest exact scaling result: harmonic cyclic state
+
+The simplest phase counter stores `n` cyclic states around one circle:
+
+```text
+v_j = (cos(2*pi*j/n), sin(2*pi*j/n)).
+```
+
+It uses only two real coordinates, but nearest-state noise radius shrinks as
+
+```text
+sin(pi/n) ~ pi/n.
+```
+
+Pass 23 instead chooses `k` Fourier characters/frequencies and stores
+
+```text
+v_j = 1/sqrt(k) [
+ cos(2*pi*f_1*j/n), sin(...),
+ ...,
+ cos(2*pi*f_k*j/n), sin(...)
+].
+```
+
+The increment token remains a **fixed block-diagonal bank of 2D rotations**.
+
+If frequencies are sampled uniformly, character orthogonality + Hoeffding + a union bound gives
+
+```text
+P[max nontrivial state inner product >= alpha]
+    <= (n-1) exp(-k alpha^2 / 2).
+```
+
+Thus some frequency multiset exists with constant state separation whenever
+
+```text
+k > 2 log(n-1) / alpha^2.
+```
+
+So, in ideal arithmetic:
+
+> **`C_n` has an exact norm-preserving recurrent realization in `O(log n)` real dimensions with constant Euclidean symbolic-state margin.**
+
+This is harmonic-frame / random-character mathematics, not claimed as a new theorem.
+
+What has not yet been located is this exact **recurrent state-resource interpretation** in the modern 2026 state-tracking literature.
+
+Important caveat:
+
+```text
+constant margin != error correction.
+```
+
+Affine exact group motion does not create an attracting symbolic state. It only gives accumulated implementation error a larger geometric runway.
+
+---
+
+# Why the harmonic result matters to the current literature
+
+Two extremely recent papers bracket it.
+
+## Complex State Propagator — August 4, 2026
+
+Uses complex phase rotations for deterministic state tracking and explicitly represents cyclic/parity behavior in phase.
+
+Occupied claim:
+
+```text
+complex rotations can implement modular state transitions.
+```
+
+Current gap:
+
+```text
+how many phase modes are required at fixed state-separation margin as modulus grows?
+```
+
+## Error Control Dynamics — May 2026
+
+Shows that affine state-tracking failures are governed by accumulated within-state error relative to minimum between-state separation, and that exact affine return dynamics cannot selectively contract the state-separating error directions.
+
+So Pass 23's harmonic frame should be interpreted as an **error-budget code**, not a restoring memory.
+
+---
+
+# The Sigma-local bridge
+
+The July-2026 Sigma-chain theorem says every regular language can be represented by a chain of permutation-reset automata in which each component depends only on:
+
+```text
+external token
+    +
+immediate predecessor state.
+```
+
+KYY now has an exact recurrent lowering of those components:
+
+```text
+permutation -> orthogonal update
+reset       -> singular affine overwrite.
+```
+
+This suggests a compiler rather than one monolithic recurrent layer:
+
+```text
+DFA / regular behavior
+        |
+        v
+Sigma-chain decomposition
+        |
+        +--> group/permutation factor
+        |       -> choose a robust compact group-frame state code
+        |       -> conservative phase/rotation update
+        |
+        +--> reset/aperiodic factor
+                -> contractive/singular update only where required
+        |
+        v
+neighbour-only recurrent chain
+```
+
+The Sigma-chain paper is only weeks old and targeted searches have not located a neural/physical lowering or a combination with the May-2026 MinMax recurrent-cascade work.
+
+That is a chronology-based reason to keep digging, **not evidence of novelty**.
+
+---
+
+# Hard prior-art walls now on the map
+
+```text
+local 2-port recurrent mesh             -> EUNN / Givens / optical meshes
+Householder recurrence                  -> oRNN / DeltaProduct
+oscillator / graph-wave RNN             -> coRNN / GraphCON / wave-RNN work
+input-dependent recurrent operator      -> ISAN / Mamba / dynamic filters
+read-before-write delta memory          -> fast-weight programmers / DeltaNet
+sparse delta memory                     -> Sparse Delta Memory 2026
+physical delta learning                 -> photorefractive optical NNs 1989+
+Lie algebra explains state order        -> 2026 sequence Lie-algebra theory
+few local controls generate global flow -> classical network/quantum control
+permutation + reset -> arbitrary FSA    -> Krohn-Rhodes
+neighbour permutation-reset chain       -> Sigma-chain July 2026
+S_n + one singular map -> T_n           -> transformation-semigroup theory
+graph-local reset word length           -> digraph transformation semigroups
+state encoding for physical cost        -> FSM state assignment / VLSI graph embedding
+harmonic group orbits                   -> harmonic/group frame theory
+state separation as robustness budget   -> coding/frame theory + 2026 error-control work
+```
+
+The map is crowded. Good.
+
+---
+
+# Current KYY hypothesis — version 2026-08-10 afternoon
+
+The strongest surviving research direction is not:
+
+> geometry replaces attention.
+
+It is:
+
+> **Compile behavior into algebraically typed local recurrent factors, and choose a geometric state code for each factor that optimizes the trade among dimension, symbolic-state margin, communication, irreversible reset cost, and long-horizon error control.**
+
+The most concrete possible next step is the **abelian group-factor case**:
+
+```text
+finite abelian factor G
+    -> choose O(log |G|) characters
+    -> harmonic-frame state code
+    -> diagonal phase token update
+    -> constant geometric state margin
+```
+
+then insert those factors into an exact Sigma-local permutation/reset chain.
+
+Before implementing a learned version, close the prior-art search on:
+
+```text
+harmonic/group frames as recurrent finite-group state codes
+robust logarithmic modular counting state dimension
+character-code recurrent automata
+Sigma-chain + neural recurrent cascades
+```
+
+---
+
+# Mandatory build gate
 
 Before another learned architecture is added to `kyy/models.py`, add this to `SEARCH_LOG.md`:
 
