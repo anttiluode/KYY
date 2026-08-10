@@ -70,10 +70,31 @@ def character_defect(n: int, angles: torch.Tensor | np.ndarray) -> float:
     """Mean distance to the nearest exact C_n character frequency.
 
     Exact modular recurrence requires n*theta/(2*pi) to be integer (mod n).
+    This is an interpretable coordinate diagnostic; `relation_defects` below is
+    the representation-invariant algebraic diagnostic used by the compiler view.
     """
     a = np.asarray(angles, dtype=np.float64)
     f = n * a / (2.0 * math.pi)
     return float(np.mean(np.abs(f - np.rint(f))))
+
+
+def relation_defects(n: int, angles: torch.Tensor | np.ndarray) -> tuple[float, float]:
+    """Return (operator, state) defect for the cyclic relation A^n = I.
+
+    For a block-diagonal bank A=diag(R(theta_i)),
+
+        ||A^n-I||_2 = max_i 2 |sin(n theta_i / 2)|.
+
+    For the equal-amplitude normalized phase state used by this probe, the
+    distance between histories whose total counts differ by exactly n is
+
+        2 sqrt(mean_i sin^2(n theta_i / 2)).
+
+    Both vanish for exact C_n characters, independent of the character basis.
+    """
+    a = np.asarray(angles, dtype=np.float64).reshape(-1)
+    d = 2.0 * np.abs(np.sin(0.5 * n * a))
+    return float(np.max(d)), float(np.sqrt(np.mean(d * d)))
 
 
 class RotaryModTracker(nn.Module):
@@ -135,6 +156,11 @@ class RunResult:
     max_nontrivial_inner_product: float | None
     character_defect_before: float
     character_defect_after: float
+    operator_relation_defect_before: float
+    operator_relation_defect_after: float
+    state_relation_defect_before: float
+    state_relation_defect_after: float
+    angles_after: list[float]
 
 
 def make_angles(variant: str, n: int, k: int, trials: int, seed: int) -> tuple[np.ndarray, np.ndarray | None, bool]:
@@ -189,7 +215,8 @@ def train_one(
 ) -> RunResult:
     seed_everything(seed)
     angles, f, learn_angles = make_angles(variant, n, k, search_trials, seed)
-    before = character_defect(n, angles)
+    char_before = character_defect(n, angles)
+    op_before, state_before = relation_defects(n, angles)
     model = RotaryModTracker(n, angles, learn_angles=learn_angles)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     criterion = nn.CrossEntropyLoss()
@@ -206,7 +233,9 @@ def train_one(
 
     clean_acc, clean_final = evaluate(model, n, test_lengths, eval_batch_size, max_increment, 0.0)
     drift_acc, _ = evaluate(model, n, test_lengths, eval_batch_size, max_increment, angle_error)
-    after = character_defect(n, model.angles.detach().cpu().numpy())
+    final_angles = model.angles.detach().cpu().numpy().astype(np.float64)
+    char_after = character_defect(n, final_angles)
+    op_after, state_after = relation_defects(n, final_angles)
 
     radius = mu = None
     if f is not None:
@@ -225,8 +254,13 @@ def train_one(
         frequencies=None if f is None else [int(x) for x in f.tolist()],
         orbit_noise_radius=radius,
         max_nontrivial_inner_product=mu,
-        character_defect_before=before,
-        character_defect_after=after,
+        character_defect_before=char_before,
+        character_defect_after=char_after,
+        operator_relation_defect_before=op_before,
+        operator_relation_defect_after=op_after,
+        state_relation_defect_before=state_before,
+        state_relation_defect_after=state_after,
+        angles_after=[float(x) for x in final_angles.tolist()],
     )
 
 
@@ -272,14 +306,17 @@ def main() -> None:
         print(json.dumps(payload, indent=2, sort_keys=True))
         return
 
-    print("variant              seed  radius   defect0  defect1  clean@L / drift@L")
+    print("variant              seed  radius   relop    relstate clean@L / drift@L")
     for r in rows:
         rr = "-" if r.orbit_noise_radius is None else f"{r.orbit_noise_radius:.4f}"
         pairs = " ".join(
             f"{L}:{r.clean_accuracy[str(L)]:.3f}/{r.drift_accuracy[str(L)]:.3f}"
             for L in args.test_lengths
         )
-        print(f"{r.variant:20s} {r.seed:4d} {rr:>7s} {r.character_defect_before:8.4f} {r.character_defect_after:8.4f}  {pairs}")
+        print(
+            f"{r.variant:20s} {r.seed:4d} {rr:>7s} "
+            f"{r.operator_relation_defect_after:8.4f} {r.state_relation_defect_after:8.4f}  {pairs}"
+        )
 
 
 if __name__ == "__main__":
