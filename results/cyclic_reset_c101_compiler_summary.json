@@ -1,0 +1,44 @@
+{
+  "config": {
+    "n": 101,
+    "modes": 8,
+    "seeds": [0,1,2,3,4,5,6,7,8,9],
+    "steps": 2500,
+    "train_length": 16,
+    "test_lengths": [16,64,256,1024],
+    "batch_size": 128,
+    "eval_batch_size": 128,
+    "max_increment": 4,
+    "reset_probability": 0.12,
+    "lr": 0.003,
+    "random_start": true
+  },
+  "aggregate": {
+    "learned_exact_seeds": {"16":10,"64":8,"256":0,"1024":0},
+    "learned_mean_accuracy": {"16":1.0,"64":0.99993896484375,"256":0.999298095703125,"1024":0.9992240905761719},
+    "compiled_inherited_exact_seeds": {"16":9,"64":9,"256":9,"1024":9},
+    "compiled_equivariant_exact_seeds": {"16":10,"64":10,"256":10,"1024":10},
+    "compiled_positive_exact_seeds": {"16":10,"64":10,"256":10,"1024":10},
+    "mean_learned_reset_gate": 0.214488,
+    "learned_reset_gate_range": [0.208896,0.225459],
+    "reset_target_to_h0_range": [4.054980,4.419483],
+    "cycle_operator_defect_before_range": [0.544685,1.591048],
+    "cycle_operator_defect_after_max": 3.919861e-14,
+    "equivariant_orbit_min_margin_range": [3.438798,4.514570],
+    "positive_orbit_min_margin_range": [3.862213,5.249525],
+    "positive_port_certified_seeds": 10,
+    "positive_active_modes_all_seeds": 8,
+    "positive_character_gcd_all_seeds": 1,
+    "minimum_positive_alpha_over_all_seeds": 1.962457
+  },
+  "notable_seed_3": {
+    "learned_accuracy": {"16":1.0,"64":0.99951171875,"256":0.998046875,"1024":0.998199462890625},
+    "compiled_inherited_accuracy": {"16":0.99462890625,"64":0.99853515625,"256":0.999542236328125,"1024":0.9997100830078125},
+    "compiled_equivariant_accuracy": {"16":1.0,"64":1.0,"256":1.0,"1024":1.0},
+    "compiled_positive_accuracy": {"16":1.0,"64":1.0,"256":1.0,"1024":1.0},
+    "mean_learned_reset_gate": 0.209630,
+    "cycle_operator_defect_before": 1.591048,
+    "equivariant_orbit_min_margin": 3.533316,
+    "positive_orbit_min_margin": 4.130155
+  }
+}
