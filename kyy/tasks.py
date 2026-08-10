@@ -18,6 +18,7 @@ TASKS: Dict[str, TaskSpec] = {
     "mod3": TaskSpec("mod3", vocab_size=2, n_classes=3),
     "flipflop": TaskSpec("flipflop", vocab_size=4, n_classes=2),
     "perm3": TaskSpec("perm3", vocab_size=3, n_classes=6),
+    "permreset3": TaskSpec("permreset3", vocab_size=3, n_classes=3),
 }
 
 
@@ -87,6 +88,19 @@ def generate_batch(
         state = torch.zeros(batch_size, dtype=torch.long, device=device)
         for t in range(length):
             state = table[state, x[:, t]]
+            y[:, t] = state
+        return x, y
+
+    if task == "permreset3":
+        # Minimal mixed permutation-reset machine.
+        # token 0 = identity/no-op
+        # token 1 = cycle C: 0 -> 1 -> 2 -> 0
+        # token 2 = reset R: every prior state -> 0
+        state = torch.zeros(batch_size, dtype=torch.long, device=device)
+        for t in range(length):
+            tok = x[:, t]
+            state = torch.where(tok == 1, (state + 1).remainder(3), state)
+            state = torch.where(tok == 2, torch.zeros_like(state), state)
             y[:, t] = state
         return x, y
 
