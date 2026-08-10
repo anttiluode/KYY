@@ -97,6 +97,19 @@ def relation_defects(n: int, angles: torch.Tensor | np.ndarray) -> tuple[float, 
     return float(np.max(d)), float(np.sqrt(np.mean(d * d)))
 
 
+def project_angles_to_characters(n: int, angles: torch.Tensor | np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Nearest per-mode projection onto exact characters of C_n.
+
+    For this diagonal cyclic representation the legal set is simply the n-th
+    roots of unity.  Rounding n*theta/(2*pi) gives the closest character in
+    angular distance for each independent mode.
+    """
+    a = np.asarray(angles, dtype=np.float64).reshape(-1)
+    f = np.rint(n * a / (2.0 * math.pi)).astype(np.int64)
+    projected = 2.0 * math.pi * f.astype(np.float64) / n
+    return projected, np.mod(f, n)
+
+
 class RotaryModTracker(nn.Module):
     """Tiny recurrent oscillator bank for modulo state tracking.
 
@@ -161,6 +174,12 @@ class RunResult:
     state_relation_defect_before: float
     state_relation_defect_after: float
     angles_after: list[float]
+    projected_frequencies: list[int] | None
+    projected_orbit_noise_radius: float | None
+    projected_clean_accuracy: dict[str, float] | None
+    projected_drift_accuracy: dict[str, float] | None
+    projected_operator_relation_defect: float | None
+    projected_state_relation_defect: float | None
 
 
 def make_angles(variant: str, n: int, k: int, trials: int, seed: int) -> tuple[np.ndarray, np.ndarray | None, bool]:
@@ -196,6 +215,33 @@ def evaluate(model: RotaryModTracker, n: int, lengths: list[int], batch_size: in
             all_acc[str(length)] = float((pred == y).float().mean())
             final_acc[str(length)] = float((pred[:, -1] == y[:, -1]).float().mean())
     return all_acc, final_acc
+
+
+def evaluate_projected(
+    model: RotaryModTracker,
+    n: int,
+    test_lengths: list[int],
+    eval_batch_size: int,
+    max_increment: int,
+    angle_error: float,
+) -> tuple[list[int], float, dict[str, float], dict[str, float], float, float]:
+    """Snap the trained recurrence to exact characters and evaluate zero-shot.
+
+    The readout is left untouched.  This intentionally asks whether algebraic
+    legalization alone repairs rollout, not whether a subsequent fine-tune can.
+    """
+    original = model.angles.detach().clone()
+    projected, f = project_angles_to_characters(n, original.cpu().numpy())
+    with torch.no_grad():
+        model.angles.copy_(torch.tensor(projected, device=model.angles.device, dtype=model.angles.dtype))
+    clean, _ = evaluate(model, n, test_lengths, eval_batch_size, max_increment, 0.0)
+    drift, _ = evaluate(model, n, test_lengths, eval_batch_size, max_increment, angle_error)
+    final_projected = model.angles.detach().cpu().numpy().astype(np.float64)
+    op, state = relation_defects(n, final_projected)
+    radius, _ = character_margin(n, f)
+    with torch.no_grad():
+        model.angles.copy_(original)
+    return [int(x) for x in f.tolist()], radius, clean, drift, op, state
 
 
 def train_one(
@@ -241,6 +287,29 @@ def train_one(
     if f is not None:
         radius, mu = character_margin(n, f)
 
+    projected_frequencies = None
+    projected_radius = None
+    projected_clean = None
+    projected_drift = None
+    projected_op = None
+    projected_state = None
+    if variant in {"learned", "rope"}:
+        (
+            projected_frequencies,
+            projected_radius,
+            projected_clean,
+            projected_drift,
+            projected_op,
+            projected_state,
+        ) = evaluate_projected(
+            model,
+            n,
+            test_lengths,
+            eval_batch_size,
+            max_increment,
+            angle_error,
+        )
+
     return RunResult(
         variant=variant,
         seed=seed,
@@ -261,6 +330,12 @@ def train_one(
         state_relation_defect_before=state_before,
         state_relation_defect_after=state_after,
         angles_after=[float(x) for x in final_angles.tolist()],
+        projected_frequencies=projected_frequencies,
+        projected_orbit_noise_radius=projected_radius,
+        projected_clean_accuracy=projected_clean,
+        projected_drift_accuracy=projected_drift,
+        projected_operator_relation_defect=projected_op,
+        projected_state_relation_defect=projected_state,
     )
 
 
@@ -306,11 +381,12 @@ def main() -> None:
         print(json.dumps(payload, indent=2, sort_keys=True))
         return
 
-    print("variant              seed  radius   relop    relstate clean@L / drift@L")
+    print("variant              seed  radius   relop    relstate clean@L / projected@L")
     for r in rows:
         rr = "-" if r.orbit_noise_radius is None else f"{r.orbit_noise_radius:.4f}"
         pairs = " ".join(
-            f"{L}:{r.clean_accuracy[str(L)]:.3f}/{r.drift_accuracy[str(L)]:.3f}"
+            f"{L}:{r.clean_accuracy[str(L)]:.3f}"
+            + ("/-" if r.projected_clean_accuracy is None else f"/{r.projected_clean_accuracy[str(L)]:.3f}")
             for L in args.test_lengths
         )
         print(
