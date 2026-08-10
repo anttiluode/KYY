@@ -2,7 +2,7 @@
 
 This folder is the **research cartography layer** for KYY.
 
-It exists because the project repeatedly derived something exciting, built it, and only afterwards discovered the nearest established name. The rule here is:
+It exists because the project repeatedly derived something exciting, built it, and only afterwards discovered the nearest established name. The rule is:
 
 > **Search first. Locate the nearest known object. Compute the residual. Build only the residual.**
 
@@ -12,63 +12,48 @@ Snapshot: **2026-08-10**.
 
 ## What we are mapping
 
-The cloudy starting proposition was:
+The starting question was:
 
 > Can useful recurrent computation arise from **local geometry + propagation** rather than unrestricted global state mixing?
 
-That crosses several mature fields, so the map uses several axes at once:
+After subtracting prior art, the useful axes are now:
 
 ```text
-TRANSITION ALGEBRA
- diagonal -> complex -> block/sparse -> Householder/Givens -> dense
-
-COMMUNICATION
- independent -> small block -> graph-local -> sparse long-range -> global
-
-OPERATOR SOURCE
- fixed -> learned -> input-conditioned -> low-control tied -> geometry-generated -> physical
-
-DYNAMICS
- leaky memory -> counting -> noncommutative tracking -> oscillation -> waves/scattering
-
-CONTROL ALGEBRA
- commuting generators -> restricted symmetry algebra -> full reachable algebra
-
-REALIZATION / OBSERVATION
- hidden coordinates -> reachable/observable quotient -> behavioral automaton
-
+BEHAVIOR
+ automaton / transition monoid / group
+        |
+        v
+REALIZATION
+ hidden dimension / observable quotient / basis freedom
+        |
+        v
+OPERATOR FAMILY
+ commuting / noncommuting / input-switched / exact relations
+        |
+        v
+LOCAL SUBSTRATE
+ graph support / controls / physical primitive
+        |
+        v
 SYNTHESIS
- reachable -> exact/approximate token operator -> local word depth -> long-horizon drift
+ reachable? -> local word -> parallel depth -> relation error -> drift
 ```
 
-The Geometric Neuron intuition now lives in a conjunction:
+The Geometric Neuron intuition survives here only if geometry earns something on that whole chain.
 
-```text
-local geometry
-      +
-few dynamic controls
-      +
-propagation / composition
-      +
-behaviorally sufficient state
-      +
-local readout / declared ports
-      +
-resource-audited synthesis
-```
+## Start here — newest first
 
-## Start here
-
-1. **[PASS7_DISCRETE_SYNTHESIS.md](PASS7_DISCRETE_SYNTHESIS.md)** — catches the finite-group/Lie-algebra mismatch and adds the exact local `S3` resource floor.
-2. **[exact_perm3_local_oracle.py](exact_perm3_local_oracle.py)** — exact 3-channel, depth≤2, nearest-neighbour oracle for KYY's `perm3`; known permutation-matrix construction, not a novelty claim.
-3. **[PASS5_CONTROL_ALGEBRA.md](PASS5_CONTROL_ALGEBRA.md)** — local geometry/control placement -> dynamical Lie algebra.
-4. **[RING_ALGEBRA_LEMMA.md](RING_ALGEBRA_LEMMA.md)** — proves the specific even-ring/one-control toy algebra is `u(N/2)` inside `so(N)`.
-5. **[PASS6_BEHAVIORAL_QUOTIENT.md](PASS6_BEHAVIORAL_QUOTIENT.md)** — hidden algebra versus what the task readout can actually identify.
-6. **[control_algebra_probe.py](control_algebra_probe.py)** — robust numerical Lie-closure probe for path/ring geometries.
-7. **[operator_algebra_audit.py](operator_algebra_audit.py)** — audits the already-existing learned KYY transition families.
-8. **[CONTROL_ALGEBRA_SOURCES.md](CONTROL_ALGEBRA_SOURCES.md)** — focused bibliography for the current seam.
-9. **[OCCUPANCY_MATRIX.md](OCCUPANCY_MATRIX.md)** / **[LANDSCAPE.md](LANDSCAPE.md)** / **[VALLEYS.md](VALLEYS.md)** — wider map.
-10. **[SEARCH_LOG.md](SEARCH_LOG.md)** / **[SOURCES.md](SOURCES.md)** — search history and broad bibliography.
+1. **[PASS9_LIVE_2026_BOUNDARY.md](PASS9_LIVE_2026_BOUNDARY.md)** — current live walls: hard group projection, holonomic/gauge-protected reasoning, sparse realization, and structure-aware automaton compilation.
+2. **[PASS8_COXETER_IR.md](PASS8_COXETER_IR.md)** — exact full-`S5` compiler floor: 4D `A4` simple-root state, radius-1 generators, exact nearest-neighbour routing costs.
+3. **[s5_coxeter_oracle.py](s5_coxeter_oracle.py)** — enumerates all 120 `S5` token operators and computes exact minimum adjacent-swap and parallel-matching depths.
+4. **[PASS7_DISCRETE_SYNTHESIS.md](PASS7_DISCRETE_SYNTHESIS.md)** — catches the finite-group/Lie-algebra mismatch and adds an exact local `S3` oracle.
+5. **[exact_perm3_local_oracle.py](exact_perm3_local_oracle.py)** — exact 3-channel local oracle for KYY's original `perm3`.
+6. **[PASS6_BEHAVIORAL_QUOTIENT.md](PASS6_BEHAVIORAL_QUOTIENT.md)** — hidden dynamics are larger than what the readout necessarily identifies.
+7. **[PASS5_CONTROL_ALGEBRA.md](PASS5_CONTROL_ALGEBRA.md)** — geometry/control placement -> dynamical Lie algebra.
+8. **[RING_ALGEBRA_LEMMA.md](RING_ALGEBRA_LEMMA.md)** — exact toy result: even ring + one controlled edge gives `u(N/2)` inside `so(N)`.
+9. **[control_algebra_probe.py](control_algebra_probe.py)** / **[operator_algebra_audit.py](operator_algebra_audit.py)** — diagnostics, not architectures.
+10. **[OCCUPANCY_MATRIX.md](OCCUPANCY_MATRIX.md)** / **[LANDSCAPE.md](LANDSCAPE.md)** / **[VALLEYS.md](VALLEYS.md)** — wider map and older candidate valleys.
+11. **[SEARCH_LOG.md](SEARCH_LOG.md)** / **[SOURCES.md](SOURCES.md)** / **[CONTROL_ALGEBRA_SOURCES.md](CONTROL_ALGEBRA_SOURCES.md)** — search history and bibliography.
 
 ## Hard landmarks already occupied
 
@@ -82,129 +67,149 @@ geometry-defined oscillator flow   -> GraphCON
 wave physics mapped to an RNN      -> Hughes et al. 2019
 input-dependent recurrent Q        -> ISAN / selective SSMs
 input generates current operator   -> Dynamic Filters / HyperNetworks
-rich state mixing for tracking     -> DeltaProduct / PD / BD-LRU / SLiCE / bilinear / fixed-point
-Lie algebra explains order         -> 2026 Lie-algebraic sequence-model theory
-few local controls steer networks  -> classical bilinear / quantum graph controllability
-RNN behavior -> automaton          -> WFA / automata extraction / realization theory
-permutation matrices track groups  -> classical representation theory + LRNN state-tracking proofs
-operator -> short gate word        -> control / circuit / quantum synthesis literature
-geometry generates connectivity    -> HyperNEAT / indirect encodings
-input changes scattering operator  -> Wanjura-Marq. / programmable wave systems
-abstract matrix -> physical device -> photonic surrogate & inverse-design work
-hidden-state gauge freedom         -> realization & NN symmetry literature
+Lie algebra explains sequence order-> 2026 Lie-algebraic sequence theory
+few local controls steer networks  -> bilinear / quantum graph controllability
+RNN behavior -> automaton          -> WFA / extraction / realization theory
+permutation matrices track groups  -> representation theory + LRNN proofs
+operator -> short local word       -> routing / circuit / gate synthesis
+choose sparse equivalent realization-> classical control + 2026 sparse-realization work
+hard projection protects group state-> live 2026 non-Abelian tracking work
+non-Abelian topology/holonomy       -> live 2026 reasoning proposals
+DFA -> compact IR -> local hardware -> live structure-aware quantum compilers
 ```
 
-This is not discouraging. It gives the problem coordinates.
+This is not discouraging. It means the problem finally has coordinates.
 
-## Pass 5: geometry as a control algebra
+## The important exact results inside KYY
 
-Let
+### 1. Geometry can impose an algebraic ceiling
+
+For the toy skew-generator system in Pass 5, a path plus one local control generated full `so(N)` for the tested sizes.
+
+For an even ring `N=2m` with only edge `(0,1)` controlled, the apparent numerical sequence
 
 ```text
-X_ij = E_ij - E_ji
-G_path = X_01 + X_12 + ... + X_(N-2,N-1)
-B = X_01.
+4, 9, 16, 25, 36
 ```
 
-For every tested `N=3..12`, the numerical Lie closure is full `so(N)`. This is standard controllability territory.
-
-The even ring is more revealing. For `N=2m`, one controlled edge produces dimensions `m^2`. We no longer leave that as a numerical guess: [RING_ALGEBRA_LEMMA.md](RING_ALGEBRA_LEMMA.md) constructs an orthogonal complex structure `J` commuting with the drift and control, giving an upper bound `u(m)`, then generates the whole `u(m)` in `J`-adapted coordinates. Thus for this exact toy construction:
+was proved in [RING_ALGEBRA_LEMMA.md](RING_ALGEBRA_LEMMA.md): the generators preserve an orthogonal complex structure `J`, and
 
 ```text
-Lie{G_even_ring, B_01} ~= u(m),   m=N/2.
+Lie{G_ring, B_01} ~= u(m).
 ```
 
-This is a derived lemma, **not claimed new to the literature**. Its KYY value is the structural lesson:
+This is **not claimed as a new theorem**. Its value here is the design lesson:
 
 ```text
 geometry -> symmetry -> reachable operator algebra.
 ```
 
-An optimizer cannot escape a symmetry enforced by the generator set.
+### 2. A finite-group benchmark wants exact discrete operators, not a huge Lie algebra
 
-## Pass 6: the hidden algebra is not automatically the computation
+KYY's original `S3` task has a trivial exact local implementation. Full `so(N)` controllability is irrelevant overkill.
 
-A model can implement
+That led to the rule:
 
-```text
-large hidden dynamics
-        |
-        v
-behavioral / observable quotient
-        |
-        v
-small target automaton
-```
+> **Put an exact algebraic resource floor beside every learned state-tracking benchmark.**
 
-and solve a task even when its full hidden matrices do not obey the target group's relations everywhere. Weighted-automata, RNN-realization, and automata-extraction literature already map this distinction.
+### 3. Full S5 gives a nontrivial exact locality floor
 
-So KYY must price the **behaviorally visible quotient**, not reward hidden algebra dimension for its own sake.
+Modern LRNN work uses full `S5`: every token may be any one of the 120 permutations.
 
-## Pass 7: a finite group is not a Lie algebra target
-
-`perm3` asks for a discrete `S3` computation. Full `so(N)` controllability is massive overkill.
-
-The exact task already has a tiny local oracle:
+The exact KYY oracle chooses the 4D standard representation in the `A4` simple-root basis. Each adjacent transposition acts only on its own root coordinate and immediate neighbours:
 
 ```text
-state: h0=(1,2,3)
-transition: 3x3 permutation matrices
-hardware geometry: path 0--1--2
-identity depth: 0
-swap depth:     1 local 2-port reflection
-3-cycle depth:  2 adjacent reflections
-relation error: 0
-length drift:   0
+c'_i = -c_i + c_(i-1) + c_(i+1).
 ```
 
-This construction is not ours; the modern LRNN state-tracking literature explicitly uses distinct-vector/permutation-matrix realizations and decomposes permutations into swaps/Householders. KYY now includes the oracle because **learned models should be compared with the exact algebraic resource floor of the benchmark**.
+So the behaviorally reduced representation stays radius-1 local on the Dynkin path.
 
-This changes the compiler question. Lie closure answers whether a target is reachable. The next issue is the shortest exact or sufficiently stable local word implementing each behaviorally required token operator.
+For all 120 tokens, exact BFS compilation onto simultaneous nearest-neighbour matchings gives:
+
+```text
+behavioral state channels: 4
+sequential adjacent-swap depth: mean 5, max 10
+parallel local depth:            mean 403/120 ~= 3.3583, max 5
+relation error:                  0 in exact arithmetic
+long-horizon algebraic drift:    0
+```
+
+The parallel-depth histogram is:
+
+```text
+0: 1
+1: 7
+2: 16
+3: 35
+4: 46
+5: 15
+```
+
+That is a concrete communication-vs-depth resource point, not a learned-model score.
+
+## The realization/gauge lesson
+
+The same `S5` behavior has at least two attractive forms:
+
+```text
+5D natural permutation state
+    -> adjacent generator is a literal 2-port swap
+    -> contains one invariant/redundant all-ones mode
+
+4D simple-root state
+    -> redundant mode removed
+    -> generator remains radius-1 local
+    -> primitive is now a 3-coordinate stencil
+    -> preserves the A4 Cartan metric
+```
+
+So **minimum state dimension and minimum substrate cost need not choose the same realization**.
+
+That observation itself is not new: control engineering has long optimized equivalent realizations for numerical/sparsity/implementation properties. The KYY question is whether doing it **jointly for an input-switched behavioral family** gives a useful recurrent compiler.
+
+## Live 2026 warning
+
+Recent preprints already occupy two tempting framings:
+
+- hard projection onto non-Abelian state structure for extreme length extrapolation;
+- holonomic/non-Abelian-gauge/topological reasoning.
+
+Treat those as live boundary markers, not settled facts, but do **not** let KYY rediscover "protect the group relation" and call it new.
+
+Likewise, structure-aware automaton -> compact IR -> nearest-neighbour quantum compilation and exact sparse LTI realization are already active compiler/realization research.
 
 ## Current pin on the map
 
-Three mature theories now meet:
+The residual has become a compiler question rather than a neural-layer question:
+
+> **Given a task transition monoid/group and a declared local substrate, choose a behaviorally sufficient recurrent realization and compile the whole input-switched transition family into minimum-cost local operator words, preserving the observable algebraic relations and reporting long-horizon drift.**
+
+The key phrase is **the whole family**. Independent matrix approximation is not enough if it breaks relations under repeated composition.
+
+A candidate cost vector is:
 
 ```text
-automata / representation / realization
-        -> what behavior must be represented?
-
-control / Lie algebra
-        -> what can the constrained geometry reach?
-
-operator / circuit synthesis
-        -> how cheaply can it reach the required transitions?
-```
-
-The exact bridge currently left after subtraction is:
-
-> **Given a task transition monoid/group and a constrained local substrate, find a low-dimensional behaviorally sufficient recurrent realization and compile its token transitions into minimum-cost local operator words, with explicit relation error and long-horizon guarantees.**
-
-Status: **BRIDGE / HIGH PRIOR-ART RISK. NOT A NOVELTY CLAIM.**
-
-A useful resource report now looks like:
-
-```text
-behaviorally sufficient state dimension
-control ports / local primitive family
-wire span
-word depth per token
-exact/approximate group or monoid relation defects
+behavioral state dimension
+runtime control bits / ports
+primitive support / wire span
+sequential and parallel local depth
+global reductions / broadcasts
+relation defect
 observable quotient error
-length extrapolation / drift
+long-horizon drift
 ```
 
-The geometry only earns its place if it improves that joint realization+synthesis resource point.
+Status: **BRIDGE / HIGH PRIOR-ART RISK / TESTABLE. NOT A NOVELTY CLAIM.**
 
 ## No new learned architecture yet
 
-The next gates are:
+Next gates:
 
-1. keep exact oracle floors beside every algebraic state-tracking task;
-2. audit learned KYY models against their defining relations and continuation-equivalence, not just accuracy;
-3. search the automata-to-local-operator-synthesis conjunction more deeply;
-4. only then attempt a compiler/synthesis experiment on a harder standard group/monoid where the local resource trade-off is nontrivial;
-5. close the AI-efficiency branch if standard structured transitions dominate once the correct oracle floor is included.
+1. keep exact oracle floors beside the field-standard group tasks;
+2. finish the learned-model operator/continuation audit;
+3. search **joint family realization + relation-preserving local synthesis** as an exact phrase/concept, including reversible/quantum/distributed-control literature;
+4. if still useful, compare the exact `S5` local compiler point with Householder/PD-style transition costs under an explicit communication model;
+5. only then decide whether KYY needs another trainable model at all.
 
 ## Mandatory build gate
 
