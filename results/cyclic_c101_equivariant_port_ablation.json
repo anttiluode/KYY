@@ -1,0 +1,26 @@
+{
+  "config": {
+    "batch_size": 128,
+    "json": true,
+    "lr": 0.003,
+    "max_increment": 4,
+    "modes": 8,
+    "n": 101,
+    "random_start": true,
+    "seeds": [0,1,2,3,4,5,6,7,8,9],
+    "train_length": 16,
+    "train_steps": 2200
+  },
+  "results": [
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":4.232730,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":2.537760,"projected_decoder_relative_error":0.2870535491,"projected_frequencies":[71,98,49,89,95,76,33,4],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":3.580313,"raw_inherited_accuracy":1.0,"raw_inherited_min_margin":0.873920,"seed":0},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":3.193413,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":1.133736,"projected_decoder_relative_error":0.3068938974,"projected_frequencies":[82,6,33,55,43,9,30,18],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":2.592781,"raw_inherited_accuracy":0.9504950495,"raw_inherited_min_margin":-0.684406,"seed":1},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":4.472468,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":3.023066,"projected_decoder_relative_error":0.2770891412,"projected_frequencies":[15,21,11,100,2,44,2,40],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":4.147379,"raw_inherited_accuracy":1.0,"raw_inherited_min_margin":1.034316,"seed":2},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":4.348765,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":3.325596,"projected_decoder_relative_error":0.2637828021,"projected_frequencies":[21,14,70,76,80,68,38,3],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":4.061239,"raw_inherited_accuracy":1.0,"raw_inherited_min_margin":1.959411,"seed":3},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":5.053654,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":3.754850,"projected_decoder_relative_error":0.2709572284,"projected_frequencies":[99,55,42,21,64,42,27,37],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":3.592692,"raw_inherited_accuracy":1.0,"raw_inherited_min_margin":1.865600,"seed":4},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":4.188801,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":2.086259,"projected_decoder_relative_error":0.2955767494,"projected_frequencies":[23,35,87,38,11,46,63,36],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":2.429179,"raw_inherited_accuracy":0.9603960396,"raw_inherited_min_margin":-0.530766,"seed":5},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":5.348239,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":2.864678,"projected_decoder_relative_error":0.2627110616,"projected_frequencies":[41,68,65,61,49,6,2,42],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":3.351872,"raw_inherited_accuracy":1.0,"raw_inherited_min_margin":0.700079,"seed":6},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":2.215881,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":0.350461,"projected_decoder_relative_error":0.3648119484,"projected_frequencies":[84,27,25,83,63,21,35,21],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":0.636096,"raw_inherited_accuracy":0.5544554455,"raw_inherited_min_margin":-2.886824,"seed":7},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":3.891094,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":2.661295,"projected_decoder_relative_error":0.2788751139,"projected_frequencies":[69,2,7,96,71,88,71,25],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":3.576999,"raw_inherited_accuracy":1.0,"raw_inherited_min_margin":0.866650,"seed":8},
+    {"midpoint_equivariant_accuracy":1.0,"midpoint_equivariant_min_margin":3.745702,"midpoint_inherited_accuracy":1.0,"midpoint_inherited_min_margin":1.906587,"projected_decoder_relative_error":0.2911919403,"projected_frequencies":[35,27,68,2,45,81,27,88],"raw_equivariant_accuracy":1.0,"raw_equivariant_min_margin":1.929697,"raw_inherited_accuracy":0.8712871287,"raw_inherited_min_margin":-1.401343,"seed":9}
+  ]
+}
