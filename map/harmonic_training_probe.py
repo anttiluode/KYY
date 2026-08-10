@@ -101,7 +101,7 @@ def project_angles_to_characters(n: int, angles: torch.Tensor | np.ndarray) -> t
     """Nearest per-mode projection onto exact characters of C_n.
 
     For this diagonal cyclic representation the legal set is simply the n-th
-    roots of unity.  Rounding n*theta/(2*pi) gives the closest character in
+    roots of unity. Rounding n*theta/(2*pi) gives the closest character in
     angular distance for each independent mode.
     """
     a = np.asarray(angles, dtype=np.float64).reshape(-1)
@@ -147,8 +147,26 @@ class RotaryModTracker(nn.Module):
         return torch.stack(outs, dim=1)
 
 
-def generate_batch(n: int, batch_size: int, length: int, max_increment: int) -> tuple[torch.Tensor, torch.Tensor]:
+def generate_batch(
+    n: int,
+    batch_size: int,
+    length: int,
+    max_increment: int,
+    random_start: bool = False,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Generate modulo-counting sequences.
+
+    With `random_start`, the first increment is sampled uniformly from Z_n and
+    subsequent increments remain local in [0,max_increment]. This exposes every
+    symbolic class during short training without turning every recurrent step
+    into a large jump. It is used for cross-modulus comparisons where a short
+    small-increment trajectory would otherwise never visit many classes.
+    """
+    if length < 1:
+        raise ValueError("length must be >= 1")
     x = torch.randint(0, max_increment + 1, (batch_size, length))
+    if random_start:
+        x[:, 0] = torch.randint(0, n, (batch_size,))
     y = torch.cumsum(x, dim=1).remainder(n)
     return x, y
 
@@ -161,6 +179,7 @@ class RunResult:
     modes: int
     train_length: int
     steps: int
+    random_start: bool
     clean_accuracy: dict[str, float]
     clean_final_accuracy: dict[str, float]
     drift_accuracy: dict[str, float]
@@ -204,13 +223,21 @@ def make_angles(variant: str, n: int, k: int, trials: int, seed: int) -> tuple[n
     raise KeyError(variant)
 
 
-def evaluate(model: RotaryModTracker, n: int, lengths: list[int], batch_size: int, max_increment: int, angle_error: float) -> tuple[dict[str, float], dict[str, float]]:
+def evaluate(
+    model: RotaryModTracker,
+    n: int,
+    lengths: list[int],
+    batch_size: int,
+    max_increment: int,
+    angle_error: float,
+    random_start: bool,
+) -> tuple[dict[str, float], dict[str, float]]:
     model.eval()
     all_acc: dict[str, float] = {}
     final_acc: dict[str, float] = {}
     with torch.no_grad():
         for length in lengths:
-            x, y = generate_batch(n, batch_size, length, max_increment)
+            x, y = generate_batch(n, batch_size, length, max_increment, random_start=random_start)
             pred = model(x, angle_error=angle_error).argmax(dim=-1)
             all_acc[str(length)] = float((pred == y).float().mean())
             final_acc[str(length)] = float((pred[:, -1] == y[:, -1]).float().mean())
@@ -224,18 +251,29 @@ def evaluate_projected(
     eval_batch_size: int,
     max_increment: int,
     angle_error: float,
+    random_start: bool,
 ) -> tuple[list[int], float, dict[str, float], dict[str, float], float, float]:
     """Snap the trained recurrence to exact characters and evaluate zero-shot.
 
-    The readout is left untouched.  This intentionally asks whether algebraic
+    The readout is left untouched. This intentionally asks whether algebraic
     legalization alone repairs rollout, not whether a subsequent fine-tune can.
     """
     original = model.angles.detach().clone()
     projected, f = project_angles_to_characters(n, original.cpu().numpy())
     with torch.no_grad():
         model.angles.copy_(torch.tensor(projected, device=model.angles.device, dtype=model.angles.dtype))
-    clean, _ = evaluate(model, n, test_lengths, eval_batch_size, max_increment, 0.0)
-    drift, _ = evaluate(model, n, test_lengths, eval_batch_size, max_increment, angle_error)
+    clean, _ = evaluate(
+        model, n, test_lengths, eval_batch_size, max_increment, 0.0, random_start=random_start
+    )
+    drift, _ = evaluate(
+        model,
+        n,
+        test_lengths,
+        eval_batch_size,
+        max_increment,
+        angle_error,
+        random_start=random_start,
+    )
     final_projected = model.angles.detach().cpu().numpy().astype(np.float64)
     op, state = relation_defects(n, final_projected)
     radius, _ = character_margin(n, f)
@@ -258,6 +296,7 @@ def train_one(
     lr: float,
     search_trials: int,
     angle_error: float,
+    random_start: bool,
 ) -> RunResult:
     seed_everything(seed)
     angles, f, learn_angles = make_angles(variant, n, k, search_trials, seed)
@@ -269,7 +308,9 @@ def train_one(
 
     model.train()
     for _ in range(steps):
-        x, y = generate_batch(n, batch_size, train_length, max_increment)
+        x, y = generate_batch(
+            n, batch_size, train_length, max_increment, random_start=random_start
+        )
         logits = model(x)
         loss = criterion(logits.reshape(-1, n), y.reshape(-1))
         opt.zero_grad(set_to_none=True)
@@ -277,8 +318,24 @@ def train_one(
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
 
-    clean_acc, clean_final = evaluate(model, n, test_lengths, eval_batch_size, max_increment, 0.0)
-    drift_acc, _ = evaluate(model, n, test_lengths, eval_batch_size, max_increment, angle_error)
+    clean_acc, clean_final = evaluate(
+        model,
+        n,
+        test_lengths,
+        eval_batch_size,
+        max_increment,
+        0.0,
+        random_start=random_start,
+    )
+    drift_acc, _ = evaluate(
+        model,
+        n,
+        test_lengths,
+        eval_batch_size,
+        max_increment,
+        angle_error,
+        random_start=random_start,
+    )
     final_angles = model.angles.detach().cpu().numpy().astype(np.float64)
     char_after = character_defect(n, final_angles)
     op_after, state_after = relation_defects(n, final_angles)
@@ -308,6 +365,7 @@ def train_one(
             eval_batch_size,
             max_increment,
             angle_error,
+            random_start=random_start,
         )
 
     return RunResult(
@@ -317,6 +375,7 @@ def train_one(
         modes=model.k,
         train_length=train_length,
         steps=steps,
+        random_start=random_start,
         clean_accuracy=clean_acc,
         clean_final_accuracy=clean_final,
         drift_accuracy=drift_acc,
@@ -354,6 +413,7 @@ def main() -> None:
     p.add_argument("--lr", type=float, default=3e-3)
     p.add_argument("--search-trials", type=int, default=500)
     p.add_argument("--angle-error", type=float, default=1e-3)
+    p.add_argument("--random-start", action="store_true", help="first step is a uniform random offset in Z_n; later increments remain local")
     p.add_argument("--json", action="store_true")
     args = p.parse_args()
 
@@ -372,6 +432,7 @@ def main() -> None:
             lr=args.lr,
             search_trials=args.search_trials,
             angle_error=args.angle_error,
+            random_start=args.random_start,
         )
         for v in args.variants
         for s in args.seeds
