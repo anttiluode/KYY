@@ -1,7 +1,7 @@
 import torch
 
 from kyy.models import GeometricWaveSSM, build_model, weighted_laplacian_apply
-from kyy.tasks import TASKS, generate_batch
+from kyy.tasks import TASKS, generate_batch, permreset3_targets
 
 
 def test_task_shapes():
@@ -17,6 +17,26 @@ def test_known_parity():
     x = torch.tensor([[1, 1, 0, 1]])
     y = torch.cumsum(x, dim=1).remainder(2)
     assert y.tolist() == [[1, 0, 0, 1]]
+
+
+def test_known_permreset3():
+    # I, C, C, R, C, I, C, R, I
+    x = torch.tensor([[0, 1, 1, 2, 1, 0, 1, 2, 0]])
+    y = permreset3_targets(x)
+    assert y.tolist() == [[0, 1, 2, 0, 1, 1, 2, 0, 0]]
+
+
+def test_permreset3_erases_behavioral_prefix():
+    # Different prefixes must become behaviorally identical after R, and remain
+    # identical under every equal continuation.
+    x = torch.tensor(
+        [
+            [1, 1, 2, 1, 1, 0],  # prefix reaches 2 before reset
+            [0, 1, 2, 1, 1, 0],  # prefix reaches 1 before reset
+        ]
+    )
+    y = permreset3_targets(x)
+    assert y[0, 2:].tolist() == y[1, 2:].tolist() == [0, 1, 2, 2]
 
 
 def test_weighted_laplacian_annihilates_constant():
