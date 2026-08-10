@@ -1,4 +1,4 @@
-name: reset-leakage-smoke
+name: reset-leakage
 
 on:
   push:
@@ -28,20 +28,20 @@ jobs:
         run: |
           mkdir -p artifacts
           python map/reset_leakage_audit.py \
-            --models diag_signed complex_diag householder2 geom_wave geom_scatter gru \
+            --models complex_diag householder2 geom_scatter gru \
             --state-dim 8 \
-            --steps 250 \
+            --steps 1000 \
             --train-length 16 \
             --test-lengths 16 64 256 \
             --batch-size 64 \
-            --eval-batches 3 \
-            --pair-batches 3 \
-            --prefix-length 12 \
-            --continuation-length 32 \
-            --seeds 0 \
+            --eval-batches 5 \
+            --pair-batches 5 \
+            --prefix-length 16 \
+            --continuation-length 64 \
+            --seeds 0 1 2 \
             --device cpu \
-            --out artifacts/reset-leakage-smoke.json
+            --out artifacts/reset-leakage.json
       - uses: actions/upload-artifact@v4
         with:
-          name: reset-leakage-smoke
-          path: artifacts/reset-leakage-smoke.json
+          name: reset-leakage
+          path: artifacts/reset-leakage.json
