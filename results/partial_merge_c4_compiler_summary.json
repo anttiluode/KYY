@@ -1,0 +1,73 @@
+{
+  "config": {
+    "states": 4,
+    "code": "one planar C4 harmonic mode",
+    "merge_mapping": [0,0,2,2],
+    "behavioral_kernel_blocks": [[0,1],[2,3]],
+    "behavioral_rank": 2,
+    "exact_continuous_merge_matrix": [[1.0,1.0],[0.0,0.0]],
+    "exact_continuous_merge_rank": 1,
+    "seeds": [0,1,2,3,4,5,6,7,8,9],
+    "steps": 2500,
+    "train_length": 16,
+    "test_lengths": [16,64,256,1024],
+    "merge_probability": 0.15,
+    "leakage_continuation": 64
+  },
+  "aggregate": {
+    "learned_exact_seeds": {"16":10,"64":8,"256":6,"1024":0},
+    "learned_mean_accuracy": {"16":1.0,"64":0.99969482421875,"256":0.9966018676757813,"1024":0.7334121704101563},
+    "compiled_inherited_exact_seeds": {"16":10,"64":10,"256":10,"1024":10},
+    "compiled_equivariant_exact_seeds": {"16":10,"64":10,"256":10,"1024":10},
+    "compiled_positive_exact_seeds": {"16":10,"64":10,"256":10,"1024":10},
+    "projected_frequency_all_seeds": 1,
+    "learned_cycle_relation_defect_range": [0.013937,0.042681],
+    "learned_merge_determinant_range": [-0.032701,0.859572],
+    "learned_merge_full_rank_seeds": 10,
+    "learned_merge_kernel_direction_residual_range": [0.086519,0.558828],
+    "learned_hidden_difference_at_required_merge_range": [0.114715,0.771825],
+    "learned_probability_tv_at_merge_range": [0.000170,0.000692],
+    "learned_probability_tv_max_future_range": [0.002001,0.406548],
+    "learned_future_prediction_mismatch_seeds": 4,
+    "compiled_hidden_difference_at_merge_max": 0.0,
+    "compiled_probability_tv_max_future_max": 0.0,
+    "compiled_future_prediction_mismatch_max": 0.0,
+    "equivariant_orbit_margin_range": [2.760089,3.197834],
+    "positive_orbit_margin_range": [3.047565,3.384919],
+    "positive_port_certified_seeds": 10,
+    "generator_certificate_seeds": 10,
+    "kernel_residual_vs_future_tv_pearson": 0.952037,
+    "kernel_residual_vs_future_tv_pearson_p": 2.1847e-05,
+    "kernel_residual_vs_future_tv_spearman": 0.987879,
+    "kernel_residual_vs_future_tv_spearman_p": 9.3075e-08
+  },
+  "selected_seeds": {
+    "0": {
+      "learned_L1024": 0.699390,
+      "learned_merge_determinant": 0.604835,
+      "hidden_difference_at_merge": 0.577223,
+      "tv_at_merge": 0.000288,
+      "tv_max_future": 0.295662,
+      "future_prediction_mismatch_max_rate": 0.238281,
+      "compiled_L1024": 1.0
+    },
+    "4": {
+      "learned_L1024": 0.710621,
+      "learned_merge_determinant": 0.851525,
+      "hidden_difference_at_merge": 0.771825,
+      "tv_at_merge": 0.000648,
+      "tv_max_future": 0.406548,
+      "future_prediction_mismatch_max_rate": 0.363281,
+      "compiled_L1024": 1.0
+    },
+    "6": {
+      "learned_L1024": 0.759968,
+      "learned_merge_determinant": 0.109818,
+      "hidden_difference_at_merge": 0.114715,
+      "tv_at_merge": 0.000176,
+      "tv_max_future": 0.002001,
+      "future_prediction_mismatch_max_rate": 0.0,
+      "compiled_L1024": 1.0
+    }
+  }
+}
