@@ -2,14 +2,22 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import random
+import sys
 from dataclasses import asdict, dataclass
-from typing import Iterable
+from pathlib import Path
 
 import numpy as np
 import torch
 from torch import nn
+
+
+# `python map/reset_leakage_audit.py` puts map/ rather than the repository root
+# on sys.path.  Make the standalone command robust without requiring an
+# external PYTHONPATH setting.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from kyy import TASKS, build_model, generate_batch
 from kyy.tasks import permreset3_targets
