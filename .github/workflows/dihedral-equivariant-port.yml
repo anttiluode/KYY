@@ -1,0 +1,46 @@
+name: dihedral-equivariant-port
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/dihedral_equivariant_port_probe.py'
+      - 'map/dihedral_stabilizer_certificate.py'
+      - 'tests/test_dihedral_equivariant_port_probe.py'
+      - '.github/workflows/dihedral-equivariant-port.yml'
+  workflow_dispatch:
+
+jobs:
+  d101-equivariant-port:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Run focused tests
+        run: pytest -q tests/test_dihedral_equivariant_port_probe.py
+      - run: mkdir -p results
+      - name: Train and compress D101 output ports
+        run: |
+          python map/dihedral_equivariant_port_probe.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 \
+            --train-length 16 \
+            --train-steps 2200 \
+            --batch-size 128 \
+            --max-increment 4 \
+            --reflection-probability 0.25 \
+            --reflection-scale 0.25 \
+            --lr 0.003 \
+            --random-start \
+            --json > results/dihedral_d101_equivariant_port.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dihedral-d101-equivariant-port
+          path: results/dihedral_d101_equivariant_port.json
