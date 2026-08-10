@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 
 import numpy as np
 
@@ -20,30 +20,51 @@ def _vec_skew(a: np.ndarray) -> np.ndarray:
     return np.asarray([a[i, j] for i in range(n) for j in range(i + 1, n)])
 
 
-def lie_closure_dimension(generators: list[np.ndarray], tol: float = 1e-9) -> int:
-    """Numerically compute dim Lie(generators) for real skew-symmetric matrices.
+def _numerical_rank(columns: list[np.ndarray], rtol: float, atol: float) -> int:
+    if not columns:
+        return 0
+    mat = np.stack(columns, axis=1)
+    s = np.linalg.svd(mat, compute_uv=False)
+    if s.size == 0:
+        return 0
+    threshold = max(atol, rtol * float(s[0]))
+    return int(np.sum(s > threshold))
 
-    The closure is built by Gram-Schmidt addition of pairwise commutators until
-    no new independent direction appears.  We vectorize only the strict upper
-    triangle, which keeps numerical roundoff inside so(n).
+
+def lie_closure_dimension(
+    generators: list[np.ndarray],
+    rtol: float = 1e-10,
+    atol: float = 1e-12,
+) -> int:
+    """Numerically compute dim Lie(generators) for real skew matrices.
+
+    Pairwise commutators are repeatedly added until the span stops growing.
+    Each candidate is normalized before a fresh SVD rank test.  This is slower
+    than one-pass Gram-Schmidt, but avoids a failure mode we actually hit: tiny
+    roundoff remnants were being promoted to fake Lie directions for the N=12
+    ring.  For the small map sizes used here, robustness is worth the cost.
     """
     if not generators:
         return 0
+
     n = generators[0].shape[0]
     target = n * (n - 1) // 2
     basis: list[np.ndarray] = []
-    qvecs: list[np.ndarray] = []
+    vectors: list[np.ndarray] = []
 
     def add(a: np.ndarray) -> bool:
         a = 0.5 * (a - a.T)
-        v = _vec_skew(a).copy()
-        for q in qvecs:
-            v -= np.dot(q, v) * q
-        norm = float(np.linalg.norm(v))
-        if norm <= tol:
+        norm = float(np.linalg.norm(a))
+        if norm <= atol:
             return False
-        qvecs.append(v / norm)
+        a = a / norm
+        v = _vec_skew(a)
+        old_rank = _numerical_rank(vectors, rtol, atol)
+        new_rank = _numerical_rank(vectors + [v], rtol, atol)
+        if new_rank <= old_rank:
+            return False
         basis.append(a)
+        vectors.append(v)
         return True
 
     for g in generators:
