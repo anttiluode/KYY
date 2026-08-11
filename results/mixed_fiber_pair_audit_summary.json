@@ -1,0 +1,45 @@
+{
+  "config": {
+    "audit_batch_size": 256,
+    "batch_size": 128,
+    "continuation": 128,
+    "merge_probability": 0.05,
+    "scale_probability": 0.08,
+    "seeds": [0,1,2,3,4,5,6,7,8,9],
+    "steps": 250,
+    "train_length": 16
+  },
+  "aggregate": {
+    "learned_tangent_history_gap": {
+      "mean": 0.0005266951076919213,
+      "min": 0.000009363575372844934,
+      "max": 0.0016605922719463706
+    },
+    "learned_output_analog_gap_at_merge": {
+      "mean": 0.0005218229169258847,
+      "min": 0.0000025799963623285294,
+      "max": 0.001668050535954535
+    },
+    "learned_output_analog_gap_max_future": {
+      "mean": 0.0005434989929199219,
+      "min": 0.000018358230590820312,
+      "max": 0.0016696453094482422
+    },
+    "fiber_reified": {
+      "q_mismatch_at_merge_mean": 0.0,
+      "q_mismatch_max_future_rate_mean": 0.0,
+      "analog_gap_at_merge_mean": 0.0005267000160529278,
+      "analog_gap_at_merge_min_seed": 0.000009387615136802197,
+      "analog_gap_at_merge_max_seed": 0.0016605970449745655,
+      "analog_gap_max_future_mean": 0.0005286335945129395,
+      "analog_gap_max_future_max_seed": 0.001662135124206543
+    },
+    "compiled": {
+      "q_mismatch_at_merge_mean": 0.0,
+      "q_mismatch_max_future_rate_mean": 0.0,
+      "analog_gap_at_merge_mean": 0.00000002178669170010912,
+      "analog_gap_max_future_mean": 0.00000008162107759668302,
+      "analog_gap_max_future_max_seed": 0.00000010637115499534389
+    }
+  }
+}
