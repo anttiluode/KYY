@@ -25,7 +25,10 @@ jobs:
         run: pytest -q tests/test_metacircuit_nonideality_calibration_boundary.py
       - run: mkdir -p results
       - name: Compare calibration, body mismatch and backend-aware geometry
-        run: python map/metacircuit_nonideality_calibration_boundary.py --json > results/metacircuit_nonideality_calibration_summary.json
+        run: >-
+          python map/metacircuit_nonideality_calibration_boundary.py
+          --radius-sigmas 5e-5 1e-4 2e-4
+          --json > results/metacircuit_nonideality_calibration_summary.json
       - uses: actions/upload-artifact@v4
         with:
           name: metacircuit-nonideality-calibration
