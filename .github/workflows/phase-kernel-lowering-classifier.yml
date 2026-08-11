@@ -1,0 +1,33 @@
+name: phase-kernel-lowering-classifier
+
+on:
+  push:
+    paths:
+      - 'map/phase_kernel_lowering_classifier.py'
+      - 'tests/test_phase_kernel_lowering_classifier.py'
+      - '.github/workflows/phase-kernel-lowering-classifier.yml'
+  pull_request:
+    paths:
+      - 'map/phase_kernel_lowering_classifier.py'
+      - 'tests/test_phase_kernel_lowering_classifier.py'
+      - '.github/workflows/phase-kernel-lowering-classifier.yml'
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install pytest
+      - name: Focused tests
+        run: python -m pytest -q tests/test_phase_kernel_lowering_classifier.py
+      - run: mkdir -p results
+      - name: Enumerate and classify phase kernels
+        run: python map/phase_kernel_lowering_classifier.py --n-max 8 --json > results/phase_kernel_lowering_classifier_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-kernel-lowering-classifier
+          path: results/phase_kernel_lowering_classifier_summary.json
