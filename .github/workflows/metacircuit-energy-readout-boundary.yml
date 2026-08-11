@@ -1,0 +1,30 @@
+name: metacircuit-energy-readout-boundary
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/metacircuit_energy_readout_boundary.py'
+      - 'tests/test_metacircuit_energy_readout_boundary.py'
+      - '.github/workflows/metacircuit-energy-readout-boundary.yml'
+  workflow_dispatch:
+
+jobs:
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install numpy pytest
+      - name: Focused tests
+        run: pytest -q tests/test_metacircuit_energy_readout_boundary.py
+      - run: mkdir -p results
+      - name: Audit full-period energy readout against phase state
+        run: python map/metacircuit_energy_readout_boundary.py --json > results/metacircuit_energy_readout_boundary_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metacircuit-energy-readout-boundary
+          path: results/metacircuit_energy_readout_boundary_summary.json

@@ -1,0 +1,25 @@
+{
+  "backend": "second-order resonator companion form matching the metacircuit R2NN recurrence family",
+  "n": 101,
+  "dt": 1.0,
+  "one_mode_symbolic_margin_for_all_listed_faithful_characters": 0.001934402866405,
+  "representative_modes": [
+    {"frequency":1,"admittance_over_fdnr":0.0038688057328113423,"phase_map_condition":32.13892954315116,"phase_map_norm":22.736653141784334,"relation_defect":8.055124154353534e-12},
+    {"frequency":4,"admittance_over_fdnr":0.061602001600667755,"phase_map_condition":7.995808591691331,"phase_map_norm":5.697936250738726,"relation_defect":3.807177791151051e-13},
+    {"frequency":25,"admittance_over_fdnr":1.9688963761592984,"phase_map_condition":1.0156746443005815,"phase_map_norm":1.0078677946722756,"relation_defect":1.1756009072494794e-14},
+    {"frequency":49,"admittance_over_fdnr":3.9912986959380374,"phase_map_condition":21.41731097328233,"phase_map_norm":15.160824669625987,"relation_defect":1.3473521158064167e-12},
+    {"frequency":50,"admittance_over_fdnr":3.999032564583976,"phase_map_condition":64.29341277923533,"phase_map_norm":45.467806890156744,"relation_defect":3.886965958344204e-12}
+  ],
+  "best_faithful_frequency_by_companion_condition": 25,
+  "best_condition": 1.0156746443005815,
+  "learned_c101_banks": {
+    "seeds": 10,
+    "worst_mode_condition_min": 2.4410149486051753,
+    "worst_mode_condition_max": 32.13892954315128,
+    "worst_mode_port_norm_min": 1.8652820134384402,
+    "worst_mode_port_norm_max": 22.736653141784455
+  },
+  "exact_lowering_formula": "D^-1 Y = 2(1-cos(2*pi*f/n))/dt^2",
+  "port_transport_formula": "W_companion = W_phase T(theta), T=[[1,0],[-cos(theta)/sin(theta),1/sin(theta)]]",
+  "boundary": "theta=0 or pi makes the displacement/lag companion coordinates degenerate; exact Nyquist for even n hits the central-difference stability edge and is not a clean finite-order rotation block."
+}

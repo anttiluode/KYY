@@ -1,0 +1,32 @@
+name: metacircuit-tolerance-certificate
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/metacircuit_cyclic_backend.py'
+      - 'map/metacircuit_frequency_design.py'
+      - 'map/metacircuit_tolerance_certificate.py'
+      - 'tests/test_metacircuit_tolerance_certificate.py'
+      - '.github/workflows/metacircuit-tolerance-certificate.yml'
+  workflow_dispatch:
+
+jobs:
+  certificate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install numpy pytest
+      - name: Focused tests
+        run: pytest -q tests/test_metacircuit_tolerance_certificate.py
+      - run: mkdir -p results
+      - name: Compute bounded-tolerance phase/relock certificate
+        run: python map/metacircuit_tolerance_certificate.py --json > results/metacircuit_tolerance_certificate_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metacircuit-tolerance-certificate
+          path: results/metacircuit_tolerance_certificate_summary.json

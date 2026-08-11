@@ -1,0 +1,11 @@
+{
+  "config": {"n":4,"delta":0.001,"train_cycles":16,"horizons":[16,64,256,1024,4096]},
+  "cycle_relation_residual_phase": 0.004,
+  "results": [
+    {"cycles":16,"calibrated_port_accuracy":1.0,"calibrated_port_min_margin":0.48367920769281114,"min_interclass_distance":1.3689716331834545,"legalized_accuracy":1.0,"legalized_min_margin":0.9999999999999895},
+    {"cycles":64,"calibrated_port_accuracy":1.0,"calibrated_port_min_margin":0.37648862333942396,"min_interclass_distance":1.222910128640442,"legalized_accuracy":1.0,"legalized_min_margin":0.999999999999957},
+    {"cycles":256,"calibrated_port_accuracy":0.7978515625,"calibrated_port_min_margin":-0.1446091601216123,"min_interclass_distance":0.5409726740516518,"legalized_accuracy":1.0,"legalized_min_margin":0.9999999999998277},
+    {"cycles":1024,"calibrated_port_accuracy":0.199462890625,"calibrated_port_min_margin":-1.0003285702810893,"min_interclass_distance":0.00020367320398332478,"legalized_accuracy":1.0,"legalized_min_margin":0.9999999999993103},
+    {"cycles":4096,"calibrated_port_accuracy":0.24163818359375,"calibrated_port_min_margin":-1.0003298358273258,"min_interclass_distance":0.00020367320125483102,"legalized_accuracy":1.0,"legalized_min_margin":0.9999999999971827}
+  ]
+}

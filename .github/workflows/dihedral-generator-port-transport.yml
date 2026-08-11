@@ -1,0 +1,43 @@
+name: dihedral-generator-port-transport
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/dihedral_generator_port_transport.py'
+      - 'tests/test_dihedral_generator_port_transport.py'
+      - '.github/workflows/dihedral-generator-port-transport.yml'
+  workflow_dispatch:
+
+jobs:
+  d101-generator-port:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Compare generator-derived and orbit-derived quotient ports
+        run: |
+          python map/dihedral_generator_port_transport.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 \
+            --train-length 16 \
+            --train-steps 2200 \
+            --batch-size 128 \
+            --max-increment 4 \
+            --reflection-probability 0.25 \
+            --reflection-scale 0.25 \
+            --lr 0.003 \
+            --random-start \
+            --json > results/dihedral_d101_generator_port_transport.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dihedral-d101-generator-port-transport
+          path: results/dihedral_d101_generator_port_transport.json

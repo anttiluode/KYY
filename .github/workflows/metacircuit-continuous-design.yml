@@ -1,0 +1,31 @@
+name: metacircuit-continuous-design
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/metacircuit_continuous_backend.py'
+      - 'map/metacircuit_continuous_design.py'
+      - 'tests/test_metacircuit_continuous_design.py'
+      - '.github/workflows/metacircuit-continuous-design.yml'
+  workflow_dispatch:
+
+jobs:
+  design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install numpy pytest
+      - name: Focused tests
+        run: pytest -q tests/test_metacircuit_continuous_design.py
+      - run: mkdir -p results
+      - name: Search exact representations under corrected continuous costs
+        run: python map/metacircuit_continuous_design.py --json > results/metacircuit_continuous_design_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metacircuit-continuous-design
+          path: results/metacircuit_continuous_design_summary.json

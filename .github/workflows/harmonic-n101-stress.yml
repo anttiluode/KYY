@@ -1,0 +1,42 @@
+name: harmonic-n101-stress
+
+on:
+  push:
+    paths:
+      - '.github/workflows/harmonic-n101-stress.yml'
+  workflow_dispatch:
+
+jobs:
+  n101-ten-seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Run C101 legalization stress test
+        run: >-
+          python map/harmonic_training_probe.py
+          --n 101
+          --modes 8
+          --variants learned
+          --seeds 0 1 2 3 4 5 6 7 8 9
+          --train-length 16
+          --test-lengths 16 64 256 1024
+          --steps 1500
+          --batch-size 128
+          --eval-batch-size 64
+          --max-increment 4
+          --search-trials 500
+          --angle-error 0.001
+          --random-start
+          --json
+          > results/harmonic-n101-ten-seed.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harmonic-n101-ten-seed
+          path: results/harmonic-n101-ten-seed.json

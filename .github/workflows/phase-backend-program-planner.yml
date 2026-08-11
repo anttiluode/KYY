@@ -1,0 +1,35 @@
+name: phase-backend-program-planner
+
+on:
+  push:
+    paths:
+      - 'map/phase_backend_program_planner.py'
+      - 'map/phase_kernel_lowering_classifier.py'
+      - 'tests/test_phase_backend_program_planner.py'
+      - '.github/workflows/phase-backend-program-planner.yml'
+  pull_request:
+    paths:
+      - 'map/phase_backend_program_planner.py'
+      - 'map/phase_kernel_lowering_classifier.py'
+      - 'tests/test_phase_backend_program_planner.py'
+      - '.github/workflows/phase-backend-program-planner.yml'
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install pytest
+      - name: Focused tests
+        run: python -m pytest -q tests/test_phase_backend_program_planner.py
+      - run: mkdir -p results
+      - name: Plan demo transition set
+        run: python -m map.phase_backend_program_planner --json > results/phase_backend_program_planner_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-backend-program-planner
+          path: results/phase_backend_program_planner_summary.json

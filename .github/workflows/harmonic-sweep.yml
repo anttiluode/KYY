@@ -1,0 +1,41 @@
+name: harmonic-sweep
+
+on:
+  push:
+    paths:
+      - '.github/workflows/harmonic-sweep.yml'
+      - 'map/harmonic_training_probe.py'
+  workflow_dispatch:
+
+jobs:
+  n31-three-seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Run trained harmonic sweep
+        run: >-
+          python map/harmonic_training_probe.py
+          --n 31
+          --modes 8
+          --seeds 0 1 2
+          --train-length 16
+          --test-lengths 16 64 256 1024
+          --steps 1000
+          --batch-size 128
+          --eval-batch-size 64
+          --max-increment 4
+          --search-trials 500
+          --angle-error 0.001
+          --json
+          > results/harmonic-n31-three-seed.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harmonic-n31-three-seed
+          path: results/harmonic-n31-three-seed.json

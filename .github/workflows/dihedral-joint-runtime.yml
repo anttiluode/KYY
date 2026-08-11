@@ -1,0 +1,45 @@
+name: dihedral-joint-runtime
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/dihedral_joint_runtime_probe.py'
+      - 'tests/test_dihedral_joint_runtime_probe.py'
+      - '.github/workflows/dihedral-joint-runtime.yml'
+  workflow_dispatch:
+
+jobs:
+  d101-joint-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Stream exact projected D101 with quotient block port
+        run: |
+          python map/dihedral_joint_runtime_probe.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
+            --train-length 16 \
+            --train-steps 2200 \
+            --batch-size 128 \
+            --eval-batch-size 64 \
+            --max-increment 4 \
+            --reflection-probability 0.25 \
+            --reflection-scale 0.25 \
+            --lr 0.003 \
+            --random-start \
+            --lengths 16 64 256 1024 \
+            --json > results/dihedral_d101_joint_runtime.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dihedral-d101-joint-runtime
+          path: results/dihedral_d101_joint_runtime.json

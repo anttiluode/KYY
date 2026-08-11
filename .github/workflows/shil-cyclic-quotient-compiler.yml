@@ -1,0 +1,30 @@
+name: shil-cyclic-quotient-compiler
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/shil_cyclic_quotient_compiler.py'
+      - 'tests/test_shil_cyclic_quotient_compiler.py'
+      - '.github/workflows/shil-cyclic-quotient-compiler.yml'
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install numpy pytest
+      - name: Focused tests
+        run: pytest -q tests/test_shil_cyclic_quotient_compiler.py
+      - run: mkdir -p results
+      - name: Compile cyclic quotient examples and rejection controls
+        run: python map/shil_cyclic_quotient_compiler.py --json > results/shil_cyclic_quotient_compiler_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shil-cyclic-quotient-compiler
+          path: results/shil_cyclic_quotient_compiler_summary.json

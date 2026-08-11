@@ -1,0 +1,47 @@
+name: reset-leakage
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - '.github/workflows/reset-leakage.yml'
+      - 'kyy/**'
+      - 'map/reset_leakage_audit.py'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - name: Install CPU dependencies
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch
+          pip install numpy
+      - name: Run mixed permutation-reset audit
+        run: |
+          mkdir -p artifacts
+          python map/reset_leakage_audit.py \
+            --models complex_diag householder2 geom_scatter gru \
+            --state-dim 8 \
+            --steps 1000 \
+            --train-length 16 \
+            --test-lengths 16 64 256 \
+            --batch-size 64 \
+            --eval-batches 5 \
+            --pair-batches 5 \
+            --prefix-length 16 \
+            --continuation-length 64 \
+            --seeds 0 1 2 \
+            --device cpu \
+            --out artifacts/reset-leakage.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reset-leakage
+          path: artifacts/reset-leakage.json

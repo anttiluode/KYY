@@ -1,0 +1,31 @@
+{
+  "n": 101,
+  "modes": 8,
+  "search": "greedy heuristic; no global optimum claim",
+  "unconstrained": {
+    "frequencies": [35,18,25,46,22,16,45,24],
+    "equal_weight_min_margin": 5.389649877716251,
+    "max_phase_map_condition": 7.097570184864615,
+    "max_phase_map_norm": 5.068308521049162,
+    "max_relative_phase_sensitivity": 7.097570184864612,
+    "min_positive_relative_stability_headroom": 0.019850918597243816,
+    "character_gcd": 1
+  },
+  "condition_cap_2": {
+    "frequencies": [35,18,25,19,15,27,30,29],
+    "equal_weight_min_margin": 5.216175596953223,
+    "max_phase_map_condition": 1.985457262864251,
+    "max_phase_map_norm": 1.5719479225884685,
+    "max_relative_phase_sensitivity": 1.9108929177038505,
+    "min_positive_relative_stability_headroom": 0.2738591768014941,
+    "character_gcd": 1
+  },
+  "tradeoff": {
+    "symbolic_margin_relative_loss": 0.0321865592376219,
+    "worst_condition_improvement_factor": 3.57461996260968,
+    "worst_port_norm_improvement_factor": 3.224220384600415,
+    "relative_phase_sensitivity_improvement_factor": 3.714276279846065,
+    "positive_stability_headroom_improvement_factor": 13.795793430573237
+  },
+  "interpretation": "The finite cyclic task treats many faithful character banks as exact alternatives. A concrete second-order resonator backend breaks that equivalence. A simple backend-aware choice keeps almost all symbolic margin while avoiding physically ill-conditioned, stability-edge character modes."
+}

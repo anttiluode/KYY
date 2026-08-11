@@ -1,0 +1,48 @@
+name: harmonic-mode-phase-fewshot
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - '.github/workflows/harmonic-mode-phase-fewshot.yml'
+  workflow_dispatch:
+
+jobs:
+  c101-mode-phase-fewshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: One to four state calibration
+        run: |
+          python map/port_calibration_cost_probe.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 1 5 6 7 9 \
+            --train-length 16 \
+            --train-steps 1500 \
+            --batch-size 128 \
+            --max-increment 4 \
+            --train-lr 0.003 \
+            --random-start \
+            --calibration-sizes 1 2 3 4 \
+            --repeats 10 \
+            --methods tau mode_phase \
+            --repair-steps 500 \
+            --repair-lr 0.05 \
+            --l2 0.001 \
+            --half-span 0.5 \
+            --tau-grid 1001 \
+            --angle-errors 0.0001 0.0005 0.001 \
+            --json > results/harmonic_n101_mode_phase_fewshot.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harmonic-n101-mode-phase-fewshot
+          path: results/harmonic_n101_mode_phase_fewshot.json

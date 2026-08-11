@@ -1,0 +1,17 @@
+{
+  "config": {
+    "length": 1024,
+    "batch_size": 256,
+    "merge_probability": 0.05,
+    "scale_probability": 0.08,
+    "sigmas": [0.0, 0.0001, 0.001, 0.003, 0.01, 0.03]
+  },
+  "results": [
+    {"sigma":0.0,"compiled_q":1.0,"compiled_q_final":1.0,"reified_q":1.0,"hybrid_q":1.0,"compiled_analog_rmse":5.865840541375215e-09,"reified_analog_rmse":3.828549218497048e-07,"hybrid_analog_rmse":0.0},
+    {"sigma":0.0001,"compiled_q":1.0,"compiled_q_final":1.0,"reified_q":1.0,"hybrid_q":1.0,"compiled_analog_rmse":0.0008077827437867522,"reified_analog_rmse":0.0008077746737278472,"hybrid_analog_rmse":0.0007985734092078354},
+    {"sigma":0.001,"compiled_q":1.0,"compiled_q_final":1.0,"reified_q":1.0,"hybrid_q":1.0,"compiled_analog_rmse":0.007577313045887353,"reified_analog_rmse":0.007577308178925466,"hybrid_analog_rmse":0.007903776053414437},
+    {"sigma":0.003,"compiled_q":1.0,"compiled_q_final":1.0,"reified_q":1.0,"hybrid_q":1.0,"compiled_analog_rmse":0.023437010402338133,"reified_analog_rmse":0.02343703341470255,"hybrid_analog_rmse":0.023606004818620487},
+    {"sigma":0.01,"compiled_q":0.9985923767089844,"compiled_q_final":0.98828125,"reified_q":1.0,"hybrid_q":1.0,"compiled_analog_rmse":0.07898384824676706,"reified_analog_rmse":0.07898395122567944,"hybrid_analog_rmse":0.0776043857086107},
+    {"sigma":0.03,"compiled_q":0.8511085510253906,"compiled_q_final":0.74609375,"reified_q":1.0,"hybrid_q":1.0,"compiled_analog_rmse":0.23847833959605477,"reified_analog_rmse":0.2384786066764553,"hybrid_analog_rmse":0.23501926336150675}
+  ]
+}

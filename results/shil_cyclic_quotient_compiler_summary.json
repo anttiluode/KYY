@@ -1,0 +1,23 @@
+{
+  "analytic_rule": {
+    "Delta":"2*pi/n",
+    "odd_block_size":"representative = middle fine state; temporary attractor = representative; margin = Delta/2",
+    "even_block_size":"representative = either central fine state; temporary attractor = representative + Delta/4 toward block center; margin = Delta/4"
+  },
+  "examples": [
+    {"n":4,"m":2,"block_size":2,"parity":"even","certified_margin":0.39269908169872414},
+    {"n":12,"m":4,"block_size":3,"parity":"odd","certified_margin":0.26179938779914935},
+    {"n":12,"m":3,"block_size":4,"parity":"even","certified_margin":0.13089969389957457},
+    {"n":15,"m":5,"block_size":3,"parity":"odd","certified_margin":0.2094395102393195},
+    {"n":16,"m":4,"block_size":4,"parity":"even","certified_margin":0.09817477042468103},
+    {"n":100,"m":10,"block_size":10,"parity":"even","certified_margin":0.015707963267948946}
+  ],
+  "realizability_controls": {
+    "c4_pairs":{"mapping":[0,0,1,1],"realizable":true},
+    "c4_alternating":{"mapping":[0,1,0,1],"realizable":false},
+    "c12_three_blocks":{"mapping":[0,0,0,1,1,1,2,2,2,3,3,3],"realizable":true},
+    "unequal_runs":{"mapping":[0,0,0,1,1,2],"realizable":false}
+  },
+  "interpretation":"One uniform m-well SHIL stage can realize exactly the equal contiguous cyclic kernel partitions in this abstraction. Abstract digital quotients outside that geometry require additional stages or a richer physical forcing landscape.",
+  "workflow_run":31459023543
+}

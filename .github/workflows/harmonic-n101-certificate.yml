@@ -1,0 +1,40 @@
+name: harmonic-n101-certificate
+
+on:
+  push:
+    paths:
+      - '.github/workflows/harmonic-n101-certificate.yml'
+      - 'map/legalization_certificate_probe.py'
+  workflow_dispatch:
+
+jobs:
+  n101-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Train and certify C101 legalizations
+        run: >-
+          python map/legalization_certificate_probe.py
+          --n 101
+          --modes 8
+          --seeds 0 1 2 3 4 5 6 7 8 9
+          --train-length 16
+          --test-lengths 16 64 256 1024
+          --steps 1500
+          --batch-size 128
+          --eval-batch-size 64
+          --max-increment 4
+          --random-start
+          --json
+          > results/harmonic-n101-certificate.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harmonic-n101-certificate
+          path: results/harmonic-n101-certificate.json

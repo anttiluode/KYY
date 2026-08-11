@@ -1,0 +1,20 @@
+{
+  "config": {
+    "batch_size": 512,
+    "length": 1024,
+    "merge_probability": 0.05,
+    "scale_probability": 0.08,
+    "seed": 2345,
+    "sigma": 0.03,
+    "paired_noise_trace": true
+  },
+  "results": [
+    {"interval":1,"relocks_per_sequence":1024,"q_accuracy":1.0,"q_final_accuracy":1.0,"analog_rmse":0.23556273873271408,"analog_final_rmse":0.24141055052639757},
+    {"interval":4,"relocks_per_sequence":256,"q_accuracy":1.0,"q_final_accuracy":1.0,"analog_rmse":0.23556255216043223,"analog_final_rmse":0.2414103486431222},
+    {"interval":16,"relocks_per_sequence":64,"q_accuracy":1.0,"q_final_accuracy":1.0,"analog_rmse":0.23556250621869027,"analog_final_rmse":0.24141029720087495},
+    {"interval":64,"relocks_per_sequence":16,"q_accuracy":0.9895305633544922,"q_final_accuracy":0.97265625,"analog_rmse":0.23556249574882623,"analog_final_rmse":0.24141028411819718},
+    {"interval":256,"relocks_per_sequence":4,"q_accuracy":0.8745193481445312,"q_final_accuracy":0.744140625,"analog_rmse":0.2355624926067478,"analog_final_rmse":0.24141028269584872},
+    {"interval":1024,"relocks_per_sequence":1,"q_accuracy":0.8575973510742188,"q_final_accuracy":0.763671875,"analog_rmse":0.23556249208545255,"analog_final_rmse":0.2414102818808207},
+    {"interval":null,"relocks_per_sequence":0,"q_accuracy":0.8575973510742188,"q_final_accuracy":0.763671875,"analog_rmse":0.2355624920822688,"analog_final_rmse":0.24141027869961068}
+  ]
+}

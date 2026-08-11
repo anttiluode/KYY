@@ -1,0 +1,40 @@
+name: cyclic-equivariant-port-ablation
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/cyclic_equivariant_port_ablation.py'
+      - '.github/workflows/cyclic-equivariant-port-ablation.yml'
+  workflow_dispatch:
+
+jobs:
+  c101-port-ablation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Compare raw and midpoint ports before/after symmetry projection
+        run: |
+          python map/cyclic_equivariant_port_ablation.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
+            --train-length 16 \
+            --train-steps 2200 \
+            --batch-size 128 \
+            --max-increment 4 \
+            --lr 0.003 \
+            --random-start \
+            --json > results/cyclic_c101_equivariant_port_ablation.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cyclic-c101-equivariant-port-ablation
+          path: results/cyclic_c101_equivariant_port_ablation.json

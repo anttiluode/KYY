@@ -1,0 +1,31 @@
+name: metacircuit-frequency-design
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/metacircuit_cyclic_backend.py'
+      - 'map/metacircuit_frequency_design.py'
+      - 'tests/test_metacircuit_frequency_design.py'
+      - '.github/workflows/metacircuit-frequency-design.yml'
+  workflow_dispatch:
+
+jobs:
+  design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Focused tests
+        run: pytest -q tests/test_metacircuit_frequency_design.py tests/test_metacircuit_cyclic_backend.py
+      - run: mkdir -p results
+      - name: Design C101 character bank under physical condition caps
+        run: python map/metacircuit_frequency_design.py --json > results/metacircuit_frequency_design.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metacircuit-frequency-design
+          path: results/metacircuit_frequency_design.json

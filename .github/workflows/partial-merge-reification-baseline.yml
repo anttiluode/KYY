@@ -1,0 +1,45 @@
+name: partial-merge-reification-baseline
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/partial_merge_reification_baseline.py'
+      - 'tests/test_partial_merge_reification_baseline.py'
+      - '.github/workflows/partial-merge-reification-baseline.yml'
+  workflow_dispatch:
+
+jobs:
+  reification-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Focused reification tests
+        run: python -m pytest -q tests/test_partial_merge_reification_baseline.py
+      - run: mkdir -p results
+      - name: Train and compare learned, reified, and compiled machines
+        run: |
+          python map/partial_merge_reification_baseline.py \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
+            --steps 2400 \
+            --train-length 16 \
+            --test-lengths 16 64 256 1024 \
+            --batch-size 256 \
+            --eval-batch-size 256 \
+            --merge-probability 0.15 \
+            --lr 0.003 \
+            --random-start \
+            --leakage-batch-size 512 \
+            --leakage-continuation 64 \
+            --json > results/partial_merge_reification_baseline.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: partial-merge-reification-baseline
+          path: results/partial_merge_reification_baseline.json

@@ -1,0 +1,43 @@
+name: cyclic-positive-kernel-port
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/cyclic_positive_kernel_port_probe.py'
+      - 'tests/test_cyclic_positive_kernel_port_probe.py'
+      - '.github/workflows/cyclic-positive-kernel-port.yml'
+  workflow_dispatch:
+
+jobs:
+  c101-positive-kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Run focused tests
+        run: pytest -q tests/test_cyclic_positive_kernel_port_probe.py
+      - run: mkdir -p results
+      - name: Train and project into certifiable positive kernels
+        run: |
+          python map/cyclic_positive_kernel_port_probe.py \
+            --n 101 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 5 6 7 8 9 \
+            --train-length 16 \
+            --train-steps 2200 \
+            --batch-size 128 \
+            --max-increment 4 \
+            --lr 0.003 \
+            --random-start \
+            --json > results/cyclic_c101_positive_kernel_port.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cyclic-c101-positive-kernel-port
+          path: results/cyclic_c101_positive_kernel_port.json

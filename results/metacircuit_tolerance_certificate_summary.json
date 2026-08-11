@@ -1,0 +1,20 @@
+{
+  "config": {
+    "n": 101,
+    "modes": 8,
+    "condition_cap": 2.0,
+    "tolerances": [2e-6,5e-6,1e-5,2e-5,5e-5,1e-4],
+    "cycle_cap": 10000
+  },
+  "unconstrained_frequencies": [35,18,25,46,22,16,45,24],
+  "conditioned_frequencies": [35,18,25,19,15,27,30,29],
+  "rows": [
+    {"relative_ratio_tolerance":2e-6,"unconstrained_max_step_phase_error":1.4195490833923685e-5,"conditioned_max_step_phase_error":3.8217909024140795e-6,"unconstrained_certified_cycles":1309,"conditioned_certified_cycles":3281,"certified_cycle_ratio":2.5064935064935066,"unconstrained_margin_at_64":5.26935616761688,"conditioned_margin_at_64":5.133397774295085},
+    {"relative_ratio_tolerance":5e-6,"unconstrained_max_step_phase_error":3.549004149050461e-5,"conditioned_max_step_phase_error":9.554496255947953e-6,"unconstrained_certified_cycles":523,"conditioned_certified_cycles":1312,"certified_cycle_ratio":2.508604206500956,"unconstrained_margin_at_64":4.995341950024099,"conditioned_margin_at_64":5.007186366126544},
+    {"relative_ratio_tolerance":1e-5,"unconstrained_max_step_phase_error":7.098446522491031e-5,"conditioned_max_step_phase_error":1.9109055848787193e-5,"unconstrained_certified_cycles":261,"conditioned_certified_cycles":656,"certified_cycle_ratio":2.5134099616858236,"unconstrained_margin_at_64":4.479424201500011,"conditioned_margin_at_64":4.791610337940228},
+    {"relative_ratio_tolerance":2e-5,"unconstrained_max_step_phase_error":1.4198646609786536e-4,"conditioned_max_step_phase_error":3.821836505224496e-5,"unconstrained_certified_cycles":130,"conditioned_certified_cycles":328,"certified_cycle_ratio":2.523076923076923,"unconstrained_margin_at_64":2.9500707766744476,"conditioned_margin_at_64":4.342464307423062},
+    {"relative_ratio_tolerance":5e-5,"unconstrained_max_step_phase_error":3.550978163069374e-4,"conditioned_max_step_phase_error":9.554781296250425e-5,"unconstrained_certified_cycles":52,"conditioned_certified_cycles":131,"certified_cycle_ratio":2.519230769230769,"unconstrained_margin_at_64":-0.9255882028559299,"conditioned_margin_at_64":2.836963829570934},
+    {"relative_ratio_tolerance":1e-4,"unconstrained_max_step_phase_error":7.106353632759799e-4,"conditioned_max_step_phase_error":1.911019615006282e-4,"unconstrained_certified_cycles":26,"conditioned_certified_cycles":65,"certified_cycle_ratio":2.5,"unconstrained_margin_at_64":-3.4287182199207478,"conditioned_margin_at_64":0.13479108986818986}
+  ],
+  "scope": "Conservative exact interval certificate for normalized independent phase-mode geometry under bounded static D^-1Y mismatch; not a full circuit interval proof."
+}
