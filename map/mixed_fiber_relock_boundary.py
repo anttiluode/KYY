@@ -62,9 +62,12 @@ def run(args):
     )
     rows = []
     intervals = [None if x <= 0 else x for x in args.intervals]
-    for i, interval in enumerate(intervals):
+    # Every relock policy receives exactly the same stochastic physical kicks.
+    # This makes the sweep paired: only the correction interval changes.
+    physical_noise_seed = args.seed + 100
+    for interval in intervals:
         logits, analog, relocks = periodic_relock_runtime(
-            model, tok, q0, a0, args.sigma, interval, args.seed + 100 + i
+            model, tok, q0, a0, args.sigma, interval, physical_noise_seed
         )
         m = noise.metrics(logits.argmax(-1), analog, qy, ay)
         rows.append(
