@@ -1,0 +1,45 @@
+{
+  "config": {
+    "batch_size": 128,
+    "eval_batch_size": 128,
+    "merge_probability": 0.05,
+    "scale_probability": 0.08,
+    "seeds": [0,1,2,3,4,5,6,7,8,9],
+    "steps": 250,
+    "test_lengths": [16,64,256,1024],
+    "train_length": 16
+  },
+  "aggregate": {
+    "learned": {
+      "16": {"q_accuracy_mean": 1.0, "q_accuracy_min": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 0.001773395217072364},
+      "64": {"q_accuracy_mean": 1.0, "q_accuracy_min": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 0.0043597736450010725},
+      "256": {"q_accuracy_mean": 0.9947601318359375, "q_accuracy_min": 0.9722900390625, "q_exact_seeds": 7, "analog_rmse_mean": 0.0071228947368644465},
+      "1024": {"q_accuracy_mean": 0.9623741149902344, "q_accuracy_min": 0.8510971069335938, "q_exact_seeds": 5, "analog_rmse_mean": 0.004874387542629771}
+    },
+    "fiber_reified": {
+      "16": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 0.0021553283758372344},
+      "64": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 0.005071437642691262},
+      "256": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 0.007566075271362585},
+      "1024": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 0.00474254536786318}
+    },
+    "compiled": {
+      "16": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 3.5563205207376424e-08},
+      "64": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 5.5819949786526545e-08},
+      "256": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 6.976788131721627e-08},
+      "1024": {"q_accuracy_mean": 1.0, "q_exact_seeds": 10, "analog_rmse_mean": 3.86251589168895e-08}
+    }
+  },
+  "learned_merge": {
+    "full_rank_seeds": 10,
+    "epsilon_range": [0.05989319458603859, 0.09026390314102173],
+    "kernel_residual_range": [0.05989337796370643, 0.09026391224284798],
+    "fiber_preservation_defect_range": [0.00024191283770988193, 0.0033811072856382617],
+    "theta_error_range": [-0.006017879643712476, 0.005211516222681567],
+    "scale_error_range": [-0.0036174297332763894, 0.00014654397964475319]
+  },
+  "compiled_defects_max": {
+    "cycle_relation": 1.044395509344855e-15,
+    "merge_kernel": 3.1463121132764933e-16,
+    "fiber": 2.705334492299484e-16
+  }
+}
