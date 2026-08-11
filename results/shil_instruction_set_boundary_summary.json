@@ -1,0 +1,16 @@
+{
+  "one_circle_instruction_set":"dihedral cyclic-order automorphisms + uniform equal-contiguous SHIL quotients",
+  "reachable_partition_count_c4":3,
+  "adjacent_pair_partition":{"mapping":[0,0,1,1],"reachable":true,"witness":["Q4->2"]},
+  "alternating_partition":{"mapping":[0,1,0,1],"reachable":false,"contiguous_fibers":false},
+  "second_harmonic_escape":{
+    "partition":[0,1,0,1],
+    "matches_alternating":true,
+    "gcd":2,
+    "output_phase_count":2,
+    "raw_phase_indices":[0,2,0,2]
+  },
+  "theorem":"Every primitive in the one-circle set is cyclic monotone: points may be reordered only by a circle automorphism and collapsed only in contiguous arcs. Composition preserves connected/contiguous fibers, so an interleaved target kernel is impossible in this instruction set.",
+  "resource_interpretation":"To realize an interleaved quotient, add a non-order-preserving nonlinear phase instruction such as harmonic multiplication, a nonuniform forcing landscape, or an auxiliary physical state coordinate.",
+  "workflow_run":31459247444
+}
