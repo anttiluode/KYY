@@ -1,0 +1,43 @@
+{
+  "bounded_eta_1e-5": {
+    "digital_only_heuristic_certified_cycles": 990,
+    "physically_constrained_certified_cycles": 990
+  },
+  "config": {
+    "cond_cap":2.0,"max_frequency":31,"modes":8,"n":101,
+    "random_samples":100000,"restarts":100,"seed":4600,
+    "sigmas":[1e-05,2e-05,5e-05],"trials":8
+  },
+  "digital_only_strong_heuristic": {
+    "frequencies":[3,5,12,21,22,23,37,50],
+    "max_phase_map_condition":64.29341277923538,
+    "max_phase_map_norm":45.467806890156744,
+    "max_relative_phase_sensitivity":1.5552438879157393,
+    "ratio_range":[0.03483048313294941,9.67513420359706],
+    "symbolic_margin":5.888436882863378
+  },
+  "margin_loss_fraction_vs_heuristic":0.02981399549841912,
+  "mismatch_sweep": {
+    "digital_only_heuristic":[
+      {"mean_accuracy":0.9747725382889851,"mean_max_relation_defect":0.0028052495603508327,"min_accuracy":0.7981803063118812,"sigma":1e-05},
+      {"mean_accuracy":0.7325608659498762,"mean_max_relation_defect":0.00561046938340732,"min_accuracy":0.4029722308168317,"sigma":2e-05},
+      {"mean_accuracy":0.42782502127165845,"mean_max_relation_defect":0.014025911017845876,"min_accuracy":0.21412824876237624,"sigma":5e-05}
+    ],
+    "physically_constrained":[
+      {"mean_accuracy":0.97705078125,"mean_max_relation_defect":0.0022345500810233665,"min_accuracy":0.9013671875,"sigma":1e-05},
+      {"mean_accuracy":0.6908768757735149,"mean_max_relation_defect":0.004469083275261404,"min_accuracy":0.4547880569306931,"sigma":2e-05},
+      {"mean_accuracy":0.3035284363397277,"mean_max_relation_defect":0.011172561135738533,"min_accuracy":0.1865234375,"sigma":5e-05}
+    ]
+  },
+  "physical_constraint_candidates":[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+  "physically_constrained_exact_optimum": {
+    "frequencies":[16,18,19,20,25,28,30,31],
+    "max_phase_map_condition":1.8406329596246318,
+    "max_phase_map_norm":1.481203850261086,
+    "max_relative_phase_sensitivity":0.9642512105077582,
+    "ratio_range":[0.9907337424483386,3.719121587862708],
+    "symbolic_margin":5.712879052144965
+  },
+  "scope":"The constrained optimum is exhaustive only inside the declared cond/frequency candidate set. The digital-only bank is a strong deterministic heuristic, not a global optimum.",
+  "workflow_run":31458392064
+}
