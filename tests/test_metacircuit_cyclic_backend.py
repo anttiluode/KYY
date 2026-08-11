@@ -39,6 +39,14 @@ def test_physical_conditioning_is_not_frequency_independent():
     assert quarter.phase_map_condition < near_nyquist.phase_map_condition
 
 
+def test_near_nyquist_character_has_tiny_positive_component_tolerance_headroom():
+    quarter = backend.lower_mode(101, 25)
+    near_nyquist = backend.lower_mode(101, 50)
+    assert quarter.positive_relative_stability_headroom > 1.0
+    assert near_nyquist.positive_relative_stability_headroom < 3e-4
+    assert near_nyquist.relative_phase_sensitivity_to_ratio > 50.0
+
+
 def test_nyquist_character_is_degenerate_in_central_difference_companion_coordinates():
     row = backend.lower_mode(100, 50)
     assert row.degenerate
