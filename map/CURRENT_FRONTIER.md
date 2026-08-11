@@ -2,44 +2,23 @@
 
 Updated: 2026-08-11
 
-This is the short map of the research branch after the metacircuit correction and the phase-locking backend passes.
+This is the short map of the research branch after the phase-backend instruction-set closure, body/port carrier audit, program-level resource planner, and audible SHIL demo.
 
 ## One-sentence status
 
-KYY has **not** discovered new automata theory, hybrid systems, oscillator computing, SHIL/Potts hardware, harmonic generation, or generic analog optimization.
+KYY has **not** discovered new automata theory, hybrid systems, oscillator computing, SHIL/Potts hardware, harmonic generation, EDA technology mapping, or generic analog optimization.
 
-The surviving compiler question is now much more concrete:
+The surviving compiler question is narrower and now finite enough to terminate:
 
-> **Given an exact behavioral transition, what distinctions must its physical body preserve or destroy, and which target-substrate instruction has the right kernel geometry to realize that transition?**
-
-That remains a research direction, not a novelty declaration.
+> **Given an exact behavioral transition, what distinctions must its physical body preserve or destroy, which declared substrate instruction has the same kernel geometry, and what resource is missing when no instruction matches?**
 
 `main` remains untouched.
 
 ---
 
-# 1. What the long subtraction left behind
+# 1. Durable software result: digital quotient versus analog fiber
 
-The branch has already collided with mature work in:
-
-- finite automata, state equivalence, synchronization and transformation semigroups;
-- RNN automata extraction, state quantization/reification and repair;
-- observability, reversible-RNN forgetting limits and unlearning audits;
-- group representations, equivariant ports and Koopman realizations;
-- hybrid automata, quotient/gluing resets and tangent/nullspace geometry;
-- hardware-aware compilation and analog optimization;
-- physical wave/oscillator RNNs;
-- multi-phase SHIL/Potts oscillator computing.
-
-The rule is unchanged:
-
-> **Do not rename prior art and call it ours.**
-
----
-
-# 2. The durable software result: digital quotient versus analog fiber
-
-Pass 46 replaced four isolated digital points with four continuous legal fibers
+Pass 46 replaced isolated digital points with continuous legal fibers
 
 ```text
 F_q = { c_q + a v : a in R }.
@@ -63,14 +42,7 @@ exact point+tangent compile:
     analog RMSE ~3.86e-8
 ```
 
-The paired-history audit is the clean statement:
-
-```text
-projection can put two histories on the same legal rail
-while leaving a history-dependent displacement along that rail.
-```
-
-So
+The paired-history audit gives the clean statement:
 
 ```text
 projection onto the legal manifold
@@ -85,15 +57,15 @@ DIGITAL = quotient/equivalence directions
 ANALOG  = tangent/fiber directions.
 ```
 
-This is classical hybrid geometry used as a post-training compiler audit, not a new hybrid-systems theorem.
+This is classical hybrid geometry used as a compiler audit, not a new hybrid-systems theorem.
 
 See `PASS46_RESULT_DIGITAL_QUOTIENT_ANALOG_FIBER.md`.
 
 ---
 
-# 3. Exactness has a location
+# 2. Exactness has a location
 
-The branch now distinguishes four deployment contracts:
+The branch distinguishes four deployment contracts:
 
 ```text
 state label
@@ -113,13 +85,11 @@ They are not interchangeable.
 
 Pure interface distortion can be repaired by recalibrating the port.
 
-A body with the wrong recurrent phase relation can fit a finite calibration window and still drift later.
+A body with the wrong recurrent relation can fit a finite calibration window and still drift later.
 
 Exact nominal algebra does not itself correct physical noise.
 
-At `sigma=.03` continuous state noise, relocking every 16 steps kept the rail task digitally exact through L1024, whereas never relocking fell to about `.858` overall.
-
-Dynamic zero-mean noise behaved roughly as a diffusion clock
+Dynamic zero-mean noise produced a diffusion-style free-run clock
 
 ```text
 T_dynamic ~ 1/sigma^2,
@@ -131,126 +101,47 @@ while static phase/frequency bias produced coherent drift
 T_static ~ 1/eta.
 ```
 
-So even "relock rate" is error-mechanism dependent.
-
 ---
 
-# 4. Important metacircuit correction
+# 3. Important metacircuit correction and demotion
 
-The first metacircuit backend pass made a physically important mistake and the branch now records it explicitly.
+The first metacircuit backend pass conflated the paper's **finite-difference RNN recurrence** with the free-running law of its **continuous analog resonator**.
 
-For the **discrete central-difference recurrence**
-
-```text
-u[t+1] = (2 - dt^2 D^-1Y)u[t] - u[t-1],
-```
-
-an exact sampled character uses
+Discrete recurrence:
 
 ```text
 D^-1Y = 2(1-cos(theta))/dt^2.
 ```
 
-But the physical analog resonator obeys a continuous law
+Continuous physical resonator:
 
 ```text
-D u'' + Y u = 0,
-```
-
-so exact sampled phase requires
-
-```text
+D u'' + Y u = 0
 D^-1Y = (theta/dt)^2.
 ```
 
 Therefore the earlier finite-difference `lambda=4` stability cliff, ~13.8x component-headroom improvement, ~12x relation-defect separation and ~2.5x tolerance-horizon gain are **discrete numerical-backend results only**.
 
-They must not be cited as analog-circuit physics.
+Under the corrected continuous law, a physically conditioned exact character bank did not beat a strong exact digital baseline on robust state tracking.
 
-See `METACIRCUIT_CONTINUOUS_TIME_CORRECTION.md`.
+The fabricated metacircuit's demonstrated port also rectifies/integrates oscillator energy. A complete-period quadratic energy readout erases a pure cyclic phase shift; the branch test gives full-period phase-state energy spread only ~`1.99e-12`.
 
----
+So the metacircuit is retained as neighboring resonant hardware, not the direct KYY phase-state backend.
 
-# 5. Corrected metacircuit result: no easy robustness win
+See:
 
-Under the correct continuous resonator law, backend-aware representation choice still changes sampled interface conditioning, but the dramatic robustness story disappears.
-
-A physically constrained exact C101 bank
-
-```text
-[16,18,19,20,25,28,30,31]
-margin 5.712879
-max sampled lag->phase cond(T) 1.8406
-```
-
-was compared with a strong exact digital-only bank
-
-```text
-[3,5,12,21,22,23,37,50]
-margin 5.888437
-max cond(T) 64.2934.
-```
-
-The physical bank gives up only ~2.98% symbolic margin and has a vastly better sampled displacement/lag coordinate transform.
-
-But robust state tracking does **not** clearly improve:
-
-```text
-bounded eta=1e-5 certificate:
-990 cycles versus 990 cycles
-
-L1024 after per-device readout calibration:
-sigma       physical      digital-only
-1e-5        .97705         .97477
-2e-5        .69088         .73256
-5e-5        .30353         .42783
-```
-
-So KYY has **not** earned the claim that a simple physical-conditioning objective beats a strongly optimized exact digital representation.
+- `METACIRCUIT_CONTINUOUS_TIME_CORRECTION.md`
+- `METACIRCUIT_ENERGY_READOUT_BOUNDARY.md`
 
 ---
 
-# 6. The metacircuit's demonstrated port is also the wrong direct port for C_n phase state
+# 4. Better semantic match: multi-phase SHIL / Potts oscillator hardware
 
-The fabricated metacircuit classifier measures selected oscillator voltages, rectifies them and integrates output energy over time.
-
-For an exact cyclic state represented by a phase-shifted periodic trajectory
-
-```text
-h_q(t) = h_0(t+q),
-```
-
-any complete-period quadratic energy
-
-```text
-E(q) = sum_t |W h_q(t)|^2
-```
-
-is independent of `q`: changing `q` only permutes one full period.
-
-The branch test gives
-
-```text
-instantaneous phase prototype accuracy: 1.000
-full 101-step energy spread:             ~1.99e-12
-16-step truncated energy spread:          ~100.82.
-```
-
-So the metacircuit body remains relevant as neighboring resonant hardware, but its demonstrated energy-classifier port is not a natural terminal C101 phase-state port.
-
-It is demoted from "direct KYY backend" to **neighboring hardware architecture**.
-
-See `METACIRCUIT_ENERGY_READOUT_BOUNDARY.md`.
-
----
-
-# 7. Better semantic match: multi-phase SHIL / Potts oscillator hardware
-
-Current multi-phase ring-oscillator Potts machines use subharmonic injection locking so one continuous oscillator phase has several stable discrete phase states, with phase-sensitive physical readout.
+Multi-phase injection-locked oscillator hardware already uses continuous oscillator phase as a multivalued discrete state.
 
 That primitive is prior art.
 
-But it matches KYY's digital/analog seam directly:
+It matches the KYY seam naturally:
 
 ```text
 continuous physical variable = phase phi
@@ -258,13 +149,11 @@ continuous physical variable = phase phi
 digital state = which locking basin contains phi.
 ```
 
-Small analog phase errors relax back toward the digital basin without a software nearest-state projection.
-
-This makes it a much better test backend for KYY quotient semantics than the metacircuit energy classifier.
+Small phase errors can relax back toward the digital basin without software nearest-state projection.
 
 ---
 
-# 8. Pass-44 partial merge becomes a literal attractor-landscape compilation
+# 5. Pass-44 merge becomes a physical composition-margin problem
 
 Desired C4 merge:
 
@@ -275,42 +164,40 @@ Desired C4 merge:
 3 -> 2.
 ```
 
-Compile it physically by switching temporarily from four phase wells to two shifted phase wells, allowing relaxation, then restoring four-well locking.
+Compile by switching temporarily from four phase wells to two shifted wells, relaxing, then restoring four-well locking.
 
-The locally obvious midpoint choice
+The locally symmetric midpoint
 
 ```text
 alpha = pi/4
 ```
 
-puts the coarse attractors exactly on the restored C4 separatrices.
+performs the pair collapse but puts the coarse attractors exactly on the restored C4 separatrices.
 
-It performs the local pair collapse but gives the next stage zero re-entry margin and about 50% final correctness under arbitrarily small symmetry breaking/noise.
+Result under noise: about 50% final correctness.
 
-Balancing source capture against fine-state re-entry gives
+Balancing source capture and fine-state re-entry gives
 
 ```text
-alpha* = pi/8 = 22.5 degrees
+alpha* = pi/8
 worst composition margin = pi/8.
 ```
 
-In the reduced phase SDE, `alpha=pi/8` stayed 100% correct through the largest tested phase diffusion `D=.02` over 16000 trajectories per point, while `pi/4` stayed near 50%.
+In the reduced phase SDE, `pi/8` stayed 100% correct through the largest tested diffusion `D=.02` over 16000 trajectories per source state, while `pi/4` stayed near 50%.
 
-The lesson is not that SHIL can merge phases; staged phase locking is prior art.
+Compiler rule:
 
-The useful compiler lesson is:
+> **Compile the composition, not merely each physical stage.**
 
-> **a physical stage can satisfy its local quotient and still hand the next stage a geometrically invalid state. Compile the composition, not each stage in isolation.**
+A stage can satisfy its local transition and still hand the next stage a geometrically invalid state.
 
 See `SHIL_C4_QUOTIENT_BACKEND_RESULT.md`.
 
 ---
 
-# 9. One-stage cyclic quotient compile/reject law
+# 6. Uniform SHIL quotient compile/reject law
 
-For a fine `C_n` phase code and a temporary uniform `m`-well SHIL landscape, one physical stage has `m` equal contiguous basins.
-
-Therefore one-stage quotient kernel classes must be
+For fine `C_n` phase states and one uniform `m`-well temporary landscape, exact quotient classes must be:
 
 ```text
 - contiguous in cyclic order;
@@ -318,9 +205,7 @@ Therefore one-stage quotient kernel classes must be
 - one cyclic run per output class.
 ```
 
-Interleaved or unequal kernel classes reject.
-
-For equal contiguous blocks, with fine spacing
+For fine spacing
 
 ```text
 Delta = 2*pi/n,
@@ -330,169 +215,369 @@ the optimum cross-stage margin is
 
 ```text
 r odd:
-    choose the middle fine state as representative
-    attractor = that state
+    representative = middle fine state
+    attractor = representative
     margin = Delta/2
 
 r even:
-    choose either central fine state
-    place attractor Delta/4 toward block center
+    representative = either central fine state
+    attractor = representative + Delta/4 toward block center
     margin = Delta/4.
 ```
 
 Examples:
 
 ```text
-C4  -> C2,  r=2:  margin pi/8
-C12 -> C4,  r=3:  margin pi/12
-C12 -> C3,  r=4:  margin pi/24
-C100-> C10, r=10: margin pi/200.
+C4  -> C2,  r=2:  pi/8
+C12 -> C4,  r=3:  pi/12
+C12 -> C3,  r=4:  pi/24
+C100-> C10, r=10: pi/200.
 ```
 
-The scaling cost is therefore mainly **fine phase resolution n**, not the number of states merged by itself.
+The cost scales mainly with fine phase resolution `n`, not directly with how many states are merged.
 
 See `SHIL_CYCLIC_QUOTIENT_COMPILER_RESULT.md`.
 
 ---
 
-# 10. A real instruction-set lower bound appears
+# 7. One-circle instruction-set lower bound
 
-Consider the alternating C4 quotient
-
-```text
-{0,2} -> A
-{1,3} -> B.
-```
-
-It is a perfectly valid abstract digital equivalence relation, but its classes are interleaved on the physical phase circle.
-
-Allow any number of the current one-circle primitives:
+With only
 
 ```text
-- cyclic rotations/reflections;
-- uniform equal-contiguous SHIL quotient stages.
+cyclic rotations/reflections
++
+uniform equal-contiguous SHIL quotient stages,
 ```
 
-Every such primitive is cyclic-monotone: it preserves/reverses cyclic order and may collapse only contiguous arcs.
+every primitive is cyclic-monotone and every fiber remains a contiguous arc under composition.
 
-Composition preserves contiguous fibers.
-
-Therefore **no sequence of these one-circle instructions can realize the alternating kernel**.
-
-The exhaustive C4 semigroup check agrees:
+Therefore the alternating C4 quotient
 
 ```text
-adjacent [0,0,1,1]: reachable
-alternating [0,1,0,1]: unreachable.
+{0,2}/{1,3}
 ```
 
-This gives the compiler a genuine resource answer rather than a failed parameter search.
+is unreachable by **any number** of those stages on one phase circle.
+
+The exhaustive C4 semigroup check agrees.
+
+A coherent second harmonic
+
+```text
+phi -> 2phi mod 2*pi
+```
+
+has exactly that alternating kernel.
+
+So two equally small abstract quotients can require physically different instruction families:
+
+```text
+contiguous kernel
+    -> basin-collapse / SHIL
+
+cyclic congruence kernel
+    -> quotient character / harmonic carrier.
+```
+
+Harmonic conversion is prior art; the compiler classification is the point.
 
 See `SHIL_INSTRUCTION_SET_BOUNDARY.md`.
 
 ---
 
-# 11. Harmonic phase is a different quotient instruction
+# 8. Current phase library is now closed as a finite checker
 
-A coherent `h`-th harmonic carries phase
-
-```text
-phi -> h phi mod 2*pi.
-```
-
-Its kernel is not a contiguous-arc kernel. It identifies congruence/subgroup classes.
-
-For C4 with the second harmonic:
+The declared library is:
 
 ```text
-q=0 -> 0
-q=1 -> pi
-q=2 -> 0
-q=3 -> pi,
+faithful cyclic phase re-encoding
+uniform equal-basin SHIL collapse
+pre-carried quotient-aligned character
+runtime harmonic/carrier conversion for cyclic congruence kernels.
 ```
 
-so it realizes exactly
+For every explicit partition the classifier now terminates with:
 
 ```text
-{0,2}/{1,3}.
+identity / no-op
+universal collapse
+quotient-aligned character
+uniform SHIL after faithful embedding
+unsupported: unequal class sizes
+unsupported: equal size but wrong topology.
 ```
 
-Harmonic/frequency multiplication is established physical technology; KYY does not claim the primitive.
-
-The interesting compiler distinction is that two equally small digital quotients require physically different instructions because their kernel geometries differ:
+Exhaustive small-n coverage:
 
 ```text
-contiguous kernel
-    -> basin-collapse / SHIL instruction
-
-congruence/interleaved kernel
-    -> harmonic phase instruction candidate.
+n    nontrivial kernels    supported by current exact library
+3            3                 0
+4           13                 3   = 23.08%
+5           50                 0
+6          201                 7   = 3.48%
+7          875                 0
+8         4138                14   = 0.338%.
 ```
 
-And the Pass-44 body/port warning still applies: merely *measuring* a harmonic quotient does not erase the original fine state. Body-level forgetting requires transferring/locking state into the coarse carrier and discarding or decoupling the old fine carrier.
+For prime `n`, the current exact one-circle library has no nontrivial quotient: there is no proper cyclic subgroup character kernel and no nontrivial equal-block `m|n` SHIL quotient.
+
+That is a lower bound for **this declared instruction library**, not for physics in general.
+
+See `PHASE_KERNEL_LIBRARY_CLOSURE.md`.
 
 ---
 
-# 12. Current compiler vocabulary
+# 9. Correction to "prefer re-encoding over harmonic"
 
-The physical backend is beginning to look like an instruction-selection problem:
+A faithful character is a `C_n` automorphism.
+
+A nontrivial proper character quotient is a coset partition of the unique subgroup of that order.
+
+Every faithful automorphism maps that subgroup to itself.
+
+Therefore a nontrivial congruence kernel does **not** become a contiguous SHIL kernel merely by choosing another faithful character.
+
+The exhaustive audit through `n<=16` finds zero nontrivial character/SHIL collisions under faithful one-circle re-encoding.
+
+For C4:
 
 ```text
-INPUT:
-    exact behavioral transition/kernel
+adjacent [0,0,1,1]
+    SHIL yes
+    character no
 
-AUDIT:
-    which distinctions survive?
-    which must collapse?
-    are analog tangent variables preserved?
-
-MATCH KERNEL SHAPE:
-    contiguous cyclic classes
-        -> uniform SHIL quotient
-
-    congruence/subgroup classes
-        -> harmonic phase map/carrier candidate
-
-    neither
-        -> richer nonuniform forcing,
-           auxiliary state dimension,
-           another embedding,
-           or reject backend
-
-COMPOSE:
-    place intermediate attractors away from next-stage separatrices
-
-PRICE:
-    phase resolution
-    locking time/noise margin
-    harmonic conversion cost
-    extra carrier/state cost
-    readout cost
-    relock bandwidth.
+alternating [0,1,0,1]
+    character f=2 yes
+    SHIL under faithful f no.
 ```
 
-This is the clearest KYY-shaped residual so far.
+The useful design-time alternative is instead:
 
-It is still surrounded by prior art in phase logic, oscillator computing, nonlinear frequency conversion and compiler theory; novelty is not established.
+```text
+carry a faithful full-state character
++
+carry the non-faithful quotient character from the start.
+```
+
+Then the quotient can retire the modes that distinguish within a class rather than synthesize the harmonic at runtime.
+
+So the real trade is
+
+```text
+standing redundant carrier/state
+versus
+runtime nonlinear conversion.
+```
 
 ---
 
-# 13. Current stopping pin
+# 10. Body versus port: pre-carrying the quotient still does not forget
 
-The next meaningful work is no longer another generic state-tracking benchmark.
+For C4 carry
 
-It is to enlarge the **physical instruction set** and ask whether arbitrary small transition monoids can be lowered with explicit resource costs and impossibility certificates.
+```text
+z1 = exp(i phi)      faithful fundamental
+z2 = exp(i 2phi)     alternating quotient character.
+```
 
-The first hard questions are:
+The quotient port can read only `z2`, making `q` and `q+2` identical now.
 
-- which kernels are single-stage basin quotients;
-- which are harmonic/congruence quotients;
-- which need extra state dimension or nonuniform forcing;
-- when a port-only quotient is insufficient because the old carrier retains forbidden memory;
-- how locking/noise and cross-stage basin margins compose.
+But if `z1` remains future-observable, a later weak path
 
-Only after this compiler layer is coherent is transistor-level oscillator simulation worth the effort.
+```text
+y = z2 + epsilon*g*z1
+```
 
-Until then:
+recovers the forbidden distinction.
 
-> **keep this work on `agent/geometric-wave-state-v01`; do not promote to `main`.**
+If the old carrier is damped as
+
+```text
+z1(t)=exp(-gamma t)z1(0),
+```
+
+the exact pairwise future gap is
+
+```text
+Delta(t)=2|epsilon|exp(-gamma t).
+```
+
+For `epsilon=.1, gamma=1`:
+
+```text
+t=0   .200000
+t=1   .073576
+t=2   .027067
+t=4   .003663
+t=8   .0000671.
+```
+
+To make the gap `<=delta`:
+
+```text
+t >= log(2|epsilon|/delta)/gamma.
+```
+
+But if every future path from `z1` is hard-gated to zero, behavioral forgetting is exact immediately even while `z1` remains physically different.
+
+So the compiler has at least two retirement contracts:
+
+```text
+DAMP / ERASE
+    spend settling time / dissipation
+
+ISOLATE / DISCONNECT
+    spend switching / isolation resource.
+```
+
+This is the hardware translation of the earlier observability correction: hidden-state equality is sufficient, future-unobservability is enough.
+
+See `HARMONIC_BODY_PORT_FORGETTING_RESULT.md`.
+
+---
+
+# 11. Program-level resource planner
+
+The transition classifier now lifts to a workload.
+
+Within the restricted exact direct-character strategy:
+
+```text
+standing carrier lower bound
+=
+1 faithful full-state character
++
+1 character for every distinct nontrivial cyclic congruence kernel
+that must be directly available.
+```
+
+One exact character coordinate cannot serve two different kernels because its kernel is fixed by `gcd(n,f)`.
+
+C12 demo:
+
+```text
+C2 congruence -> f=6
+C3 congruence -> f=4
+C4 contiguous quotient -> one SHIL stage
+equal-size wrong topology -> reject
+unequal kernel -> reject.
+```
+
+Pre-carried strategy:
+
+```text
+character bank [1,4,6]
+standing carriers = 3.
+```
+
+Minimal-standing alternative:
+
+```text
+keep f=1
+synthesize/transfer f=4 and f=6 at runtime when needed.
+```
+
+No winner is declared until hardware supplies area/power/latency/leakage costs.
+
+See `PHASE_BACKEND_PROGRAM_PLANNER_RESULT.md`.
+
+---
+
+# 12. The SHIL composition result now has an audible artifact
+
+Absolute steady-state phase is not directly audible, so the demo uses same-frequency stereo I/Q references.
+
+The oscillator state tone stays at `220 Hz`; phase changes only its interference with the references.
+
+Demo structure:
+
+```text
+110 Hz marker
+    -> alpha=pi/4 midpoint
+    -> 12 repeated noisy q=1 merge trials
+
+660 Hz marker
+    -> alpha=pi/8 compiled
+    -> 12 repeated trials.
+```
+
+Fixed-seed generated result:
+
+```text
+pi/4: decoded [0,0,1,0,1,0,1,0,0,1,1,1]
+      6/12 correct
+
+pi/8: decoded [0,0,0,0,0,0,0,0,0,0,0,0]
+      12/12 correct.
+```
+
+This is a sonification of the reduced phase model, not a hardware recording.
+
+See `SHIL_MERGE_AUDIO_DEMO.md`.
+
+---
+
+# 13. Prior-art and novelty boundary
+
+Do not claim as new:
+
+- phase-coded oscillator logic;
+- subharmonic injection locking;
+- multi-phase Ising/Potts machines;
+- harmonic/frequency multiplication;
+- automata/state equivalence;
+- technology mapping;
+- hardware-aware optimization;
+- observability/future-equivalence theory.
+
+Targeted searches still have not found a direct established flow whose cell signature is an exact **dynamical kernel/attractor geometry** and which lowers arbitrary declared finite-state transitions into oscillator primitives with compile/reject and body/port retirement certificates.
+
+That absence-of-find is **not** a novelty proof.
+
+The closest conceptual analogy is technology mapping, except the backend cell signature here is not merely a Boolean truth table. It includes:
+
+```text
+kernel/equivalence relation
+attractor geometry
+body versus port semantics
+cross-stage basin margin
+retirement/isolation requirement
+physical resource vector.
+```
+
+---
+
+# 14. Current stopping pin
+
+Do **not** enlarge the physical instruction set merely to make more abstract kernels compile.
+
+The checker now rejects most kernels, and that is useful.
+
+Next work should be forced by one of two things:
+
+```text
+A. a real target workload whose required transition is rejected
+   -> then identify the cheapest missing physical primitive;
+
+or
+
+B. a real/audio-rate oscillator experiment measuring one existing resource:
+   locking margin, carrier retirement time, isolation leakage, harmonic transfer cost, or phase readout.
+```
+
+The most buildable hardware experiment is now precisely specified:
+
+```text
+fundamental fine-state carrier
++
+quotient-aligned harmonic carrier
++
+retire fundamental by damping or isolation
++
+measure whether forbidden phase memory leaks back.
+```
+
+Until real measurements exist:
+
+> **keep the compiler/checker on `agent/geometric-wave-state-v01`; do not promote to `main`.**
