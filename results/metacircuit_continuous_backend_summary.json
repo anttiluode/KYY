@@ -1,0 +1,55 @@
+{
+  "banks": {
+    "conditioned": {
+      "frequencies": [35,18,25,19,15,27,30,29],
+      "max_phase_map_condition": 1.985457262864251,
+      "max_phase_map_norm": 1.5719479225884685,
+      "max_relative_phase_sensitivity": 1.0886707215410174,
+      "ratio_range": [0.8707620783237351,4.740815759762558]
+    },
+    "unconstrained": {
+      "frequencies": [35,18,25,46,22,16,45,24],
+      "max_phase_map_condition": 7.097570184864615,
+      "max_phase_map_norm": 5.068308521049162,
+      "max_relative_phase_sensitivity": 1.43082437688248,
+      "ratio_range": [0.9907337424483386,8.189033589924549]
+    }
+  },
+  "bounded_tolerance": {
+    "conditioned": [
+      {"certified_cycles":1800,"eta":5e-06,"margin_at_64":5.069125250469933,"max_step_phase_error":5.443360412193954e-06},
+      {"certified_cycles":900,"eta":1e-05,"margin_at_64":4.918817580323221,"max_step_phase_error":1.0886734432169476e-05},
+      {"certified_cycles":450,"eta":2e-05,"margin_at_64":4.608921826590378,"max_step_phase_error":2.177352329901794e-05},
+      {"certified_cycles":180,"eta":5e-05,"margin_at_64":3.5824445955106134,"max_step_phase_error":5.4434216513410405e-05},
+      {"certified_cycles":90,"eta":0.0001,"margin_at_64":1.631744077191283,"max_step_phase_error":0.0001088697939670702}
+    ],
+    "unconstrained": [
+      {"certified_cycles":1418,"eta":5e-06,"margin_at_64":5.267724109410321,"max_step_phase_error":7.154130827302652e-06},
+      {"certified_cycles":709,"eta":1e-05,"margin_at_64":5.117620509664488,"max_step_phase_error":1.4308279539410051e-05},
+      {"certified_cycles":354,"eta":2e-05,"margin_at_64":4.777711241600493,"max_step_phase_error":2.861663062159181e-05},
+      {"certified_cycles":141,"eta":5e-05,"margin_at_64":3.389228255500775,"max_step_phase_error":7.154211313187275e-05},
+      {"certified_cycles":70,"eta":0.0001,"margin_at_64":0.6148935582696198,"max_step_phase_error":0.00014308601492807327}
+    ]
+  },
+  "config": {
+    "condition_cap":2.0,"modes":8,"n":101,"seed":4600,
+    "sigmas":[1e-05,2e-05,5e-05,0.0001],"test_cycles":1024,
+    "tolerances":[5e-06,1e-05,2e-05,5e-05,0.0001],"train_cycles":16,"trials":8
+  },
+  "discrete_surrogate_correction": "The older D^-1Y=2(1-cos(theta))/dt^2 mapping is exact for the central-difference recurrence, not the continuous physical circuit. The continuous free resonator requires D^-1Y=(theta/dt)^2 for exact sampled phase.",
+  "mismatch_sweep": {
+    "conditioned": [
+      {"mean_accuracy":0.9900832978805694,"mean_max_relation_defect":0.0020832985800438306,"min_accuracy":0.9453125,"sigma":1e-05},
+      {"mean_accuracy":0.6812732054455446,"mean_max_relation_defect":0.00416658462484389,"min_accuracy":0.4765625,"sigma":2e-05},
+      {"mean_accuracy":0.2870960802134901,"mean_max_relation_defect":0.010416354084597096,"min_accuracy":0.1953125,"sigma":5e-05},
+      {"mean_accuracy":0.1661945003094059,"mean_max_relation_defect":0.020832260163297145,"min_accuracy":0.1015625,"sigma":0.0001}
+    ],
+    "unconstrained": [
+      {"mean_accuracy":0.9654541015625,"mean_max_relation_defect":0.0025100161431970756,"min_accuracy":0.7666015625,"sigma":1e-05},
+      {"mean_accuracy":0.6502371306466584,"mean_max_relation_defect":0.00502000890983132,"min_accuracy":0.3873375618811881,"sigma":2e-05},
+      {"mean_accuracy":0.2709827989634901,"mean_max_relation_defect":0.012549817592851566,"min_accuracy":0.15980816831683167,"sigma":5e-05},
+      {"mean_accuracy":0.1394707708075495,"mean_max_relation_defect":0.02509875722379006,"min_accuracy":0.08407139542079207,"sigma":0.0001}
+    ]
+  },
+  "workflow_run": 31458208189
+}
