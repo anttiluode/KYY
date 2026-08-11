@@ -1,0 +1,23 @@
+{
+  "config": {
+    "frequencies":[16,18,19,20,25,28,30,31],
+    "n":101,
+    "seed":4701
+  },
+  "full_period_energy_max":465.0243183618543,
+  "full_period_energy_min":465.0243183618523,
+  "full_period_energy_spread":1.9895196601282805e-12,
+  "instantaneous_exact_prototype_accuracy":1.0,
+  "partial_window_spread":{
+    "1":25.153427661188736,
+    "8":89.1330834468302,
+    "16":100.82183539566083,
+    "101":1.9895196601282805e-12
+  },
+  "interpretation":{
+    "full_period":"For h_q(t)=h_0(t+q), summing any fixed quadratic output over a complete n-sample period is invariant to q because q only permutes the summation index.",
+    "partial_window":"A truncated energy window can be phase-sensitive, but then the output depends on the chosen observation window and is not a time-translation-invariant terminal-state decoder.",
+    "backend":"The 2026 metacircuit's integrated output-energy classifier is therefore not a natural direct port for KYY cyclic phase-state tracking without a phase-sensitive readout modification."
+  },
+  "workflow_run":31458661433
+}
