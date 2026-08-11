@@ -1,0 +1,32 @@
+name: metacircuit-nonideality-calibration
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/metacircuit_cyclic_backend.py'
+      - 'map/metacircuit_frequency_design.py'
+      - 'map/metacircuit_nonideality_calibration_boundary.py'
+      - 'tests/test_metacircuit_nonideality_calibration_boundary.py'
+      - '.github/workflows/metacircuit-nonideality-calibration.yml'
+  workflow_dispatch:
+
+jobs:
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Focused tests
+        run: pytest -q tests/test_metacircuit_nonideality_calibration_boundary.py
+      - run: mkdir -p results
+      - name: Compare calibration, body mismatch and backend-aware geometry
+        run: python map/metacircuit_nonideality_calibration_boundary.py --json > results/metacircuit_nonideality_calibration_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metacircuit-nonideality-calibration
+          path: results/metacircuit_nonideality_calibration_summary.json
