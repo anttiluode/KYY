@@ -1,12 +1,22 @@
+import importlib.util
+import sys
+from pathlib import Path
+
 import torch
 
-from map.mixed_fiber_compiler_probe import (
-    SoftFiberTracker,
-    exact_ports,
-    fiber_basis,
-    nearest_fiber,
-    synthesize_exact_operators,
-)
+ROOT = Path(__file__).resolve().parents[1]
+MODULE_NAME = "mixed_fiber_compiler_probe_for_tests"
+SPEC = importlib.util.spec_from_file_location(MODULE_NAME, ROOT / "map" / "mixed_fiber_compiler_probe.py")
+assert SPEC is not None and SPEC.loader is not None
+probe = importlib.util.module_from_spec(SPEC)
+sys.modules[MODULE_NAME] = probe
+SPEC.loader.exec_module(probe)
+
+SoftFiberTracker = probe.SoftFiberTracker
+exact_ports = probe.exact_ports
+fiber_basis = probe.fiber_basis
+nearest_fiber = probe.nearest_fiber
+synthesize_exact_operators = probe.synthesize_exact_operators
 
 
 def test_exact_operators_preserve_fiber_and_merge_digital_generators():
