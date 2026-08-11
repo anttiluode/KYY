@@ -24,6 +24,7 @@ jobs:
       - name: Focused tests
         run: pytest -q tests/test_mixed_fiber_relock_boundary.py
       - run: mkdir -p results
+      # All intervals now receive the identical stochastic physical-noise trace.
       - name: Sweep digital relock interval
         run: python map/mixed_fiber_relock_boundary.py --json > results/mixed_fiber_relock_boundary.json
       - uses: actions/upload-artifact@v4
