@@ -1,0 +1,33 @@
+name: harmonic-body-port-forgetting
+
+on:
+  push:
+    paths:
+      - 'map/harmonic_body_port_forgetting_audit.py'
+      - 'tests/test_harmonic_body_port_forgetting_audit.py'
+      - '.github/workflows/harmonic-body-port-forgetting.yml'
+  pull_request:
+    paths:
+      - 'map/harmonic_body_port_forgetting_audit.py'
+      - 'tests/test_harmonic_body_port_forgetting_audit.py'
+      - '.github/workflows/harmonic-body-port-forgetting.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install numpy pytest
+      - name: Focused tests
+        run: python -m pytest -q tests/test_harmonic_body_port_forgetting_audit.py
+      - run: mkdir -p results
+      - name: Audit residual fundamental carrier memory
+        run: python map/harmonic_body_port_forgetting_audit.py --epsilon 0.1 --gamma 1.0 --json > results/harmonic_body_port_forgetting_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harmonic-body-port-forgetting
+          path: results/harmonic_body_port_forgetting_summary.json
