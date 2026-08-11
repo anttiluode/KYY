@@ -1,0 +1,27 @@
+{
+  "analytic_compiler": {
+    "optimal_alpha":0.39269908169872414,
+    "optimal_alpha_degrees":22.5,
+    "worst_basin_margin":0.39269908169872414,
+    "rule":"maximize min(alpha, pi/4-alpha), giving alpha=pi/8"
+  },
+  "config": {
+    "diffusions":[0.0,0.002,0.005,0.01,0.02],
+    "dt":0.002,"kappa":4.0,"merge_time":0.5,"relock_time":0.5,
+    "samples_per_state":4000,"seed":4800
+  },
+  "accuracy_by_diffusion": {
+    "0.0":   {"pi/16":1.0,"pi/8":1.0,"3pi/16":1.0,"pi/4":0.5},
+    "0.002": {"pi/16":1.0,"pi/8":1.0,"3pi/16":1.0,"pi/4":0.4986875},
+    "0.005": {"pi/16":1.0,"pi/8":1.0,"3pi/16":1.0,"pi/4":0.499875},
+    "0.01":  {"pi/16":1.0,"pi/8":1.0,"3pi/16":0.9999375,"pi/4":0.498},
+    "0.02":  {"pi/16":0.999875,"pi/8":1.0,"3pi/16":0.998375,"pi/4":0.497875}
+  },
+  "interpretation": {
+    "digital":"C4 basin identity is the discrete state carried by continuous oscillator phase.",
+    "merge":"A temporary shifted two-well SHIL potential realizes {0,1}->0 and {2,3}->2 after returning to four-well locking.",
+    "midpoint_failure":"alpha=pi/4 places merged attractors on the C4 separatrices, so the next stage is noise-selected.",
+    "prior_art":"Multi-phase and phase-shifted SHIL/Potts oscillator hardware is prior art; this result is a lowering of a KYY transition contract into that known phase-potential primitive."
+  },
+  "workflow_run":31458851560
+}
