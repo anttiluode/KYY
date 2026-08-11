@@ -1,0 +1,30 @@
+name: shil-instruction-set-boundary
+
+on:
+  push:
+    branches: [agent/geometric-wave-state-v01]
+    paths:
+      - 'map/shil_instruction_set_boundary.py'
+      - 'tests/test_shil_instruction_set_boundary.py'
+      - '.github/workflows/shil-instruction-set-boundary.yml'
+  workflow_dispatch:
+
+jobs:
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install pytest
+      - name: Focused tests
+        run: pytest -q tests/test_shil_instruction_set_boundary.py
+      - run: mkdir -p results
+      - name: Enumerate one-circle phase instruction set and harmonic escape
+        run: python map/shil_instruction_set_boundary.py --json > results/shil_instruction_set_boundary_summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shil-instruction-set-boundary
+          path: results/shil_instruction_set_boundary_summary.json
