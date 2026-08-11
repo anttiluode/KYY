@@ -1,0 +1,37 @@
+name: shil-merge-audio-demo
+
+on:
+  push:
+    paths:
+      - 'map/shil_merge_audio_demo.py'
+      - 'map/shil_c4_quotient_backend.py'
+      - 'tests/test_shil_merge_audio_demo.py'
+      - '.github/workflows/shil-merge-audio-demo.yml'
+  pull_request:
+    paths:
+      - 'map/shil_merge_audio_demo.py'
+      - 'map/shil_c4_quotient_backend.py'
+      - 'tests/test_shil_merge_audio_demo.py'
+      - '.github/workflows/shil-merge-audio-demo.yml'
+
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install numpy pytest
+      - name: Focused tests
+        run: python -m pytest -q tests/test_shil_merge_audio_demo.py
+      - run: mkdir -p results
+      - name: Generate audible merge demo
+        run: python -m map.shil_merge_audio_demo --wav results/shil_merge_audio_demo.wav --json-out results/shil_merge_audio_demo.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shil-merge-audio-demo
+          path: |
+            results/shil_merge_audio_demo.wav
+            results/shil_merge_audio_demo.json
