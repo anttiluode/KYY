@@ -39,5 +39,7 @@ def test_exact_compiler_erases_only_forbidden_history_and_preserves_shared_analo
     result = audit.compiled_pair_audit(model, tokens, qa, qb, a0)
     assert result["q_output_mismatch_at_merge"] == 0.0
     assert result["q_output_mismatch_max_future_rate"] == 0.0
-    assert result["analog_gap_at_merge_mean"] < 1e-12
-    assert result["analog_gap_max_future"] < 1e-12
+    # Initial legal states are float32 before exact float64 compilation, so
+    # equality is limited by the inherited coordinate numerical floor.
+    assert result["analog_gap_at_merge_mean"] < 1e-7
+    assert result["analog_gap_max_future"] < 1e-7
