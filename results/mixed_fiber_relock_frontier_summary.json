@@ -1,0 +1,20 @@
+{
+  "config": {
+    "length": 1024,
+    "batch_size": 256,
+    "merge_probability": 0.05,
+    "scale_probability": 0.08,
+    "overall_threshold": 0.999,
+    "final_threshold": 0.99,
+    "paired_standard_noise_trace_across_intervals_and_sigmas": true
+  },
+  "frontier": [
+    {"sigma":0.01,"largest_tested_safe_interval":256,"safe_relocks_per_1024":4,"sigma_squared_times_interval":0.0256,"censored_by_test_grid":true},
+    {"sigma":0.015,"largest_tested_safe_interval":256,"safe_relocks_per_1024":4,"sigma_squared_times_interval":0.0576,"censored_by_test_grid":true},
+    {"sigma":0.02,"largest_tested_safe_interval":128,"safe_relocks_per_1024":8,"sigma_squared_times_interval":0.0512,"censored_by_test_grid":false},
+    {"sigma":0.03,"largest_tested_safe_interval":32,"safe_relocks_per_1024":32,"sigma_squared_times_interval":0.0288,"censored_by_test_grid":false},
+    {"sigma":0.04,"largest_tested_safe_interval":16,"safe_relocks_per_1024":64,"sigma_squared_times_interval":0.0256,"censored_by_test_grid":false},
+    {"sigma":0.05,"largest_tested_safe_interval":16,"safe_relocks_per_1024":64,"sigma_squared_times_interval":0.04,"censored_by_test_grid":false}
+  ],
+  "interpretation": "The safe digital relock interval decreases roughly with the inverse square of continuous-state noise, consistent with transverse diffusion toward a nearest-fiber/Voronoi boundary. The toy contains non-orthogonal merge events and finite-horizon thresholds, so this is an empirical frontier rather than an exact diffusion theorem. Analog RMSE is essentially insensitive to relock interval because projection preserves the analog tangent coordinate."
+}
