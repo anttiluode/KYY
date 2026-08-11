@@ -1,0 +1,78 @@
+{
+  "banks": {
+    "conditioned": {
+      "admittance_over_fdnr_range": [0.8093822714466679, 3.1400645164275653],
+      "certified_faithful": true,
+      "character_gcd": 1,
+      "condition_cap": 2.0,
+      "equal_weight_min_margin": 5.216175596953223,
+      "frequencies": [35,18,25,19,15,27,30,29],
+      "max_phase_map_condition": 1.985457262864251,
+      "max_phase_map_norm": 1.5719479225884685,
+      "max_relative_phase_sensitivity": 1.9108929177038505,
+      "min_positive_relative_stability_headroom": 0.2738591768014941,
+      "modes": 8,
+      "n": 101
+    },
+    "unconstrained": {
+      "admittance_over_fdnr_range": [0.9115916344879453, 3.922141880797449],
+      "certified_faithful": true,
+      "character_gcd": 1,
+      "condition_cap": null,
+      "equal_weight_min_margin": 5.389649877716251,
+      "frequencies": [35,18,25,46,22,16,45,24],
+      "max_phase_map_condition": 7.097570184864615,
+      "max_phase_map_norm": 5.068308521049162,
+      "max_relative_phase_sensitivity": 7.097570184864612,
+      "min_positive_relative_stability_headroom": 0.019850918597243816,
+      "modes": 8,
+      "n": 101
+    }
+  },
+  "config": {
+    "condition_cap": 2.0,
+    "horizons": [16,64,256,1024],
+    "modes": 8,
+    "n": 101,
+    "radius_sigmas": [5e-05,0.0001,0.0002],
+    "ratio_sigmas": [1e-05,2e-05,5e-05,0.0001],
+    "seed": 4600,
+    "train_cycles": 16,
+    "trials": 8
+  },
+  "ideal_body_trim": {
+    "conditioned": {"accuracy":1.0,"horizon_cycles":1024,"min_margin":0.10329060587893944},
+    "unconstrained": {"accuracy":1.0,"horizon_cycles":1024,"min_margin":0.10672574015051797}
+  },
+  "sensor_only": {
+    "conditioned": {"calibrated_accuracy":1.0,"calibrated_min_margin":0.10329060587893944,"sensor_condition":1.0000000000000009,"uncalibrated_accuracy":0.019801980198019802,"uncalibrated_min_margin":-11.094835301247722},
+    "unconstrained": {"calibrated_accuracy":1.0,"calibrated_min_margin":0.10672574015051797,"sensor_condition":1.0000000000000009,"uncalibrated_accuracy":0.0,"uncalibrated_min_margin":-18.37207063576207}
+  },
+  "ratio_mismatch": {
+    "conditioned": [
+      {"relative_ratio_sigma":1e-05,"mean_max_relation_defect":0.003370663780147198,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":1024,"mean_accuracy":0.9051803739944306,"min_accuracy":0.7257213025990099}]},
+      {"relative_ratio_sigma":2e-05,"mean_max_relation_defect":0.0067413061305375875,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":1024,"mean_accuracy":0.535324247756807,"min_accuracy":0.3671584931930693}]},
+      {"relative_ratio_sigma":5e-05,"mean_max_relation_defect":0.01685304343323043,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":0.7959854579207921,"min_accuracy":0.60546875},{"horizon_cycles":1024,"mean_accuracy":0.25752484916460394,"min_accuracy":0.1513671875}]},
+      {"relative_ratio_sigma":0.0001,"mean_max_relation_defect":0.03370493941049167,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":0.4761273978960396,"min_accuracy":0.3203125},{"horizon_cycles":1024,"mean_accuracy":0.13699431466584158,"min_accuracy":0.080078125}]}
+    ],
+    "unconstrained": [
+      {"relative_ratio_sigma":1e-05,"mean_max_relation_defect":0.04129109900038325,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":1024,"mean_accuracy":0.7576481280940593,"min_accuracy":0.453125}]},
+      {"relative_ratio_sigma":2e-05,"mean_max_relation_defect":0.08261301218900578,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":0.9869807781559405,"min_accuracy":0.921875},{"horizon_cycles":1024,"mean_accuracy":0.42458109336324257,"min_accuracy":0.23046875}]},
+      {"relative_ratio_sigma":5e-05,"mean_max_relation_defect":0.206720436376853,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":256,"mean_accuracy":0.6768496673886139,"min_accuracy":0.3878016707920792},{"horizon_cycles":1024,"mean_accuracy":0.1854272219214109,"min_accuracy":0.0969504176980198}]},
+      {"relative_ratio_sigma":0.0001,"mean_max_relation_defect":0.4137768170773093,"horizons":[{"horizon_cycles":16,"mean_accuracy":1.0,"min_accuracy":1.0},{"horizon_cycles":64,"mean_accuracy":0.9712059096534653,"min_accuracy":0.843440594059406},{"horizon_cycles":256,"mean_accuracy":0.3853119198638614,"min_accuracy":0.2108601485148515},{"horizon_cycles":1024,"mean_accuracy":0.10086512801670793,"min_accuracy":0.05271503712871287}]}
+    ]
+  },
+  "radius_mismatch_negative_control": {
+    "conditioned": [
+      {"relative_radius_sigma":5e-05,"L1024_mean_accuracy":1.0,"L1024_min_accuracy":1.0},
+      {"relative_radius_sigma":0.0001,"L1024_mean_accuracy":0.9456472868966583,"L1024_min_accuracy":0.7981803063118812},
+      {"relative_radius_sigma":0.0002,"L1024_mean_accuracy":0.7041801226021039,"L1024_min_accuracy":0.49257425742574257}
+    ],
+    "unconstrained": [
+      {"relative_radius_sigma":5e-05,"L1024_mean_accuracy":1.0,"L1024_min_accuracy":1.0},
+      {"relative_radius_sigma":0.0001,"L1024_mean_accuracy":0.9379181814665842,"L1024_min_accuracy":0.7969523514851485},
+      {"relative_radius_sigma":0.0002,"L1024_mean_accuracy":0.6799002165841583,"L1024_min_accuracy":0.44160929764851486}
+    ]
+  },
+  "note": "The committed summary keeps the decision-relevant metrics from Actions run 31457741777; the workflow artifact is the full raw JSON including all horizon margins."
+}
