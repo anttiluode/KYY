@@ -1,0 +1,45 @@
+name: closure-composite-robustness
+
+on:
+  push:
+    branches:
+      - agent/geometric-wave-state-v01
+    paths:
+      - 'map/closure_composite_robustness_audit.py'
+      - 'tests/test_closure_composite_robustness_audit.py'
+      - '.github/workflows/closure-composite-robustness.yml'
+  workflow_dispatch:
+
+jobs:
+  composite-and-robustness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - name: Focused closure tests
+        run: python -m pytest -q tests/test_closure_composite_robustness_audit.py
+      - run: mkdir -p results
+      - name: Composite modulus and systematic phase-error audit
+        run: |
+          python map/closure_composite_robustness_audit.py \
+            --n 100 105 \
+            --modes 8 \
+            --seeds 0 1 2 3 4 \
+            --train-length 16 \
+            --train-steps 2200 \
+            --batch-size 128 \
+            --eval-batch-size 128 \
+            --max-increment 4 \
+            --lr 0.003 \
+            --lengths 16 64 256 1024 \
+            --random-start \
+            --json > results/closure_composite_robustness.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: closure-composite-robustness
+          path: results/closure_composite_robustness.json
