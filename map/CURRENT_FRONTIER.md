@@ -2,72 +2,58 @@
 
 Updated: 2026-08-11
 
-This file is the short map of the research branch.
-
-It exists because the branch now contains many useful negative and boundary results that should not require reconstructing forty separate pass notes.
+This is the short map of the research branch after the continuous-time metacircuit correction.
 
 ## One-sentence status
 
-KYY has **not** discovered a new theory of automata, forgetting, Koopman representations, hybrid systems, resonant RNNs, or neuromorphic compilation.
+KYY has **not** discovered a new theory of automata, forgetting, Koopman representations, hybrid systems, resonant RNNs, analog optimization, or neuromorphic compilation.
 
-The surviving research question is now much narrower:
+The surviving question is narrower:
 
-> Can a compiler take an already learned continuous dynamical machine, identify the exact behavioral algebra it is supposed to realize, and choose/legalize a physically cheap exact representation for a specific analog or mixed-signal substrate while deciding which errors belong in the body, the port, or a periodic digital correction?
+> Can a compiler carry exact **behavioral algebra** through a learned continuous machine and use it to decide what must be exact in the body, what can be calibrated at the port, what requires runtime relocking, and which behaviorally equivalent representation is cheapest for a specific physical substrate?
 
-That is still a hypothesis, not a novelty claim.
+That remains a research hypothesis, not a novelty claim.
 
 ---
 
-# 1. What was subtracted
+# 1. What has been subtracted
 
-The branch has explicitly collided with and subtracted mature work in:
+The branch has explicitly collided with mature work in:
 
-- finite automata, state equivalence and distinguishing suffixes;
-- transformation semigroups and synchronizing/reset automata;
-- RNN -> automaton extraction and state quantization;
-- state reification and post-hoc RNN repair;
-- reversible-RNN limits on forgetting;
-- representation-level machine-unlearning audits;
-- differentiable/soft DFA learning;
-- group representations and equivariant ports;
-- finite-state Koopman representations;
+- finite automata, Myhill-Nerode/state equivalence and synchronizing resets;
+- RNN-to-automaton extraction, state quantization/reification and repair;
+- reversible-RNN and machine-unlearning internal-state audits;
+- group representations, equivariant ports and finite-state Koopman models;
 - linear realization/state assignment;
-- hybrid automata and mixed logical dynamical systems;
-- quotient/gluing geometry for hybrid resets;
-- rank-deficient/submersive resets and tangent/nullspace geometry;
-- switched linear realization;
-- learned operator projection onto exact constraints;
-- neuromorphic / hardware-aware compilation;
-- physical wave and oscillator recurrent neural networks.
+- hybrid automata, quotient/gluing resets, tangent/nullspace geometry and switched systems;
+- learned operator projection onto algebraic constraints;
+- physical wave/oscillator recurrent neural networks;
+- neuromorphic IR and hardware-aware analog optimization.
 
-The project rule remains:
+The rule remains:
 
-> Do not rename prior art and call it ours.
+> **Do not rename prior art and call it ours.**
 
-See:
-
-- `CLOSURE_PRIOR_ART_AUDIT_2026-08-11.md`
-- `PASS45_KOOPMAN_STATE_CODE_BOUNDARY.md`
+`main` remains untouched.
 
 ---
 
-# 2. Pass 44 survived only as a clean audit example
+# 2. Pass 44: useful failure witness, not new forgetting theory
 
-Pass 44 showed a learned full-rank partial merge that looked forgotten at the current output but retained a hidden distinction which a common future exposed.
+The learned full-rank partial merge hid a digital distinction at the current output and a common future later exposed it.
 
-That is a useful two-dimensional demonstration, but the general phenomenon is classical observability/automata territory.
+That mechanism is classical observability/automata territory, and nearest-state reification repairs the finite four-point toy too.
 
-Worse for novelty, nearest-state reification repairs the toy too:
+At L1024:
 
 ```text
-L1024
-learned soft          ~0.734
-merge-only reify      ~0.99984
-every-step reify       1.000
-exact operator compile 1.000
+learned soft           ~0.734
+merge-only reify       ~0.99984
+every-step reify        1.000
+exact operator compile  1.000
 ```
 
-So exact singular surgery is not uniquely needed on a finite four-point state set.
+So exact singular surgery is not uniquely required on the finite-point task.
 
 See:
 
@@ -76,85 +62,47 @@ See:
 
 ---
 
-# 3. The useful digital / analog border: four rails
+# 3. Pass 46: the useful digital / analog border
 
-Pass 46 replaces four legal points by four legal continuous fibers
+Replace four legal points by four continuous fibers
 
 ```text
 F_q = { c_q + a v : a in R }.
 ```
 
-`q` is digital state. `a` is a continuous payload.
+`q` is digital rail identity. `a` is a continuous payload along the rail.
 
-The learned coordinates are randomly entangled so there is no explicit DIGITAL axis and ANALOG axis.
+The learned coordinates are entangled.
 
-Tokens can:
-
-- rotate the digital C4 base while preserving `a`;
-- partially merge digital histories while preserving `a`;
-- continuously scale `a` while preserving the digital state.
-
-The correct comparison is now an explicit hybrid `Q x R` machine, not a DFA.
-
-### learned machine
-
-Perfect at the training horizon, but at L1024:
+At L1024:
 
 ```text
-mean digital accuracy: 0.96237
-minimum seed:          0.85110
-analog RMSE:           0.00487
+learned soft:
+    digital mean accuracy ~0.9624
+    analog RMSE          ~0.00487
+
+nearest-fiber reification:
+    digital exact 10/10
+    analog RMSE ~0.00474
+
+exact point+tangent compile:
+    digital exact 10/10
+    analog RMSE ~3.86e-8
 ```
 
-All learned merge maps remain full rank.
-
-### nearest-fiber reification every step
+The paired-history audit is the cleanest statement:
 
 ```text
-digital: 10/10 exact through L1024
-analog RMSE at L1024: 0.00474
+nearest-fiber projection:
+    digital mismatch = 0
+    but analog history gap survives ~5.27e-4 mean
+
+exact point+tangent operator:
+    digital mismatch = 0
+    analog gap -> numerical floor
 ```
 
-It repairs the transverse/digital error but essentially not the along-fiber semantic error.
-
-### exact point+tangent compiler
-
-```text
-digital: 10/10 exact through L1024
-analog RMSE at L1024: 3.86e-8
-```
-
-The exact compiler specifies both where legal state centers go and how legal tangent directions must transform.
-
-See:
-
-- `PASS46_RESULT_DIGITAL_QUOTIENT_ANALOG_FIBER.md`
-- `mixed_fiber_compiler_probe.py`
-
----
-
-# 4. Same rail does not mean same analog state
-
-The paired-history Pass-46 audit starts with two histories having the same analog payload but different digital state, then applies a required digital merge and an identical future.
-
-Nearest-fiber reification gives
-
-```text
-rail/digital mismatch: 0
-```
-
-for the whole future.
-
-Yet branch identity survives as a legal along-fiber displacement:
-
-```text
-mean analog gap after merge: ~5.27e-4
-largest seed:                ~1.66e-3
-```
-
-The exact operator compiler reduces the same paired analog gap to the inherited float32/float64 numerical floor (~1e-7 or below).
-
-So the clean geometric statement is:
+Therefore
 
 ```text
 projection onto the legal manifold
@@ -162,83 +110,34 @@ projection onto the legal manifold
 correct dynamics along the legal manifold.
 ```
 
-See:
+Geometrically:
 
-- `mixed_fiber_pair_audit.py`
-- `results/mixed_fiber_pair_audit_summary.json`
+```text
+DIGITAL = quotient / equivalence directions
+ANALOG  = tangent / fiber directions
+```
+
+This geometry is classical hybrid-systems territory; the KYY result is the controlled post-training audit/legalization experiment.
+
+See `PASS46_RESULT_DIGITAL_QUOTIENT_ANALOG_FIBER.md`.
 
 ---
 
-# 5. Point + tangent lowering gives a compiler boundary
+# 4. Exact nominal algebra is not physical error correction
 
-For digital centers `c_q`, tangent bases `V_q`, token transition `tau`, and required tangent maps `L_q`, one global linear token operator must satisfy
+Add continuous state noise after every exact update.
 
-```text
-A c_q = c_tau(q)
-A V_q = V_tau(q) L_q.
-```
-
-Concatenate these source generators into `X` and required images into `Y`.
-
-Then
+At L1024 and `sigma=.03`:
 
 ```text
-A X = Y
+bare exact continuous geometry: ~0.851 digital overall
+reify every step:                1.000
+explicit Q x R hybrid:           1.000
 ```
 
-is solvable iff
+The analog error is similar across implementations.
 
-```text
-ker(X) subset ker(Y).
-```
-
-One useful resource consequence:
-
-If several modes literally share the same physical tangent vector but a token requires different mode-dependent actions on that tangent, one global linear operator cannot do it.
-
-The compiler must choose among:
-
-```text
-switch/condition the operator
-use nonlinearity
-or
-spend extra dimension to separate tangent copies.
-```
-
-This is classical realization linear algebra turned into an explicit backend audit, not a new theorem.
-
-See:
-
-- `hybrid_fiber_lowering_audit.py`
-
----
-
-# 6. Exact algebra does not provide physical error correction
-
-The exact rail compiler was then subjected to additive continuous-state noise after every update.
-
-At L1024:
-
-```text
-sigma=.003
-bare continuous q: 1.000
-reified q:        1.000
-explicit QxR q:  1.000
-
-sigma=.010
-bare continuous q: 0.9986 overall / 0.9883 final
-reified q:          1.000
-explicit QxR q:     1.000
-
-sigma=.030
-bare continuous q: 0.8511 overall / 0.7461 final
-reified q:          1.000
-explicit QxR q:     1.000
-```
-
-The analog error is similar across all three at the same noise level.
-
-Interpretation:
+So:
 
 ```text
 exact operator = correct nominal law
@@ -248,257 +147,251 @@ explicit QxR   = digital error isolation
 
 These are different deployment contracts.
 
-See:
+---
 
-- `mixed_fiber_noise_boundary.py`
-- `results/mixed_fiber_noise_boundary_summary.json`
+# 5. Relocking turns the seam into an engineering dial
+
+With the same noisy analog trace at `sigma=.03`:
+
+```text
+relock interval    digital overall
+1                     1.0000
+4                     1.0000
+16                    1.0000
+64                    0.9895
+256                   0.8745
+never                 0.8576
+```
+
+Relocking does not materially reduce analog tangent RMSE; it protects the digital quotient.
+
+Across noise levels, the safe free-run interval behaves roughly like a diffusion clock:
+
+```text
+T_dynamic ~ 1 / sigma^2.
+```
+
+A static frequency/component bias instead creates coherent phase drift:
+
+```text
+T_static ~ 1 / eta.
+```
+
+So a physical compiler should distinguish error mechanisms rather than emit one generic robustness number.
 
 ---
 
-# 7. The digital/analog border becomes a correction-bandwidth dial
+# 6. Body versus port is now experimentally separated
 
-With `sigma=.03`, use the exact continuous operators but relock/project to the legal fiber only periodically.
+A static invertible sensor/basis distortion is a port problem.
 
-On an identical paired noise trace:
+In the resonator deployment probe the old readout can fail almost completely under an unknown coordinate change, while a freshly calibrated linear port restores exact long-horizon decoding if the recurrent body itself is still exact.
 
-```text
-relock interval    digital overall    digital final
-1                     1.0000            1.0000
-4                     1.0000            1.0000
-16                    1.0000            1.0000
-64                    0.9895            0.9727
-256                   0.8745            0.7441
-1024                  0.8576            0.7637
-never                 0.8576            0.7637
-```
+By contrast, a persistent phase/frequency error changes the recurrent relation. A port can fit a finite calibration horizon, but it cannot make the body satisfy `C^n=I` forever.
 
-Waiting until the end is too late: once diffusion crosses a digital basin boundary, nearest-fiber relocking can faithfully lock the wrong rail.
-
-The analog RMSE stays essentially unchanged (~0.23556), because the relock preserves the tangent coordinate.
-
-A noise sweep gives the empirical safe frontier (`>=.999` overall and `>=.99` final):
+The rule is therefore:
 
 ```text
-sigma   largest tested safe interval
-.010       256  (censored by grid)
-.015       256  (censored by grid)
-.020       128
-.030        32
-.040        16
-.050        16
+interface distortion -> calibrate/transport the port
+relation error        -> body tuning, different representation or relock
 ```
 
-The boundary roughly follows a diffusion-like `sigma^2 * T` scale.
+The 2025 analog HORN hardware result is an external real-hardware example of the first case: analog dynamics remained useful while the original digital readout did not transfer cleanly and had to be retrained.
 
-This turns "digital correction" into a physical resource:
-
-```text
-analog free-running time
-        vs
-digital correction bandwidth.
-```
-
-See:
-
-- `mixed_fiber_relock_boundary.py`
-- `mixed_fiber_relock_frontier.py`
-- `results/mixed_fiber_relock_frontier_summary.json`
+See `PHYSICAL_OSCILLATOR_BODY_PORT_BOUNDARY.md`.
 
 ---
 
-# 8. Real oscillator hardware makes the body/port split concrete
+# 7. IMPORTANT metacircuit correction
 
-The 2025 analog HORN implementation is an external example where a digital oscillator network transfers to analog hardware but the original digital readout no longer matches well; retraining the readout recovers performance.
+The first KYY metacircuit passes conflated the paper's **finite-difference RNN recurrence** with the exact free-running law of its **continuous analog resonator**.
 
-That independently demonstrates:
-
-```text
-body transfer != port transfer.
-```
-
-KYY then tests the stricter case where the physical body violates a recurrence relation the task requires.
-
-For a C4 oscillator with only `delta=.001 rad` phase error per nominal increment, a static port calibrated on 16 winding cycles is initially perfect, but:
+For the discrete central-difference recurrence:
 
 ```text
-cycles    calibrated accuracy   min margin
-16            1.0000             +0.4837
-64            1.0000             +0.3765
-256           0.7979             -0.1446
-1024          0.1995             -1.0003
+D^-1Y = 2(1-cos(theta))/dt^2
 ```
 
-By 1024 cycles, physical states belonging to different symbolic classes come within ~`2.04e-4` on the circle.
+is the exact character lowering.
 
-The port has no stable class geometry left to separate.
+For the physical continuous resonator
 
-The legalized exact quarter-turn body remains exact with margin ~1.
+```text
+D u'' + Y u = 0,
+```
+
+exact sampled phase `theta` requires instead
+
+```text
+D^-1Y = (theta/dt)^2.
+```
+
+Therefore the earlier `lambda=4` stability edge, tiny near-Nyquist component headroom, ~13.8x headroom improvement, ~12x relation-defect improvement and ~2.5x tolerance-horizon improvement are **discrete numerical-surrogate results only**.
+
+They must not be described as analog-circuit physics.
+
+See `METACIRCUIT_CONTINUOUS_TIME_CORRECTION.md`.
+
+---
+
+# 8. What survives under the corrected continuous resonator law
+
+Two earlier exact C101 banks were reevaluated under the continuous physical law with a fresh readout calibrated for every perturbed device.
+
+At `sigma=1e-5` relative resonator-ratio spread, L1024:
+
+```text
+                         mean acc    worst      mean relation defect
+old unconstrained        0.96545     0.76660       0.002510
+old conditioned          0.99008     0.94531       0.002083
+```
+
+The conditioned bank still helps, but modestly.
+
+Its bounded `eta=1e-5` static-tolerance certificate is
+
+```text
+709 cycles -> 900 cycles
+```
+
+about `1.27x`, not the earlier surrogate `2.5x`.
+
+The continuous physical parameter relation is now
+
+```text
+lambda = D^-1Y = theta^2 / dt^2,
+```
+
+and relative component-to-phase sensitivity is simply
+
+```text
+lambda dtheta/dlambda = theta/2.
+```
+
+No finite-difference stability cliff remains.
+
+See:
+
+- `metacircuit_continuous_backend.py`
+- `results/metacircuit_continuous_backend_summary.json`
+
+---
+
+# 9. Strong exact digital baseline removes the easy robustness claim
+
+A corrected representation search compared two exact C101 8-character banks.
+
+### physically constrained exhaustive optimum inside the declared candidate set
+
+Constraints:
+
+```text
+cond(T) <= 2
+f <= 31
+```
+
+Result:
+
+```text
+frequencies              [16,18,19,20,25,28,30,31]
+symbolic margin           5.712879
+max cond(T)               1.84063
+max port-transform norm   1.48120
+max phase sensitivity     0.96425
+```
+
+### strong digital-only exact heuristic
+
+```text
+frequencies              [3,5,12,21,22,23,37,50]
+symbolic margin           5.888437
+max cond(T)              64.2934
+max port-transform norm  45.4678
+max phase sensitivity     1.55524
+```
+
+The physically constrained bank loses only `2.98%` symbolic margin and is enormously easier to express through the sampled displacement/lag port.
+
+But robustness does **not** clearly improve:
+
+```text
+bounded eta=1e-5 certified cycles:
+physical constrained = 990
+digital heuristic    = 990
+
+L1024 after per-device calibration:
+sigma       physical      digital heuristic
+1e-5        0.97705           0.97477
+2e-5        0.69088           0.73256
+5e-5        0.30353           0.42783
+```
 
 So:
 
-```text
-port calibration can repair interface mismatch;
-it cannot make the recurrent body satisfy a relation the body violates.
-```
+> **KYY has not shown that simple backend-conditioning constraints beat a strongly optimized exact digital representation on robust state tracking.**
+
+What is real is the huge difference in port conditioning and physical parameter range among behaviorally exact representations.
+
+Whether that matters enough to justify compiler-driven representation choice now depends on an actual hardware cost model.
 
 See:
 
-- `PHYSICAL_OSCILLATOR_BODY_PORT_BOUNDARY.md`
-- `physical_cycle_port_boundary.py`
+- `metacircuit_continuous_design.py`
+- `results/metacircuit_continuous_design_summary.json`
 
 ---
 
-# 9. A current 2026 metacircuit gives KYY a concrete analog backend
+# 10. Prior-art boundary for the hardware line
 
-Zhou et al. (2026) demonstrate a fully analog resonant recurrent neural network implemented as coupled electrical local resonators.
+Do not claim novelty for:
 
-Its second-order recurrence contains the block
+- analog oscillator/resonator neural computation;
+- training digital models and mapping them into physical dynamics;
+- hardware-aware optimization under mismatch/noise;
+- per-device readout retraining/calibration;
+- robust physical-neural-network training;
+- neuromorphic intermediate representations.
+
+Shem in particular already performs generic hardware-aware optimization of analog systems with nonlinear dynamics, mismatch and oscillator examples.
+
+Therefore KYY should **not** try to be a new generic analog optimizer.
+
+The possible residual is as a constraint/certificate layer:
 
 ```text
-u[t+1] = (2I - dt^2 D^-1 Y)u[t] - u[t-1] + ...
+behavioral algebra
+    -> exact representation family
+    -> target-substrate costs
+    -> port/body/relock placement
+    -> generic hardware optimizer works inside that contract
 ```
 
-For a KYY exact cyclic character
-
-```text
-theta = 2*pi*f/n,
-```
-
-the exact one-mode lowering is
-
-```text
-D^-1 Y = 2(1-cos(theta))/dt^2.
-```
-
-The physical lag-coordinate state `[u_t,u_{t-1}]` is analytically similar to the ordinary phase/quadrature rotation coordinates, giving exact port transport rather than mandatory retraining.
-
-See:
-
-- `METACIRCUIT_CYCLIC_BACKEND_BOUNDARY.md`
-- `metacircuit_cyclic_backend.py`
+No direct owner for that exact contract has been established, but neither has KYY shown a decisive advantage yet.
 
 ---
 
-# 10. This backend breaks a digital equivalence
+# 11. Current stopping pin
 
-For one faithful C101 character, all coprime frequencies have the same exact one-mode symbolic margin.
+The next useful physical experiment needs a cost the current toy phase model cannot manufacture by hand.
 
-But the resonator backend sees them very differently:
+Good candidates are:
 
-```text
-f      D^-1Y       cond(phase map)
-1      .00387          32.14
-4      .06160           8.00
-25    1.96890           1.016
-49    3.99130          21.42
-50    3.99903          64.29
-```
+- actual circuit/component range;
+- amplifier/ADC gain required by the physical port;
+- saturation/dynamic range;
+- parasitic cross-mode coupling;
+- power/area;
+- measured component tolerance and thermal drift;
+- cost/frequency of injection locking or digital relock.
 
-Near the upper stability edge, the positive relative component-error headroom also becomes tiny:
+The 2026 metacircuit paper explicitly notes finite op-amp bandwidth, clipping, parasitic capacitance/resistance, component tolerances and thermal drift as practical issues, but the detailed circuit/hardware specifications needed for a faithful reproduction are not yet enough here to justify inventing a SPICE model.
 
-```text
-f=25: ~103%
-f=49: ~0.218%
-f=50: ~0.024%
-```
+Until a faithful backend or real measurement exists:
 
-The already-learned exact C101 banks have worst-mode phase-map conditioning ranging from `2.44` to `32.14` across seeds.
+> **keep digging on the research branch; do not promote the metacircuit line to `main`.**
 
-So:
+The broader KYY thread that still survives is simple:
 
-> exact software equivalence does not imply physical implementation equivalence.
+> **exactness has a location, and behaviorally equivalent continuous realizations can have different physical interface costs.**
 
-That is the first concrete backend cost attached to KYY's earlier character geometry.
-
----
-
-# 11. Backend-aware representation choice now has a natural objective
-
-A simple greedy eight-character C101 design was run with and without a resonator conditioning cap.
-
-```text
-                       symbolic     max        minimum +component
-                       margin       cond(T)    stability headroom
-unconstrained          5.38965       7.10          1.99%
-require cond(T)<=2     5.21618       1.99         27.39%
-```
-
-The physically constrained bank loses only ~3.2% of symbolic margin while gaining:
-
-```text
-3.57x better worst coordinate conditioning
-3.22x lower worst port-transform norm
-3.71x lower worst relative phase sensitivity
-13.8x more positive stability headroom.
-```
-
-Both are algebraically faithful exact C101 codes.
-
-The composite C100 test also produces a faithful backend-constrained bank.
-
-See:
-
-- `METACIRCUIT_FREQUENCY_DESIGN_RESULT.md`
-- `metacircuit_frequency_design.py`
-
----
-
-# 12. The current geometric interpretation
-
-The useful phrase is not simply
-
-> digital versus analog.
-
-It is
-
-> **where does exactness live?**
-
-Exactness can live in different places:
-
-```text
-state label      -> explicit digital Q x R hybrid
-body/operator    -> exact group/semigroup relation or kernel
-port/interface   -> calibrated observable map
-runtime relock   -> periodic return to a legal manifold/basin
-```
-
-The experiments show those locations are not interchangeable.
-
-A second useful phrase is:
-
-> **digital equivalence classes can contain physically inequivalent embeddings.**
-
-The finite behavior may leave representation choices free that an analog substrate prices very differently.
-
-This is the point where the original Geometric Neuron instinct has become a measurable compiler question rather than an analogy.
-
----
-
-# 13. What is still unearned
-
-KYY has **not** shown that its compiler beats an explicit hybrid implementation in software.
-
-KYY has **not** demonstrated any of these ideas on a real resonator/metacircuit/oscillator circuit.
-
-KYY has **not** established novelty over every hardware-aware compiler or physical-neural-network co-design method.
-
-The next meaningful win would require a real or faithful physical backend model where carrying the behavioral algebra explicitly lets the compiler do something measurably better than:
-
-- retrain/calibrate the readout;
-- ordinary hardware-aware training;
-- generic parameter projection;
-- explicit digital mode storage;
-- runtime state reification;
-- standard injection/phase locking.
-
-Until that exists, keep this work on the research branch.
-
-## Current residual
-
-The narrow residual worth testing is:
-
-> A backend compiler whose IR carries not just neural parameters, but **behavioral algebra**: finite-order relations, irreversible kernel partitions, analog tangent semantics, port symmetry, physical tolerance and relock requirements; the compiler then chooses among exact representations based on a target substrate.
-
-No direct owner for that exact contract has been found in the current search.
-
-That sentence is a research target, not a novelty declaration.
+The first half is well demonstrated in the branch. The second half is now demonstrated for sampled port conditioning, but not yet as a decisive end-to-end hardware advantage.
