@@ -1,0 +1,43 @@
+name: frontier-order-contiguity
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'experiments/frontier_order_vs_contiguity.py'
+      - '.github/workflows/frontier-order-contiguity.yml'
+  workflow_dispatch:
+
+jobs:
+  replicated-contiguity-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: mkdir -p results
+      - name: Run five-seed temporal order vs block contiguity gate
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python experiments/frontier_order_vs_contiguity.py \
+            --device cpu \
+            --model-seeds 0 1 2 3 4 \
+            --steps 300 \
+            --eval-batches 4 \
+            --eval-batch-size 256 \
+            --shuffle-draws 4 \
+            --log-every 100 \
+            | tee results/frontier-order-contiguity.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontier-order-contiguity
+          path: |
+            results/frontier-order-contiguity.txt
+            results/frontier-order-contiguity-*.json
