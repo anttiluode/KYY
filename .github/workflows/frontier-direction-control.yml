@@ -22,9 +22,12 @@ jobs:
       - run: pip install -r requirements.txt
       - run: mkdir -p results
       - name: Run fixed-span ordered frontier gate
+        shell: bash
         run: |
-          python experiments/frontier_direction_control.py --quick --device cpu | tee results/frontier-direction-quick.txt
+          set -o pipefail
+          PYTHONPATH=. python experiments/frontier_direction_control.py --quick --device cpu | tee results/frontier-direction-quick.txt
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: frontier-direction-quick
           path: |
